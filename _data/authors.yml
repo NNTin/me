@@ -1,0 +1,16 @@
+# Authors
+
+Tin Nguyen:
+  name        : "Tin Nguyen"
+  bio         : "Tinkerer."
+  avatar      : "/assets/images/gravatar.png"
+  links:
+    # - label: "Email"
+    #   icon: "fas fa-fw fa-envelope-square"
+    #   url: "mailto:nguyen.ngoctindaniel@gmail.com"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/nntin"
+    - label: "Instagram"
+      icon: "fab fa-fw fa-instagram"
+      url: "https://instagram.com/thedinolino"

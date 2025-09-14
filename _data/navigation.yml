@@ -1,0 +1,27 @@
+# main links
+main:
+  - title: "About"
+    url: /about/
+
+#
+#/
+#├── index.html               --> Homepage
+#├── about/                   --> https://yourdomain.com/about/
+#│   └── index.html
+#├── projects/                --> https://yourdomain.com/projects/
+#│   ├── index.html
+#│   └── project-1/           --> https://yourdomain.com/projects/project-1/
+#│       └── index.html
+#├── blog/                    --> https://yourdomain.com/blog/
+#│   ├── index.html           --> Blog listing
+#│   ├── my-first-post/       --> https://yourdomain.com/blog/my-first-post/
+#│   │   └── index.html
+#│   └── another-thought/     --> https://yourdomain.com/blog/another-thought/
+#│       └── index.html
+#├── hobbies/                 --> https://yourdomain.com/hobbies/
+#│   ├── index.html
+#│   └── photography/         --> https://yourdomain.com/hobbies/photography/
+#│       └── index.html
+#└── assets/                  --> Static files like CSS, images, JS, etc.
+#    ├── images/
+#    └── css/
