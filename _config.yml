@@ -17,7 +17,7 @@ subtitle                 : "my little home on the web"
 name                     : &name "Tin Nguyen" # &name is a YAML anchor which can be *referenced later
 description              : &description "Personal page giving a small glimpse into my life"
 url                      : https://nntin.xyz # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
-baseurl                  : "me" # "/NNTin" # the subpath of your site, e.g. "/blog"
+baseurl                  : "/me" # "/NNTin" # the subpath of your site, e.g. "/blog"
 repository               : "nntin/me"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"

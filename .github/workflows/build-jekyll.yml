@@ -1,0 +1,36 @@
+name: Build Jekyll Site
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+
+      - name: Build site with Jekyll
+        run: |
+          bundle exec jekyll build
+          # Add .nojekyll to prevent GitHub Pages from rebuilding the site
+          touch _site/.nojekyll
+
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: _site
+          path: _site
