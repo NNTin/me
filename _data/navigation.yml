@@ -14,8 +14,8 @@ projects:
       url: /projects/discord-twitter-bot/
     - title: "discord-logo.git"
       url: /projects/discord-logo/
-    - title: "Reply-Dota-2-Reddit.git"
-      url: /projects/reply-dota-2-reddit/
+    - title: "Reply-[Moba]-Reddit.git"
+      url: /projects/reply-moba-reddit/
     - title: "*.git"
       url: /collection-archive/
   - title: "GitHub Pages"
