@@ -10,6 +10,8 @@ tags:
 #  - projects
 ---
 
+{% include video id="14Vnpu_h1TY" provider="youtube" %}
+
 ## 📊 Project Summary
 
 [![GitHub Stars](https://img.shields.io/github/stars/nntin/discord-web-bridge?style=flat-square)](https://github.com/nntin/discord-web-bridge/stargazers)
@@ -37,7 +39,3 @@ Used Crossbar to handle Pub/Sub messaging between the browser client and Discord
 Designed the project to be modular and embeddable — a plug-and-play chat widget for any website.
 
 Learned a lot about system architecture, WebSocket communication, and integrating external APIs like Discord.
-
-You can see a live demo below
-
-{% include video id="14Vnpu_h1TY" provider="youtube" %}
