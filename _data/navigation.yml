@@ -8,10 +8,14 @@ main:
 projects:
   - title: "personal (public) git repos"
     children:
+    - title: "discord-web-bridge.git"
+      url: /projects/discord-web-bridge/
     - title: "discord-twitter-bot.git"
       url: /projects/discord-twitter-bot/
     - title: "discord-logo.git"
       url: /projects/discord-logo/
+    - title: "Reply-Dota-2-Reddit.git"
+      url: /projects/reply-dota-2-reddit/
     - title: "*.git"
       url: /collection-archive/
   - title: "GitHub Pages"
@@ -26,16 +30,18 @@ projects:
       url: /../../pasteview/?paste=32z9wKpi
     - title: "pasteindex"
       url: /../../pasteindex
-    - title: "Discord-Webhook"
-      url: /../../Discord-Webhook
+    # - title: "Discord-Webhook"
+    #   url: /../../Discord-Webhook
   - title: "Contribution / Honory mentions"
     children:
     - title: "Red-DiscordBot"
-      url: /projects/red-discordbot/
+      url: https://github.com/Cog-Creators/Red-DiscordBot
     - title: "Lightnovel Crawler"
-      url: /projects/lightnovel-crawler/
+      url: https://github.com/dipu-bd/lightnovel-crawler
+    - title: "MonitoRSS"
+      url: https://github.com/synzen/MonitoRSS
     - title: "D-Zone"
-      url: /projects/d-zone/
+      url: https://github.com/d-zone-org/d-zone
 
 #
 #/
