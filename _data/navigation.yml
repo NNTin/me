@@ -2,6 +2,14 @@
 main:
   - title: "About"
     url: /about/
+  - title: "Projects"
+    url: /projects/
+
+projects:
+  - title: "Discord Twitter Bot"
+    url: /projects/discord-twitter-bot/
+  - title: "Discord Logo"
+    url: /projects/discord-logo/
 
 #
 #/

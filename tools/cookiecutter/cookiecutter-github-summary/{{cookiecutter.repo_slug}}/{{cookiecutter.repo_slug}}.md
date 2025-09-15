@@ -1,4 +1,14 @@
-# {{ cookiecutter.repo_slug }}
+---
+layout: single
+title: '{{ cookiecutter.repo_slug }}'
+permalink: /projects/{{ cookiecutter.repo_slug }}/
+excerpt: '{{ cookiecutter.repo_slug }}'
+toc: false
+categories:
+  - projects
+tags:
+#  - projects
+---
 
 ## 📊 Project Summary
 

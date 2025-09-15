@@ -10,7 +10,8 @@
         "jekyll",
         "serve",
         "--livereload",
-        "--trace"
+        "--trace",
+        "--draft"
       ],
       "group": {
         "kind": "build",
