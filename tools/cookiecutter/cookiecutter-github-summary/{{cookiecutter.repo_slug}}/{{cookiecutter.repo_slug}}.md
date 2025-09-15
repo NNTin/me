@@ -1,7 +1,5 @@
 # {{ cookiecutter.repo_slug }}
 
-> {{ cookiecutter.project_description }}
-
 ## 📊 Project Summary
 
 [![GitHub Stars](https://img.shields.io/github/stars/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_slug }}?style=flat-square)](https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_slug }}/stargazers)

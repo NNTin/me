@@ -10,15 +10,22 @@ def main():
 
     configs = [
         {
-            "full_name": "Tin Nguyen",
             "github_username": "nntin",
             "repo_slug": "discord-twitter-bot",
-            "project_description": "some text",
-        }
+        },
+        {
+            "github_username": "nntin",
+            "repo_slug": "discord-logo",
+        },
     ]
 
     for ctx in configs:
-        cookiecutter(str(template_path), no_input=True, extra_context=ctx)
+        cookiecutter(
+            str(template_path),
+            no_input=True,
+            extra_context=ctx,
+            output_dir="../_drafts",
+        )
 
 
 if __name__ == "__main__":

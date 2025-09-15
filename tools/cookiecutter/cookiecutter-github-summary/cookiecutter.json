@@ -1,6 +1,4 @@
 {
-  "full_name": "Your Name",
   "github_username": "your-username",
-  "repo_slug": "my-repo",
-  "project_description": "A short project description"
+  "repo_slug": "my-repo"
 }
