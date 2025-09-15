@@ -6,10 +6,36 @@ main:
     url: /projects/
 
 projects:
-  - title: "Discord Twitter Bot"
-    url: /projects/discord-twitter-bot/
-  - title: "Discord Logo"
-    url: /projects/discord-logo/
+  - title: "personal (public) git repos"
+    children:
+    - title: "discord-twitter-bot.git"
+      url: /projects/discord-twitter-bot/
+    - title: "discord-logo.git"
+      url: /projects/discord-logo/
+    - title: "*.git"
+      url: /collection-archive/
+  - title: "GitHub Pages"
+    children:
+    - title: "discord twitter bot"
+      url: /../../discord-twitter-bot
+    - title: "discord logo"
+      url: /../../discord-logo
+    - title: "discord web bridge"
+      url: /../../discord-web-bridge
+    - title: "pasteview"
+      url: /../../pasteview/?paste=32z9wKpi
+    - title: "pasteindex"
+      url: /../../pasteindex
+    - title: "Discord-Webhook"
+      url: /../../Discord-Webhook
+  - title: "Contribution / Honory mentions"
+    children:
+    - title: "Red-DiscordBot"
+      url: /projects/red-discordbot/
+    - title: "Lightnovel Crawler"
+      url: /projects/lightnovel-crawler/
+    - title: "D-Zone"
+      url: /projects/d-zone/
 
 #
 #/

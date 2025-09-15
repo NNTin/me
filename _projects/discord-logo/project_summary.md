@@ -3,7 +3,7 @@ layout: single
 title: 'discord-logo'
 permalink: /projects/discord-logo/
 excerpt: 'discord-logo'
-toc: true
+toc: false
 categories:
   - projects
 tags:
