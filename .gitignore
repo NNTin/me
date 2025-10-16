@@ -32,3 +32,4 @@ _asset_bundler_cache
 _site
 
 /tools/gen_github_summary/__pycache__/
+/tools/tmp/
