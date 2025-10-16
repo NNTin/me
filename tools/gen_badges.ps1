@@ -171,6 +171,68 @@ function New-Badge {
     Write-Host "Badge moved to: $destinationFile" -ForegroundColor Green
 }
 
+function Clone-Repositories {
+    <#
+    .DESCRIPTION
+        Clones git repositories from the configuration file to the temporary git directory.
+        Performs full clones to preserve git history.
+    #>
+    
+    # Ensure the git directory exists
+    $gitDir = Join-Path -Path $tmpDir -ChildPath "git"
+    if (-not (Test-Path $gitDir)) {
+        New-Item -ItemType Directory -Path $gitDir -Force | Out-Null
+        Write-Host "Created git directory: $gitDir" -ForegroundColor Yellow
+    }
+    
+    # Load repository configuration
+    if (-not (Test-Path $configPath)) {
+        throw "Configuration file not found: $configPath"
+    }
+    
+    Write-Host "Loading repository configuration from: $configPath" -ForegroundColor Cyan
+    $repos = Get-Content -Path $configPath | ConvertFrom-Json
+    
+    Write-Host "Found $($repos.Count) repositories to clone" -ForegroundColor Cyan
+    
+    # Clone each repository sequentially
+    foreach ($repo in $repos) {
+        $owner = $repo.owner
+        $repoName = $repo.repo
+        $cloneUrl = "https://github.com/$owner/$repoName.git"
+        $repoPath = Join-Path -Path $gitDir -ChildPath $repoName
+        
+        Write-Host "Cloning repository: $owner/$repoName" -ForegroundColor Yellow
+        
+        # Check if repository already exists
+        if (Test-Path $repoPath) {
+            Write-Host "Repository already exists. Fetching latest changes: $repoPath" -ForegroundColor Yellow
+            Push-Location -Path $repoPath
+            git fetch --all
+            Pop-Location
+            
+            if ($LASTEXITCODE -ne 0) {
+                Write-Error "Failed to fetch updates for repository: $owner/$repoName"
+                throw "Git fetch failed for $owner/$repoName"
+            }
+            
+            Write-Host "Successfully updated: $owner/$repoName" -ForegroundColor Green
+        } else {
+            # Perform git clone
+            git clone $cloneUrl $repoPath
+            
+            if ($LASTEXITCODE -ne 0) {
+                Write-Error "Failed to clone repository: $owner/$repoName"
+                throw "Git clone failed for $owner/$repoName"
+            }
+            
+            Write-Host "Successfully cloned: $owner/$repoName" -ForegroundColor Green
+        }
+    }
+    
+    Write-Host "All repositories cloned successfully" -ForegroundColor Green
+}
+
 #------------------------------------------------------ Script ----------------------------------------------------#
 
 # Initialize the virtual environment
@@ -178,3 +240,6 @@ Initialize-VirtualEnvironment
 
 # Create a test badge with mock data
 New-Badge -FileName $Name -LeftText "test" -RightText "success"
+
+# Clone repositories from configuration
+Clone-Repositories
