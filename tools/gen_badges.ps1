@@ -2,6 +2,9 @@
   .DESCRIPTION
     This script generates badges using Cookiecutter.
 
+  .PARAMETER Name
+    Name of the badge file to generate (without extension). Default is "badge".
+
   .OUTPUTS
     SVG files for each badge in the output directory.
 
@@ -10,7 +13,14 @@
 
   .EXAMPLE
     .\tools\gen_badges.ps1
+    
+  .EXAMPLE
+    .\tools\gen_badges.ps1 -Name "my-custom-badge"
 #>
+
+param(
+    [string]$Name = "badge"
+)
 #------------------------------------------------------ Preparation -----------------------------------------------#
 
 # Absolute paths
@@ -119,15 +129,18 @@ function New-Badge {
         [string]$TextColor = "#ffffff"
     )
     
-    Write-Host "Generating badge: $FileName" -ForegroundColor Cyan
+    Write-Host "Generating badge: output.svg" -ForegroundColor Cyan
     
     # Execute cookiecutter with parameters
+    # There is a caveat here: cookiecutter always creates the output in a template subdirectory
+    # Therefore we will move the generated file to the desired output directory afterwards
+    # The generated file is located at $tmpDir/output/output.svg
     $cookiecutterArgs = @(
         "./cookiecutter/cookiecutter-badges"
         "--output-dir", $tmpDir
         "--overwrite-if-exists"
         "--no-input"
-        "filename=$FileName"
+        "filename=output"
         "left_text=$LeftText"
         "right_text=$RightText"
         "left_color=$LeftColor"
@@ -138,10 +151,24 @@ function New-Badge {
     cookiecutter @cookiecutterArgs
     
     if ($LASTEXITCODE -ne 0) {
-        throw "Failed to generate badge: $FileName"
+        throw "Failed to generate badge: output.svg"
     }
     
-    Write-Host "Badge generated successfully: $FileName.svg" -ForegroundColor Green
+    Write-Host "Badge generated successfully: output.svg" -ForegroundColor Green
+    
+    # Move and rename the generated file to the output directory
+    $sourceFile = Join-Path -Path $tmpDir -ChildPath "output/output.svg"
+    $destinationFile = Join-Path -Path $outputDir -ChildPath "$FileName.svg"
+    
+    # Ensure output directory exists
+    if (-not (Test-Path $outputDir)) {
+        New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
+        Write-Host "Created output directory: $outputDir" -ForegroundColor Yellow
+    }
+    
+    # Move and rename the file (overwrite if exists)
+    Move-Item -Path $sourceFile -Destination $destinationFile -Force
+    Write-Host "Badge moved to: $destinationFile" -ForegroundColor Green
 }
 
 #------------------------------------------------------ Script ----------------------------------------------------#
@@ -150,4 +177,4 @@ function New-Badge {
 Initialize-VirtualEnvironment
 
 # Create a test badge with mock data
-New-Badge -FileName "test-badge" -LeftText "test" -RightText "success"
+New-Badge -FileName $Name -LeftText "test" -RightText "success"
