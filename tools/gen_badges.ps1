@@ -233,6 +233,109 @@ function Clone-Repositories {
     Write-Host "All repositories cloned successfully" -ForegroundColor Green
 }
 
+function Get-RepositoryCommitHistory {
+    <#
+    .DESCRIPTION
+        Analyzes git history of each repository and returns commit date information.
+        
+    .OUTPUTS
+        Array of objects containing GitHub URL, first commit date, and last commit date for each repository.
+    #>
+    
+    $gitDir = Join-Path -Path $tmpDir -ChildPath "git"
+    
+    if (-not (Test-Path $gitDir)) {
+        throw "Git directory not found: $gitDir. Please run Clone-Repositories first."
+    }
+    
+    # Load repository configuration to get owner information
+    if (-not (Test-Path $configPath)) {
+        throw "Configuration file not found: $configPath"
+    }
+    
+    $repos = Get-Content -Path $configPath | ConvertFrom-Json
+    $commitHistory = @()
+    
+    Write-Host "Analyzing commit history for repositories..." -ForegroundColor Cyan
+    
+    foreach ($repo in $repos) {
+        $owner = $repo.owner
+        $repoName = $repo.repo
+        $repoPath = Join-Path -Path $gitDir -ChildPath $repoName
+        $githubUrl = "https://github.com/$owner/$repoName"
+        
+        if (-not (Test-Path $repoPath)) {
+            Write-Warning "Repository directory not found: $repoPath. Skipping $owner/$repoName"
+            continue
+        }
+        
+        Write-Host "Analyzing: $owner/$repoName" -ForegroundColor Yellow
+        
+        Push-Location -Path $repoPath
+        
+        try {
+            # Check if this is a valid git repository
+            $gitStatus = git status 2>&1
+            if ($LASTEXITCODE -ne 0) {
+                Write-Warning "Not a valid git repository: $repoPath"
+                continue
+            }
+            
+            # Check if repository has any commits
+            $commitCount = git rev-list --count HEAD 2>&1
+            if ($LASTEXITCODE -ne 0) {
+                Write-Warning "Repository has no commits: $owner/$repoName"
+                continue
+            }
+            
+            # Get first commit date (oldest)
+            $firstCommitDate = git log --reverse --format="%ci" | Select-Object -First 1
+            
+            if ([string]::IsNullOrWhiteSpace($firstCommitDate)) {
+                Write-Warning "Failed to get first commit date for $owner/$repoName (repository may be empty)"
+                continue
+            }
+            
+            # Get last commit date (most recent)
+            $lastCommitDate = git log --format="%ci" | Select-Object -First 1
+            
+            if ([string]::IsNullOrWhiteSpace($lastCommitDate)) {
+                Write-Warning "Failed to get last commit date for $owner/$repoName"
+                continue
+            }
+            
+            # Parse dates to DateTime objects for better handling
+            $firstCommitDateTime = [DateTime]::Parse($firstCommitDate)
+            $lastCommitDateTime = [DateTime]::Parse($lastCommitDate)
+            
+            # Create repository info object
+            $repoInfo = [PSCustomObject]@{
+                GitHubUrl = $githubUrl
+                Owner = $owner
+                Repository = $repoName
+                FirstCommitDate = $firstCommitDateTime
+                LastCommitDate = $lastCommitDateTime
+                FirstCommitDateString = $firstCommitDateTime.ToString("yyyy-MM-dd HH:mm:ss")
+                LastCommitDateString = $lastCommitDateTime.ToString("yyyy-MM-dd HH:mm:ss")
+            }
+            
+            $commitHistory += $repoInfo
+            
+            Write-Host "  First commit: $($repoInfo.FirstCommitDateString)" -ForegroundColor Gray
+            Write-Host "  Last commit:  $($repoInfo.LastCommitDateString)" -ForegroundColor Gray
+            
+        } catch {
+            Write-Warning "Error analyzing $owner/$repoName - $($_.Exception.Message)"
+        } finally {
+            Pop-Location
+        }
+    }
+    
+    Write-Host "Commit history analysis complete. Processed $($commitHistory.Count) repositories." -ForegroundColor Green
+    
+    return $commitHistory
+}
+
 #------------------------------------------------------ Script ----------------------------------------------------#
 
 # Initialize the virtual environment
@@ -243,3 +346,5 @@ New-Badge -FileName $Name -LeftText "test" -RightText "success"
 
 # Clone repositories from configuration
 Clone-Repositories
+
+$repoCommitDates = Get-RepositoryCommitHistory
