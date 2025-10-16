@@ -4,10 +4,9 @@ on:
   schedule: # run automatically every 24 hours
     - cron: "0 */24 * * *"
   workflow_dispatch: # allows to manually run the job at any time
-  push: # run on every push on the master branch
+  push:
     branches:
       - main
-      - feature/auto-update-time
 
 jobs:
   generate:
@@ -18,11 +17,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Set up PowerShell
-        uses: actions/setup-powershell@v2
-        with:
-          pwsh-version: '7.2.x'
       
       - name: Setup Python
         uses: actions/setup-python@v4
