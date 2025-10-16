@@ -315,8 +315,8 @@ function Get-RepositoryCommitHistory {
                 Repository = $repoName
                 FirstCommitDate = $firstCommitDateTime
                 LastCommitDate = $lastCommitDateTime
-                FirstCommitDateString = $firstCommitDateTime.ToString("yyyy-MM-dd HH:mm:ss")
-                LastCommitDateString = $lastCommitDateTime.ToString("yyyy-MM-dd HH:mm:ss")
+                FirstCommitDateString = $firstCommitDateTime.ToString("yyyy-MM-dd")
+                LastCommitDateString = $lastCommitDateTime.ToString("yyyy-MM-dd")
             }
             
             $commitHistory += $repoInfo
@@ -336,6 +336,35 @@ function Get-RepositoryCommitHistory {
     return $commitHistory
 }
 
+function New-CommitBadges {
+    <#
+    .DESCRIPTION
+        Generates badges for first and last commit dates for each repository.
+        
+    .PARAMETER RepoInfo
+        Repository information object containing commit dates and repository details.
+    #>
+    
+    param(
+        [Parameter(Mandatory = $true)]
+        [PSCustomObject]$RepoInfo
+    )
+    
+    $repoNameLower = $RepoInfo.Repository.ToLower()
+    
+    Write-Host "Generating commit badges for repository: $($RepoInfo.Repository)" -ForegroundColor Cyan
+    
+    # Generate first commit badge
+    $firstCommitFileName = "${repoNameLower}_firstcommit"
+    New-Badge -LeftText "First Commit" -RightText $RepoInfo.FirstCommitDateString -FileName $firstCommitFileName
+    
+    # Generate last commit badge
+    $lastCommitFileName = "${repoNameLower}_lastcommit"
+    New-Badge -LeftText "Last Commit" -RightText $RepoInfo.LastCommitDateString -FileName $lastCommitFileName
+    
+    Write-Host "Generated badges for $($RepoInfo.Repository): $firstCommitFileName.svg, $lastCommitFileName.svg" -ForegroundColor Green
+}
+
 #------------------------------------------------------ Script ----------------------------------------------------#
 
 # Initialize the virtual environment
@@ -347,4 +376,12 @@ New-Badge -FileName $Name -LeftText "test" -RightText "success"
 # Clone repositories from configuration
 Clone-Repositories
 
-$repoCommitDates = Get-RepositoryCommitHistory
+# Gets an array of repository info objects with commit dates
+$repoInfos = Get-RepositoryCommitHistory
+
+# Generate commit badges for each repository
+Write-Host "Generating commit badges for all repositories..." -ForegroundColor Cyan
+foreach ($repoInfo in $repoInfos) {
+    New-CommitBadges -RepoInfo $repoInfo
+}
+Write-Host "All commit badges generated successfully!" -ForegroundColor Green
