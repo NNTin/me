@@ -1,25 +1,28 @@
 <#
   .DESCRIPTION
-    This script generates badges using Cookiecutter.
-
-  .PARAMETER Name
-    Name of the badge file to generate (without extension). Default is "badge".
+    This script generates commit date badges for GitHub repositories using Cookiecutter.
+    It clones repositories, analyzes their git history, and creates SVG badges showing 
+    the first and last commit dates for each repository.
 
   .OUTPUTS
-    SVG files for each badge in the output directory.
+    SVG badge files in the output/badges directory:
+    - First commit badges: {reponame}_first.svg  
+    - Last commit badges: {reponame}_last.svg
 
   .NOTES
-    Purpose/Change: Generate badges using Cookiecutter.
+    Purpose/Change: Generate first and last commit date badges for all configured repositories.
+    
+    Workflow:
+    1. Initialize virtual environment
+    2. Clone/update repositories from configuration
+    3. Analyze commit history for each repository
+    4. Generate commit date badges for all repositories
 
   .EXAMPLE
     .\tools\gen_badges.ps1
-    
-  .EXAMPLE
-    .\tools\gen_badges.ps1 -Name "my-custom-badge"
 #>
 
 param(
-    [string]$Name = "badge"
 )
 #------------------------------------------------------ Preparation -----------------------------------------------#
 
@@ -354,13 +357,14 @@ function New-CommitBadges {
     
     Write-Host "Generating commit badges for repository: $($RepoInfo.Repository)" -ForegroundColor Cyan
     
+    # In future we will do color gradient based on age of commit red (-> orange) -> yellow (-> blue) -> green?
     # Generate first commit badge
-    $firstCommitFileName = "${repoNameLower}_firstcommit"
-    New-Badge -LeftText "First Commit" -RightText $RepoInfo.FirstCommitDateString -FileName $firstCommitFileName
+    $firstCommitFileName = "${repoNameLower}_first"
+    New-Badge -LeftText "First Commit" -RightText $RepoInfo.FirstCommitDateString -FileName $firstCommitFileName -RightColor "#007BFF"
     
     # Generate last commit badge
-    $lastCommitFileName = "${repoNameLower}_lastcommit"
-    New-Badge -LeftText "Last Commit" -RightText $RepoInfo.LastCommitDateString -FileName $lastCommitFileName
+    $lastCommitFileName = "${repoNameLower}_last"
+    New-Badge -LeftText "Last Commit" -RightText $RepoInfo.LastCommitDateString -FileName $lastCommitFileName -RightColor "#4CAF50"
     
     Write-Host "Generated badges for $($RepoInfo.Repository): $firstCommitFileName.svg, $lastCommitFileName.svg" -ForegroundColor Green
 }
@@ -369,9 +373,6 @@ function New-CommitBadges {
 
 # Initialize the virtual environment
 Initialize-VirtualEnvironment
-
-# Create a test badge with mock data
-New-Badge -FileName $Name -LeftText "test" -RightText "success"
 
 # Clone repositories from configuration
 Clone-Repositories
