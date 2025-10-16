@@ -29,7 +29,7 @@ param(
 # Absolute paths
 $toolsDir = $PSScriptRoot
 $rootDir = Split-Path -Path $toolsDir -Parent
-$outputDir = Join-Path -Path $rootDir -ChildPath "output/badges"
+$outputDir = Join-Path -Path $rootDir -ChildPath "output"
 $tmpDir = Join-Path -Path $toolsDir -ChildPath "tmp"
 
 # Repository configuration paths
@@ -161,12 +161,13 @@ function New-Badge {
     
     # Move and rename the generated file to the output directory
     $sourceFile = Join-Path -Path $tmpDir -ChildPath "output/output.svg"
-    $destinationFile = Join-Path -Path $outputDir -ChildPath "$FileName.svg"
-    
+    $badgesDir = Join-Path -Path $outputDir -ChildPath "badges"
+    $destinationFile = Join-Path -Path $badgesDir -ChildPath "$FileName.svg"
+
     # Ensure output directory exists
-    if (-not (Test-Path $outputDir)) {
-        New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
-        Write-Host "Created output directory: $outputDir" -ForegroundColor Yellow
+    if (-not (Test-Path $badgesDir)) {
+        New-Item -ItemType Directory -Path $badgesDir -Force | Out-Null
+        Write-Host "Created output directory: $badgesDir" -ForegroundColor Yellow
     }
     
     # Move and rename the file (overwrite if exists)
@@ -318,14 +319,16 @@ function Get-RepositoryCommitHistory {
                 Repository = $repoName
                 FirstCommitDate = $firstCommitDateTime
                 LastCommitDate = $lastCommitDateTime
-                FirstCommitDateString = $firstCommitDateTime.ToString("yyyy-MM-dd")
-                LastCommitDateString = $lastCommitDateTime.ToString("yyyy-MM-dd")
+                FirstCommitDateLong = $firstCommitDateTime.ToString("yyyy-MM-dd HH:mm:ss")
+                LastCommitDateLong = $lastCommitDateTime.ToString("yyyy-MM-dd HH:mm:ss")
+                FirstCommitDateShort = $firstCommitDateTime.ToString("yyyy-MM-dd")
+                LastCommitDateShort = $lastCommitDateTime.ToString("yyyy-MM-dd")
             }
             
             $commitHistory += $repoInfo
             
-            Write-Host "  First commit: $($repoInfo.FirstCommitDateString)" -ForegroundColor Gray
-            Write-Host "  Last commit:  $($repoInfo.LastCommitDateString)" -ForegroundColor Gray
+            Write-Host "  First commit: $($repoInfo.FirstCommitDateShort)" -ForegroundColor Gray
+            Write-Host "  Last commit:  $($repoInfo.LastCommitDateShort)" -ForegroundColor Gray
             
         } catch {
             Write-Warning "Error analyzing $owner/$repoName - $($_.Exception.Message)"
@@ -360,13 +363,54 @@ function New-CommitBadges {
     # In future we will do color gradient based on age of commit red (-> orange) -> yellow (-> blue) -> green?
     # Generate first commit badge
     $firstCommitFileName = "${repoNameLower}_first"
-    New-Badge -LeftText "First Commit" -RightText $RepoInfo.FirstCommitDateString -FileName $firstCommitFileName -RightColor "#007BFF"
+    New-Badge -LeftText "First Commit" -RightText $RepoInfo.FirstCommitDateShort -FileName $firstCommitFileName -RightColor "#007BFF"
     
     # Generate last commit badge
     $lastCommitFileName = "${repoNameLower}_last"
-    New-Badge -LeftText "Last Commit" -RightText $RepoInfo.LastCommitDateString -FileName $lastCommitFileName -RightColor "#4CAF50"
-    
+    New-Badge -LeftText "Last Commit" -RightText $RepoInfo.LastCommitDateShort -FileName $lastCommitFileName -RightColor "#4CAF50"
+
     Write-Host "Generated badges for $($RepoInfo.Repository): $firstCommitFileName.svg, $lastCommitFileName.svg" -ForegroundColor Green
+}
+
+function Export-RepoInfosToJson {
+    <#
+    .DESCRIPTION
+        Converts repository information array to JSON and saves it to the output directory.
+        
+    .PARAMETER RepoInfos
+        Array of repository information objects to convert to JSON.
+    #>
+    
+    param(
+        [Parameter(Mandatory = $true)]
+        [array]$RepoInfos
+    )
+    
+    Write-Host "Exporting repository information to JSON..." -ForegroundColor Cyan
+    
+    # Ensure output directory exists
+    if (-not (Test-Path $outputDir)) {
+        New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
+        Write-Host "Created output directory: $outputDir" -ForegroundColor Yellow
+    }
+    
+    # Define the JSON file path
+    $jsonFilePath = Join-Path -Path $outputDir -ChildPath "repoInfos.json"
+    
+    try {
+        # Convert to JSON with proper formatting
+        $jsonContent = $RepoInfos | ConvertTo-Json -Depth 3 -Compress:$false
+        
+        # Save to file
+        $jsonContent | Out-File -FilePath $jsonFilePath -Encoding UTF8
+        
+        Write-Host "Repository information exported to: $jsonFilePath" -ForegroundColor Green
+        Write-Host "Exported $($RepoInfos.Count) repositories" -ForegroundColor Gray
+        
+    } catch {
+        Write-Error "Failed to export repository information to JSON: $($_.Exception.Message)"
+        throw "JSON export failed"
+    }
 }
 
 #------------------------------------------------------ Script ----------------------------------------------------#
@@ -386,3 +430,6 @@ foreach ($repoInfo in $repoInfos) {
     New-CommitBadges -RepoInfo $repoInfo
 }
 Write-Host "All commit badges generated successfully!" -ForegroundColor Green
+
+# Write to output directory
+Export-RepoInfosToJson -RepoInfos $repoInfos
