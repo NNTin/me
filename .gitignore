@@ -31,4 +31,11 @@ codekit-config.json
 _asset_bundler_cache
 _site
 
+# <<< TOOLS >>>
 /tools/gen_github_summary/__pycache__/
+
+# needed for badge creation with cookiecutter
+/tools/tmp/
+
+# output directory for generated badges
+/output/

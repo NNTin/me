@@ -1,40 +1,25 @@
 # tools/cookiecutter/gen_github_summary/__main__.py
 
+import json
 from pathlib import Path
 from cookiecutter.main import cookiecutter
+
+
+def load_repo_configs():
+    """Load repository configurations from JSON file and convert to cookiecutter format."""
+    config_path = Path("data/repos.json")
+    with open(config_path, "r") as f:
+        repos = json.load(f)
+
+    # Convert to cookiecutter format (only repo name, omit owner)
+    return [{"repo_slug": repo["repo"]} for repo in repos]
 
 
 def main():
     # This path is relative to the 'tools/' working directory
     template_path = Path("cookiecutter/cookiecutter-github-summary").resolve()
 
-    configs = [
-        # List of repositories to generate summaries for
-        #  initial landing
-        {"repo_slug": "me"},
-        {"repo_slug": "nntin.github.io"},
-        {"repo_slug": "NNTin"},
-        #  bigger projects
-        {"repo_slug": "discord-logo"},
-        {"repo_slug": "discord-web-bridge"},
-        {"repo_slug": "discord-twitter-bot"},
-        {"repo_slug": "Reply-Dota-2-Reddit"},
-        #  heroku adventures
-        {"repo_slug": "crosku"},
-        {"repo_slug": "Red-kun"},
-        {"repo_slug": "shell-kun"},
-        #  reddit adventures
-        {"repo_slug": "tracker-reddit-discord"},
-        {"repo_slug": "dev-tracker-reddit"},
-        {"repo_slug": "Reply-LoL-Reddit"},
-        {"repo_slug": "Cubify-Reddit"},
-        {"repo_slug": "Dota-2-Emoticons"},
-        {"repo_slug": "Dota-2-Reddit-Flair-Mosaic"},
-        #  REST API adventures
-        {"repo_slug": "pasteview"},
-        {"repo_slug": "pasteindex"},
-        {"repo_slug": "twitter-backend"},
-    ]
+    configs = load_repo_configs()
 
     for ctx in configs:
         ctx["github_username"] = "nntin"
