@@ -16,7 +16,6 @@ cookiecutter cookiecutter/cookiecutter-badges --overwrite-if-exists
 
 ## Parameters
 
-- `directory`: Name of the output directory
 - `filename`: Name of the output SVG file (without extension)
 - `left_text`: Text to display on the left side of the badge
 - `right_text`: Text to display on the right side of the badge
@@ -28,7 +27,6 @@ cookiecutter cookiecutter/cookiecutter-badges --overwrite-if-exists
 
 Input:
 
-- directory: "out"
 - filename: "build-status"
 - left_text: "build"
 - right_text: "passing"
