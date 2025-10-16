@@ -54,49 +54,65 @@ $cookiecutterTemplate = "cookiecutter/cookiecutter-badges"
 function Initialize-VirtualEnvironment {
     <#
     .DESCRIPTION
-        Activates the virtual environment or creates it if it doesn't exist.
-        Installs requirements from requirements.txt if creating a new environment.
+        Handles virtual environment setup and requirements installation.
+        CI: Only installs requirements
+        Local: Activates existing venv OR creates new venv + activates, then installs requirements if needed
     #>
     
     $venvPath = Join-Path -Path $toolsDir -ChildPath ".venv"
     $activateScript = Join-Path -Path $venvPath -ChildPath "Scripts\Activate.ps1"
     $requirementsPath = Join-Path -Path $toolsDir -ChildPath "requirements.txt"
-
-    Write-Host $activateScript
     
-    if (Test-Path $venvPath) {
-        Write-Host "Activating existing virtual environment..." -ForegroundColor Green
-        & $activateScript
-        # Check if virtual env was actually activated
-        if (-not $env:VIRTUAL_ENV) {
-            throw "Failed to activate virtual environment"
-        }
+    $needsRequirements = $false
+    
+    if ($env:CI) {
+        Write-Host "Running in CI - skipping virtual environment setup" -ForegroundColor Yellow
+        $needsRequirements = $true
     } else {
-        Write-Host "Virtual environment not found. Creating new virtual environment..." -ForegroundColor Yellow
-        python -m venv $venvPath
-        if ($LASTEXITCODE -ne 0) {
-            throw "Failed to create virtual environment"
+        # Try to activate existing virtual environment
+        if (Test-Path $venvPath) {
+            Write-Host "Activating existing virtual environment..." -ForegroundColor Green
+            & $activateScript
+            
+            if ($env:VIRTUAL_ENV) {
+                Write-Host "Virtual environment activated successfully" -ForegroundColor Green
+            } else {
+                throw "Failed to activate existing virtual environment"
+            }
+        } else {
+            # Create and activate new virtual environment
+            Write-Host "Virtual environment not found. Creating new virtual environment..." -ForegroundColor Yellow
+            python -m venv $venvPath
+            if ($LASTEXITCODE -ne 0) {
+                throw "Failed to create virtual environment"
+            }
+            
+            Write-Host "Activating new virtual environment..." -ForegroundColor Green
+            & $activateScript
+            if (-not $env:VIRTUAL_ENV) {
+                throw "Failed to activate new virtual environment"
+            }
+            
+            Write-Host "New virtual environment created and activated" -ForegroundColor Green
+            $needsRequirements = $true
         }
-        
-        Write-Host "Activating new virtual environment..." -ForegroundColor Green
-        & $activateScript
-        if ($LASTEXITCODE -ne 0) {
-            throw "Failed to activate virtual environment"
-        }
-        
+    }
+    
+    # Install requirements if needed
+    if ($needsRequirements) {
         if (Test-Path $requirementsPath) {
             Write-Host "Installing requirements from requirements.txt..." -ForegroundColor Yellow
             pip install -r $requirementsPath
             if ($LASTEXITCODE -ne 0) {
                 throw "Failed to install requirements"
             }
-            Write-Host "Requirements installed successfully." -ForegroundColor Green
+            Write-Host "Requirements installed successfully" -ForegroundColor Green
         } else {
             Write-Warning "requirements.txt not found at $requirementsPath"
         }
     }
     
-    Write-Host "Virtual environment is ready." -ForegroundColor Green
+    Write-Host "Environment is ready" -ForegroundColor Green
 }
 
 function New-Badge {
