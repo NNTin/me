@@ -414,8 +414,11 @@ function Export-RepoInfosToJson {
     $jsonFilePath = Join-Path -Path $outputDir -ChildPath "repoInfos.json"
     
     try {
+        # Sort repositories by FirstCommitDate (oldest first, newest last)
+        $sortedRepoInfos = $RepoInfos | Sort-Object FirstCommitDate
+        
         # Convert to JSON with proper formatting
-        $jsonContent = $RepoInfos | ConvertTo-Json -Depth 3 -Compress:$false
+        $jsonContent = $sortedRepoInfos | ConvertTo-Json -Depth 3 -Compress:$false
         
         # Save to file
         $jsonContent | Out-File -FilePath $jsonFilePath -Encoding UTF8
