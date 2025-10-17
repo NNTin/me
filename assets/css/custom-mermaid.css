@@ -1,0 +1,54 @@
+---
+---
+
+/* -- Custom Mermaid Gantt Chart Styling -- */
+
+.mermaid svg rect[class*='milestone'] {
+  fill: #ff6b35 !important;
+  stroke: #e55a2e !important;
+  stroke-width: 3px !important;
+}
+
+/* Try targeting by text content approach */
+.mermaid svg text:contains('Start of Work Life') {
+  fill: #ff6b35 !important;
+  font-weight: bold !important;
+}
+
+/* Milestone text styling */
+.mermaid svg text[class*='milestone'] {
+  font-weight: bold !important;
+  fill: #333 !important;
+}
+
+/* -- Wide layout - expand into the right TOC space only -- */
+.page--wide {
+  /* On large screens, remove the right padding that was reserved for TOC */
+  @media (min-width: 1024px) {
+    padding-inline-end: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  @media (min-width: 1280px) {
+    padding-inline-end: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* The content should expand to use the TOC space on the right */
+.page--wide .page__content {
+  /* Allow content to use the full width available (including former TOC space) */
+  margin-right: 0 !important;
+}
+
+/* Specific styling for tables in wide layout to use the extra right space */
+.page--wide .page__content table {
+  width: 100%;
+  table-layout: auto;
+}
+
+/* Mermaid charts in wide layout should use the extra right space */
+.page--wide .mermaid {
+  width: 100%;
+  max-width: none;
+}

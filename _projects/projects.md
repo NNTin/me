@@ -2,7 +2,7 @@
 title: 'Projects'
 permalink: /projects/
 excerpt: 'Contains some of my (public) git projects'
-toc: false
+layout: wide
 ---
 
 <div class="mermaid">
@@ -27,7 +27,7 @@ gantt
     discord-web-bridge      :dwb, 2018-09-20, 2019-01-11
     crosku                  :ck, 2018-11-11, 2019-01-12
     Red-kun                 :rk, 2018-11-27, 2019-10-13
-    Start of Professional Work :milestone, ps, 2019-04-01, 0d
+    Start of Work Life      :milestone, ps, 2019-04-01, 0d
     shell-kun               :sk, 2019-11-15, 2020-09-23
     d-zone                  :dz, 2020-09-19, 2025-10-10
     NNTin                   :nn, 2025-09-13, 2025-09-13
