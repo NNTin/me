@@ -56,6 +56,9 @@ gantt
   transition: opacity 0.2s ease;
   max-width: 300px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  word-wrap: break-word;
+  line-height: 1.4;
+  --arrow-left: 50%; /* Default arrow position */
 }
 
 .project-tooltip.show {
@@ -66,11 +69,18 @@ gantt
   content: '';
   position: absolute;
   top: 100%;
-  left: 50%;
+  left: var(--arrow-left);
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
   border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+}
+
+/* When tooltip is shown below the element */
+.project-tooltip.below::after {
+  top: -10px;
+  left: var(--arrow-left);
+  border-color: transparent transparent rgba(0, 0, 0, 0.9) transparent;
 }
 </style>
 
@@ -102,15 +112,45 @@ const projectDescriptions = {
   'dz2': 'Implemented Docker containerization for easier deployment',
   'dz3': 'In the further future I forked the webclient part of d-zone. It is based on this version.',
   'dz': 'Major changes: commonjs -> esm, websocket URL fallback strategy, Discord OAuth2 support, CI versioned deployment, e2e testing with Playwright, Allure and Vercel deployment.',
-  'db': 'Handles the backend logic of d-zone, meant to be installed as a python module, supports a wide variety of versions. Provides mock data when the callbacks are not registered',
+  'db': 'Handles the backend logic of d-zone, meant to be installed as a python module (published as PyPI module), supports a wide variety of versions. Provides mock data when the callbacks are not registered',
   'dc': 'Implementation of the python module d-back and thus provides real data. d-cogs makes use of Red-DiscordBot modular design and is installed as a plugin.'
 };
 
 // Wait for Mermaid to render, then add tooltips
 document.addEventListener('DOMContentLoaded', function() {
-  setTimeout(function() {
-    addTooltipsToGantt();
-  }, 1000); // Give Mermaid time to render
+  // Try multiple times with increasing delays
+  let attempts = 0;
+  const maxAttempts = 10;
+  
+  function tryAddTooltips() {
+    attempts++;
+    
+    const ganttContainer = document.getElementById('project-gantt');
+    if (!ganttContainer) {
+      if (attempts < maxAttempts) {
+        setTimeout(tryAddTooltips, 500);
+      }
+      return;
+    }
+    
+    const svgElement = ganttContainer.querySelector('svg');
+    if (!svgElement) {
+      if (attempts < maxAttempts) {
+        setTimeout(tryAddTooltips, 500);
+      }
+      return;
+    }
+    
+    const rects = ganttContainer.querySelectorAll('svg rect');
+    
+    if (rects.length > 0) {
+      addTooltipsToGantt();
+    } else if (attempts < maxAttempts) {
+      setTimeout(tryAddTooltips, 500);
+    }
+  }
+  
+  setTimeout(tryAddTooltips, 1000);
 });
 
 function addTooltipsToGantt() {
@@ -129,37 +169,81 @@ function addTooltipsToGantt() {
     const rectId = rect.id;
     if (rectId && projectDescriptions[rectId]) {
       rect.addEventListener('mouseenter', function(e) {
-        tooltip.textContent = projectDescriptions[rectId];
+        tooltip.innerHTML = projectDescriptions[rectId];
         tooltip.classList.add('show');
         updateTooltipPosition(e, tooltip);
       });
 
-      rect.addEventListener('mousemove', function(e) {
-        updateTooltipPosition(e, tooltip);
-      });
-
       rect.addEventListener('mouseleave', function() {
-        tooltip.classList.remove('show');
+        tooltip.classList.remove('show', 'below');
       });
     }
   });
 }
 
 function updateTooltipPosition(e, tooltip) {
-  const x = e.clientX;
-  const y = e.clientY;
+  // Get the target rectangle element
+  const targetRect = e.target.getBoundingClientRect();
   
-  tooltip.style.left = x + 10 + 'px';
-  tooltip.style.top = y - 40 + 'px';
+  // Get scroll positions
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
   
-  // Adjust if tooltip goes off screen
-  const rect = tooltip.getBoundingClientRect();
-  if (rect.right > window.innerWidth) {
-    tooltip.style.left = x - rect.width - 10 + 'px';
+  // Calculate absolute positions (accounting for scroll)
+  const absoluteTop = targetRect.top + scrollTop;
+  const absoluteLeft = targetRect.left + scrollLeft;
+  
+  // Reset classes
+  tooltip.classList.remove('below');
+  
+  // Force the tooltip to be visible temporarily to measure it
+  tooltip.style.visibility = 'hidden';
+  tooltip.style.opacity = '1';
+  tooltip.style.display = 'block';
+  
+  // Get tooltip dimensions
+  const tooltipWidth = tooltip.offsetWidth;
+  const tooltipHeight = tooltip.offsetHeight;
+  
+  // Calculate the target element's center
+  const targetCenterX = absoluteLeft + (targetRect.width / 2);
+  const leftPosition = targetCenterX - (tooltipWidth / 2);
+  
+  // Position above the rectangle by default
+  let topPosition = absoluteTop - tooltipHeight - 10;
+  
+  // Check if tooltip goes off screen horizontally and adjust
+  let finalLeftPosition = leftPosition;
+  if (leftPosition < scrollLeft + 10) {
+    finalLeftPosition = scrollLeft + 10;
+  } else if (leftPosition + tooltipWidth > scrollLeft + window.innerWidth - 10) {
+    finalLeftPosition = scrollLeft + window.innerWidth - tooltipWidth - 10;
   }
-  if (rect.top < 0) {
-    tooltip.style.top = y + 20 + 'px';
+  
+  // Check if tooltip goes off screen vertically
+  if (topPosition < scrollTop + 10) {
+    topPosition = absoluteTop + targetRect.height + 10;
+    tooltip.classList.add('below');
   }
+  
+  // Apply final position
+  tooltip.style.left = finalLeftPosition + 'px';
+  tooltip.style.top = topPosition + 'px';
+  
+  // Calculate arrow position based on actual tooltip position vs target center
+  const tooltipActualLeft = finalLeftPosition;
+  const arrowOffsetFromLeft = targetCenterX - tooltipActualLeft;
+  const arrowPositionPercent = (arrowOffsetFromLeft / tooltipWidth) * 100;
+  
+  // Clamp arrow position between 10% and 90% to keep it within the tooltip
+  const clampedArrowPosition = Math.max(10, Math.min(90, arrowPositionPercent));
+  
+  // Apply arrow position
+  tooltip.style.setProperty('--arrow-left', clampedArrowPosition + '%');
+  
+  // Restore visibility
+  tooltip.style.visibility = 'visible';
+  tooltip.style.display = '';
 }
 </script>
 
