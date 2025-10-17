@@ -13,28 +13,37 @@ gantt
 
     section Projects
     Reply-Dota-2-Reddit     :rdr, 2016-03-27, 2018-05-10
-    Dota-2-Reddit-Flair-Mosaic :dfm, 2016-05-01, 2016-05-03
-    Dota-2-Emoticons        :de, 2016-07-16, 2016-07-16
+    Dota-2-Reddit-Flair-Mosaic :dfm, 2016-05-01, 2016-05-06
+    Dota-2-Emoticons        :de, 2016-07-16, 2016-07-21
     Reply-LoL-Reddit        :rlr, 2016-07-24, 2017-04-02
     Cubify-Reddit           :cr, 2017-03-04, 2017-03-19
     discord-twitter-bot     :dtb, 2017-03-20, 2021-12-12
     pasteview               :pv, 2017-10-24, 2017-11-20
-    pasteindex              :pi, 2017-11-10, 2017-11-10
-    discord-logo            :dl, 2017-11-24, 2022-04-26
+    pasteindex              :pi, 2017-11-10, 2017-11-15
+    discord-logo            :active, dl, 2017-11-24, 2018-01-14
+    discord-logo PR         :milestone, pr1, 2018-06-26, 0d
+    discord-logo PR         :milestone, pr2, 2020-10-07, 0d  
+    discord-logo PR         :milestone, pr3, 2021-06-20, 0d
     dev-tracker-reddit      :dtr, 2018-07-25, 2018-07-26
     tracker-reddit-discord  :trd, 2018-07-31, 2018-08-17
     twitter-backend         :tb, 2018-08-18, 2018-09-16
     discord-web-bridge      :dwb, 2018-09-20, 2019-01-11
     crosku                  :ck, 2018-11-11, 2019-01-12
     Red-kun                 :rk, 2018-11-27, 2019-10-13
-    Start of Work Life      :milestone, ps, 2019-04-01, 0d
+    Professional Work Life  :active, ps, 2019-04-01, until today
     shell-kun               :sk, 2019-11-15, 2020-09-23
-    d-zone                  :dz, 2020-09-19, 2025-10-10
-    NNTin                   :nn, 2025-09-13, 2025-09-13
     me                      :me, 2025-09-14, 2025-10-16
+    d-zone (Heroku support) :milestone, dz1, 2018-11-11, 0d
+    d-zone (Docker support) :milestone, dz2, 2019-02-24, 0d
+    d-zone fork             :milestone, dz3, 2020-09-19, 0d
+    d-zone                  :dz, 2025-09-18, 2025-10-10
     d-back                  :db, 2025-09-17, 2025-10-05
     d-cogs                  :dc, 2025-09-20, 2025-10-05
 </div>
+<div style="text-align: right;">
+  <span style="font-size: 0.6em;">Mermaid Gantt does not support same row, will move this to D3.js or AnyChart in future</span>
+</div>
+
 
 This website is a place to document my programming journey. Most of the projects here are older hobby projects I built before becoming a professional software engineer. They were driven by curiosity, passion, and late-night inspiration — and helped shape my path into tech.
 

@@ -3,22 +3,54 @@
 
 /* -- Custom Mermaid Gantt Chart Styling -- */
 
-.mermaid svg rect[class*='milestone'] {
+/* Target the milestone rectangle by its ID (ps) */
+.mermaid svg rect#ps {
   fill: #ff6b35 !important;
   stroke: #e55a2e !important;
   stroke-width: 3px !important;
 }
 
-/* Try targeting by text content approach */
-.mermaid svg text:contains('Start of Work Life') {
-  fill: #ff6b35 !important;
+/* Style the milestone text */
+.mermaid svg text#ps-text {
+  fill: #ffffff !important;
   font-weight: bold !important;
+  font-size: 12px !important;
 }
 
-/* Milestone text styling */
-.mermaid svg text[class*='milestone'] {
+/* discord-logo PR contributions - style both rectangles and text */
+.mermaid svg rect#pr1,
+.mermaid svg rect#pr2,
+.mermaid svg rect#pr3 {
+  fill: #3cff35 !important;
+  stroke: #2eb82e !important;
+  stroke-width: 2px !important;
+}
+
+.mermaid svg text#pr1-text,
+.mermaid svg text#pr2-text,
+.mermaid svg text#pr3-text {
+  fill: #2eb82e !important;
   font-weight: bold !important;
-  fill: #333 !important;
+  font-size: 10px !important;
+}
+
+/* mouse hover action */
+.mermaid svg rect#ps:hover {
+  fill: #e55a2e !important;
+  cursor: pointer;
+}
+
+.mermaid svg rect#pr1:hover,
+.mermaid svg rect#pr2:hover,
+.mermaid svg rect#pr3:hover {
+  fill: #2eb82e !important;
+  cursor: pointer;
+}
+
+/* Hover effect for all other mermaid rectangles */
+.mermaid svg rect:not(#ps):not(#pr1):not(#pr2):not(#pr3):hover {
+  fill: #534fbc !important;
+  cursor: pointer;
 }
 
 /* -- Wide layout - expand into the right TOC space only -- */
