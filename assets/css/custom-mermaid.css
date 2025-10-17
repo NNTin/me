@@ -34,7 +34,7 @@
   font-size: 10px !important;
 }
 
-/* mouse hover action */
+/* Hover effect cursor to pointer and filling element */
 .mermaid svg rect#ps:hover {
   fill: #e55a2e !important;
   cursor: pointer;
@@ -48,10 +48,34 @@
 }
 
 /* Hover effect for all other mermaid rectangles */
-.mermaid svg rect:not(#ps):not(#pr1):not(#pr2):not(#pr3):hover {
+.mermaid svg rect#rdr:hover,
+.mermaid svg rect#dfm:hover,
+.mermaid svg rect#de:hover,
+.mermaid svg rect#rlr:hover,
+.mermaid svg rect#cr:hover,
+.mermaid svg rect#dtb:hover,
+.mermaid svg rect#pv:hover,
+.mermaid svg rect#pi:hover,
+.mermaid svg rect#dl:hover,
+.mermaid svg rect#dtr:hover,
+.mermaid svg rect#trd:hover,
+.mermaid svg rect#tb:hover,
+.mermaid svg rect#dwb:hover,
+.mermaid svg rect#ck:hover,
+.mermaid svg rect#rk:hover,
+.mermaid svg rect#sk:hover,
+.mermaid svg rect#me:hover,
+.mermaid svg rect#dz1:hover,
+.mermaid svg rect#dz2:hover,
+.mermaid svg rect#dz3:hover,
+.mermaid svg rect#dz:hover,
+.mermaid svg rect#db:hover,
+.mermaid svg rect#dc:hover {
   fill: #534fbc !important;
   cursor: pointer;
 }
+
+/* -- End of Custom Mermaid Gantt Chart Styling -- */
 
 /* -- Wide layout - expand into the right TOC space only -- */
 .page--wide {
