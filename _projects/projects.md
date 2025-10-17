@@ -13,6 +13,18 @@ Since going pro, side projects have been rare — but with this site, I hope to 
 
 Fittingly, this site (and even this text) was created with the help of AI. With a deeper understanding of software now, I can focus more on project ideas and architecture. I’ve gone from just coding to shaping and building complete ideas.
 
+TODO:
+
+- amount of active days on repo
+- amount of commits
+- amount of code line changes + and -
+- serve as badges
+
+{% assign reversed_repos = site.data.repos | reverse %}
+{% for repo in reversed_repos %}
+[{{ repo.repo }}](https://github.com/{{ repo.owner }}/{{ repo.repo }})  
+{% endfor %}
+
 <div class="mermaid">
 gantt
     title GitHub Project Activity Timeline
@@ -43,4 +55,28 @@ gantt
     d-back                  :db, 2025-09-17, 2025-10-05
     d-cogs                  :dc, 2025-09-20, 2025-10-05
 
+</div>
+
+<div class="mermaid">
+gantt
+    title Project Timeline
+    dateFormat  YYYY-MM-DD
+    section Design
+    Sketch UI           :a1, 2025-10-01, 3d
+    Revise Sketch       :a2, 2025-10-06, 2d
+    Final Mockup        :a3, 2025-10-09, 3d
+    section Development
+    Setup Environment   :b1, 2025-10-01, 2d
+    Coding Phase 1      :b2, after b1, 4d
+    Coding Phase 2      :b3, after b2, 3d
+</div>
+
+<div class="mermaid">
+gantt
+  title Simulating multiple bars on one row
+  dateFormat  YYYY-MM-DD
+  section Design
+  Design Task :a1, 2025-10-01, 3d
+  Design Task :a2, 2025-10-06, 2d
+  Design Task :a3, 2025-10-10, 1d
 </div>

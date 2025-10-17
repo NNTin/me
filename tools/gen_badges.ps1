@@ -1,22 +1,29 @@
 <#
   .DESCRIPTION
-    This script generates commit date badges for GitHub repositories using Cookiecutter.
-    It clones repositories, analyzes their git history, and creates SVG badges showing 
-    the first and last commit dates for each repository.
+    This script generates badges for GitHub repositories using Cookiecutter. It clones 
+    repositories, analyzes their git history, and creates SVG badges for each repository.
 
   .OUTPUTS
     SVG badge files in the output/badges directory:
     - First commit badges: {reponame}_first.svg  
     - Last commit badges: {reponame}_last.svg
+    - Commit count badges: {reponame}_commits.svg
+    - Active days badges: {reponame}_days.svg
+    - Lines added badges: {reponame}_added.svg
+    - Lines removed badges: {reponame}_removed.svg
 
   .NOTES
-    Purpose/Change: Generate first and last commit date badges for all configured repositories.
+    Purpose/Change: Generate SVG badges for all configured repositories.
     
     Workflow:
     1. Initialize virtual environment
     2. Clone/update repositories from configuration
     3. Analyze commit history for each repository
     4. Generate commit date badges for all repositories
+
+    TODOs:
+    - export languages used per repository
+    - serve as additional badges (or maybe even as a graph)
 
   .EXAMPLE
     .\tools\gen_badges.ps1
@@ -33,14 +40,15 @@ $outputDir = Join-Path -Path $rootDir -ChildPath "output"
 $tmpDir = Join-Path -Path $toolsDir -ChildPath "tmp"
 
 # Repository configuration paths
-$reposJsonPath = Join-Path -Path $toolsDir -ChildPath "data/repos.json"
+$reposJsonPath = Join-Path -Path $rootDir -ChildPath "_data/repos.json"
 $reposTestJsonPath = Join-Path -Path $toolsDir -ChildPath "data/repos_test.json"
 
 # Determine which config to use (CI uses repos.json, local development uses repos_test.json)
 $configPath = $reposJsonPath
 if ($env:CI) {
     Write-Host "Running in CI - using $configPath"
-} else {
+}
+else {
     $configPath = $reposTestJsonPath
     Write-Host "Running locally - using $configPath"
 }
@@ -68,7 +76,8 @@ function Initialize-VirtualEnvironment {
     if ($env:CI) {
         Write-Host "Running in CI - skipping virtual environment setup" -ForegroundColor Yellow
         $needsRequirements = $true
-    } else {
+    }
+    else {
         # Try to activate existing virtual environment
         if (Test-Path $venvPath) {
             Write-Host "Activating existing virtual environment..." -ForegroundColor Green
@@ -76,10 +85,12 @@ function Initialize-VirtualEnvironment {
             
             if ($env:VIRTUAL_ENV) {
                 Write-Host "Virtual environment activated successfully" -ForegroundColor Green
-            } else {
+            }
+            else {
                 throw "Failed to activate existing virtual environment"
             }
-        } else {
+        }
+        else {
             # Create and activate new virtual environment
             Write-Host "Virtual environment not found. Creating new virtual environment..." -ForegroundColor Yellow
             python -m venv $venvPath
@@ -107,7 +118,8 @@ function Initialize-VirtualEnvironment {
                 throw "Failed to install requirements"
             }
             Write-Host "Requirements installed successfully" -ForegroundColor Green
-        } else {
+        }
+        else {
             Write-Warning "requirements.txt not found at $requirementsPath"
         }
     }
@@ -237,7 +249,8 @@ function Clone-Repositories {
             }
             
             Write-Host "Successfully updated: $owner/$repoName" -ForegroundColor Green
-        } else {
+        }
+        else {
             # Perform git clone
             git clone $cloneUrl $repoPath
             
@@ -328,27 +341,90 @@ function Get-RepositoryCommitHistory {
             $firstCommitDateTime = [DateTime]::Parse($firstCommitDate)
             $lastCommitDateTime = [DateTime]::Parse($lastCommitDate)
             
-            # Create repository info object
-            $repoInfo = [PSCustomObject]@{
-                GitHubUrl = $githubUrl
-                Owner = $owner
-                Repository = $repoName
-                FirstCommitDate = $firstCommitDateTime
-                LastCommitDate = $lastCommitDateTime
-                FirstCommitDateLong = $firstCommitDateTime.ToString("yyyy-MM-dd HH:mm:ss")
-                LastCommitDateLong = $lastCommitDateTime.ToString("yyyy-MM-dd HH:mm:ss")
-                FirstCommitDateShort = $firstCommitDateTime.ToString("yyyy-MM-dd")
-                LastCommitDateShort = $lastCommitDateTime.ToString("yyyy-MM-dd")
+            # Calculate additional repository metrics
+            # Commit count (already checked above)
+            try {
+                $commitCountRaw = git rev-list --count HEAD 2>&1
+                if ($LASTEXITCODE -eq 0) {
+                    $commitCount = [int]($commitCountRaw.ToString().Trim())
+                }
+                else {
+                    $commitCount = 0
+                }
             }
-            
+            catch {
+                $commitCount = 0
+            }
+
+            # Active days: unique commit dates (YYYY-MM-DD)
+            $activeDays = 0
+            try {
+                $commitDatesRaw = git log --date=short --format='%ad' 2>&1
+                if ($LASTEXITCODE -eq 0 -and $commitDatesRaw) {
+                    $uniqueDates = @($commitDatesRaw) | Sort-Object -Unique
+                    $activeDays = $uniqueDates.Count
+                }
+            }
+            catch {
+                $activeDays = 0
+            }
+
+            # Lines added / removed: sum from git log --numstat
+            $linesAdded = 0
+            $linesRemoved = 0
+            try {
+                $numstatLines = git log --pretty=tformat: --numstat 2>&1
+                if ($LASTEXITCODE -eq 0 -and $numstatLines) {
+                    foreach ($ln in @($numstatLines)) {
+                        # numstat lines are: <added>\t<removed>\t<filename>
+                        if ($ln -and $ln -match '^\d+') {
+                            $parts = $ln -split "\t"
+                            if ($parts.Length -ge 2) {
+                                $added = 0
+                                $removed = 0
+                                [int]::TryParse($parts[0], [ref]$added) | Out-Null
+                                [int]::TryParse($parts[1], [ref]$removed) | Out-Null
+                                $linesAdded += $added
+                                $linesRemoved += $removed
+                            }
+                        }
+                    }
+                }
+            }
+            catch {
+                # leave totals at 0 on error
+            }
+
+            # Create repository info object with extended metrics
+            $repoInfo = [PSCustomObject]@{
+                GitHubUrl            = $githubUrl
+                Owner                = $owner
+                Repository           = $repoName
+                FirstCommitDate      = $firstCommitDateTime
+                LastCommitDate       = $lastCommitDateTime
+                FirstCommitDateLong  = $firstCommitDateTime.ToString("yyyy-MM-dd HH:mm:ss")
+                LastCommitDateLong   = $lastCommitDateTime.ToString("yyyy-MM-dd HH:mm:ss")
+                FirstCommitDateShort = $firstCommitDateTime.ToString("yyyy-MM-dd")
+                LastCommitDateShort  = $lastCommitDateTime.ToString("yyyy-MM-dd")
+                CommitCount          = $commitCount
+                ActiveDays           = $activeDays
+                LinesAdded           = $linesAdded
+                LinesRemoved         = $linesRemoved
+            }
+
             $commitHistory += $repoInfo
-            
+
             Write-Host "  First commit: $($repoInfo.FirstCommitDateShort)" -ForegroundColor Gray
             Write-Host "  Last commit:  $($repoInfo.LastCommitDateShort)" -ForegroundColor Gray
+            Write-Host "  Commits:      $($repoInfo.CommitCount)" -ForegroundColor Gray
+            Write-Host "  Active days:  $($repoInfo.ActiveDays)" -ForegroundColor Gray
+            Write-Host "  +Lines:       $($repoInfo.LinesAdded)  -Lines: $($repoInfo.LinesRemoved)" -ForegroundColor Gray
             
-        } catch {
+        }
+        catch {
             Write-Warning "Error analyzing $owner/$repoName - $($_.Exception.Message)"
-        } finally {
+        }
+        finally {
             Pop-Location
         }
     }
@@ -385,7 +461,23 @@ function New-CommitBadges {
     $lastCommitFileName = "${repoNameLower}_last"
     New-Badge -LeftText "Last Commit" -RightText $RepoInfo.LastCommitDateShort -FileName $lastCommitFileName -RightColor "#4CAF50"
 
-    Write-Host "Generated badges for $($RepoInfo.Repository): $firstCommitFileName.svg, $lastCommitFileName.svg" -ForegroundColor Green
+    # Generate commit count badge
+    $commitCountFileName = "${repoNameLower}_commits"
+    New-Badge -LeftText "Commits" -RightText $RepoInfo.CommitCount.ToString() -FileName $commitCountFileName -RightColor "#FF6B35"
+
+    # Generate active days badge
+    $activeDaysFileName = "${repoNameLower}_days"
+    New-Badge -LeftText "Active Days" -RightText $RepoInfo.ActiveDays.ToString() -FileName $activeDaysFileName -RightColor "#9C27B0"
+
+    # Generate lines added badge
+    $linesAddedFileName = "${repoNameLower}_added"
+    New-Badge -LeftText "Lines Added" -RightText "+$($RepoInfo.LinesAdded)" -FileName $linesAddedFileName -RightColor "#4CAF50"
+
+    # Generate lines removed badge
+    $linesRemovedFileName = "${repoNameLower}_removed"
+    New-Badge -LeftText "Lines Removed" -RightText "-$($RepoInfo.LinesRemoved)" -FileName $linesRemovedFileName -RightColor "#F44336"
+
+    Write-Host "Generated badges for $($RepoInfo.Repository): $firstCommitFileName.svg, $lastCommitFileName.svg, $commitCountFileName.svg, $activeDaysFileName.svg, $linesAddedFileName.svg, $linesRemovedFileName.svg" -ForegroundColor Green
 }
 
 function Export-RepoInfosToJson {
@@ -426,7 +518,8 @@ function Export-RepoInfosToJson {
         Write-Host "Repository information exported to: $jsonFilePath" -ForegroundColor Green
         Write-Host "Exported $($RepoInfos.Count) repositories" -ForegroundColor Gray
         
-    } catch {
+    }
+    catch {
         Write-Error "Failed to export repository information to JSON: $($_.Exception.Message)"
         throw "JSON export failed"
     }
