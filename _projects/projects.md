@@ -2,28 +2,8 @@
 title: 'Projects'
 permalink: /projects/
 excerpt: 'Contains some of my (public) git projects'
-toc: true
+toc: false
 ---
-
-This website is a place to document my programming journey. Most of the projects here are older hobby projects I built before becoming a professional software engineer. They were driven by curiosity, passion, and late-night inspiration — and helped shape my path into tech.
-
-It doesn’t cover my professional work or other tech hobbies like 3D printing, home networking, or building a media server. Nor does it include my time in RuneScape 2 or Old School RuneScape.
-
-Since going pro, side projects have been rare — but with this site, I hope to change that and explore AI a bit more.
-
-Fittingly, this site (and even this text) was created with the help of AI. With a deeper understanding of software now, I can focus more on project ideas and architecture. I’ve gone from just coding to shaping and building complete ideas.
-
-TODO:
-
-- amount of active days on repo
-- amount of commits
-- amount of code line changes + and -
-- serve as badges
-
-{% assign reversed_repos = site.data.repos | reverse %}
-{% for repo in reversed_repos %}
-[{{ repo.repo }}](https://github.com/{{ repo.owner }}/{{ repo.repo }})  
-{% endfor %}
 
 <div class="mermaid">
 gantt
@@ -45,38 +25,37 @@ gantt
     tracker-reddit-discord  :trd, 2018-07-31, 2018-08-17
     twitter-backend         :tb, 2018-08-18, 2018-09-16
     discord-web-bridge      :dwb, 2018-09-20, 2019-01-11
-    nntin.github.io         :ngio, 2018-10-29, 2025-09-14
     crosku                  :ck, 2018-11-11, 2019-01-12
     Red-kun                 :rk, 2018-11-27, 2019-10-13
+    Start of Professional Work :milestone, ps, 2019-04-01, 0d
     shell-kun               :sk, 2019-11-15, 2020-09-23
     d-zone                  :dz, 2020-09-19, 2025-10-10
     NNTin                   :nn, 2025-09-13, 2025-09-13
     me                      :me, 2025-09-14, 2025-10-16
     d-back                  :db, 2025-09-17, 2025-10-05
     d-cogs                  :dc, 2025-09-20, 2025-10-05
-
 </div>
 
-<div class="mermaid">
-gantt
-    title Project Timeline
-    dateFormat  YYYY-MM-DD
-    section Design
-    Sketch UI           :a1, 2025-10-01, 3d
-    Revise Sketch       :a2, 2025-10-06, 2d
-    Final Mockup        :a3, 2025-10-09, 3d
-    section Development
-    Setup Environment   :b1, 2025-10-01, 2d
-    Coding Phase 1      :b2, after b1, 4d
-    Coding Phase 2      :b3, after b2, 3d
-</div>
+This website is a place to document my programming journey. Most of the projects here are older hobby projects I built before becoming a professional software engineer. They were driven by curiosity, passion, and late-night inspiration — and helped shape my path into tech.
 
-<div class="mermaid">
-gantt
-  title Simulating multiple bars on one row
-  dateFormat  YYYY-MM-DD
-  section Design
-  Design Task :a1, 2025-10-01, 3d
-  Design Task :a2, 2025-10-06, 2d
-  Design Task :a3, 2025-10-10, 1d
-</div>
+It doesn’t cover my professional work or other tech hobbies like 3D printing, home networking, or building a media server. Nor does it include my time in RuneScape 2 or Old School RuneScape.
+
+Since going pro, side projects have been rare — but with this site, I hope to change that and explore AI a bit more.
+
+Fittingly, this site (and even this text) was created with the help of AI. With a deeper understanding of software now, I can focus more on project ideas and architecture. I’ve gone from just coding to shaping and building complete ideas.
+
+{% assign exclude_repos = "dota-2-reddit-flair-mosaic,dota-2-emoticons,cubify-reddit,pasteview,pasteindex,dev-tracker-reddit,tracker-reddit-discord,twitter-backend,crosku,shell-kun,nntin.github.io,nntin,me,red-kun,reply-lol-reddit" | split: "," %}
+
+{% assign filtered_repos = "" | split: "" %}
+
+{% for repo in site.data.repos %}
+  {% unless exclude_repos contains repo.repo %}
+    {% assign filtered_repos = filtered_repos | push: repo %}
+  {% endunless %}
+{% endfor %}
+
+
+| Repository | Commit | Activity | Info |
+| ---------- | ------------ | ----------- | ------------ | ----------- | ------------ | ----------- |
+{% for repo in filtered_repos %}| [{{ repo.repo }}](https://github.com/{{ repo.owner }}/{{ repo.repo }}) | <img src="https://raw.githubusercontent.com/nntin/me/output/badges/{{ repo.repo }}_first.svg"><br><img src="https://raw.githubusercontent.com/nntin/me/output/badges/{{ repo.repo }}_last.svg"> | <img src="https://raw.githubusercontent.com/nntin/me/output/badges/{{ repo.repo }}_commits.svg"><br><img src="https://raw.githubusercontent.com/nntin/me/output/badges/{{ repo.repo }}_days.svg"> | <img src="https://raw.githubusercontent.com/nntin/me/output/badges/{{ repo.repo }}_added.svg"><br><img src="https://raw.githubusercontent.com/nntin/me/output/badges/{{ repo.repo }}_removed.svg"> |
+{% endfor %}
