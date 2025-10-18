@@ -1,6 +1,5 @@
 ---
 title: 'discord-web-bridge'
-permalink: /projects/discord-web-bridge/
 excerpt: 'discord-web-bridge'
 categories:
   - projects

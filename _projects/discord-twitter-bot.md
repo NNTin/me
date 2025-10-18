@@ -1,6 +1,5 @@
 ---
 title: 'discord-twitter-bot'
-permalink: /projects/discord-twitter-bot/
 excerpt: 'discord-twitter-bot'
 categories:
   - projects

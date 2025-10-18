@@ -1,6 +1,5 @@
 ---
 title: 'discord-logo'
-permalink: /projects/discord-logo/
 excerpt: 'discord-logo'
 categories:
   - projects

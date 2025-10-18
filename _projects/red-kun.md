@@ -1,6 +1,5 @@
 ---
 title: 'red-kun'
-permalink: /projects/red-kun/
 excerpt: 'red-kun'
 categories:
   - projects

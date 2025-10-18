@@ -1,6 +1,5 @@
 ---
 title: 'crosku'
-permalink: /projects/crosku/
 excerpt: 'crosku'
 categories:
   - projects

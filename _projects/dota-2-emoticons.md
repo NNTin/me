@@ -1,6 +1,5 @@
 ---
 title: 'dota-2-emoticons'
-permalink: /projects/dota-2-emoticons/
 excerpt: 'dota-2-emoticons'
 categories:
   - projects

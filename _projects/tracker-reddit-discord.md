@@ -1,6 +1,5 @@
 ---
 title: 'tracker-reddit-discord'
-permalink: /projects/tracker-reddit-discord/
 excerpt: 'tracker-reddit-discord'
 categories:
   - projects

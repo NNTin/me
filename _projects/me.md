@@ -1,6 +1,5 @@
 ---
 title: 'me'
-permalink: /projects/me/
 excerpt: 'me'
 categories:
   - projects

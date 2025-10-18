@@ -1,6 +1,5 @@
 ---
 title: 'paste'
-permalink: /projects/paste/
 excerpt: 'paste'
 categories:
   - projects

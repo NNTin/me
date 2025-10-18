@@ -1,6 +1,5 @@
 ---
 title: 'cubify-reddit'
-permalink: /projects/cubify-reddit/
 excerpt: 'cubify-reddit'
 categories:
   - projects

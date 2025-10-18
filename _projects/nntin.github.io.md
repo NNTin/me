@@ -1,6 +1,5 @@
 ---
 title: 'nntin.github.io'
-permalink: /projects/nntin.github.io/
 excerpt: 'nntin.github.io'
 categories:
   - projects
