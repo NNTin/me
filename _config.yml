@@ -192,6 +192,9 @@ collections:
   projects:
     output: true
     permalink: /:collection/:path/
+  redirects:
+    output: true
+    permalink: /projects/:name/
 
 
 # Defaults
@@ -230,6 +233,11 @@ defaults:
       nav_exclude: true
       sidebar:
         nav: "projects"
+  - scope:
+      path: "_redirects"
+      type: redirects
+    values:
+      layout: redirect
 
 
 # Sass/SCSS
