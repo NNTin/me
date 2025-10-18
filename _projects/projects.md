@@ -2,7 +2,6 @@
 title: 'Projects'
 permalink: /projects/
 excerpt: 'Contains some of my (public) git projects'
-layout: wide
 ---
 
 <div class="mermaid" id="project-gantt">
@@ -13,7 +12,6 @@ gantt
 
     section Projects
     Reply-Dota-2-Reddit     :rdr, 2016-03-27, 2018-05-10
-    Dota-2-Reddit-Flair-Mosaic :dfm, 2016-05-01, 2016-05-06
     Dota-2-Emoticons        :de, 2016-07-16, 2016-07-21
     Reply-LoL-Reddit        :rlr, 2016-07-24, 2017-04-02
     Cubify-Reddit           :cr, 2017-03-04, 2017-03-19
@@ -26,7 +24,6 @@ gantt
     discord-logo PR         :milestone, pr3, 2021-06-20, 0d
     dev-tracker-reddit      :dtr, 2018-07-25, 2018-07-26
     tracker-reddit-discord  :trd, 2018-07-31, 2018-08-17
-    twitter-backend         :tb, 2018-08-18, 2018-09-16
     discord-web-bridge      :dwb, 2018-09-20, 2019-01-11
     crosku                  :ck, 2018-11-11, 2019-01-12
     Red-kun                 :rk, 2018-11-27, 2019-10-13
@@ -89,7 +86,6 @@ gantt
 // Project descriptions for tooltips
 const projectDescriptions = {
   'rdr': 'Reddit bot that replied to Dota 2 game discussions with match statistics and player information. First open-source project which helped me develop a basic understanding how programming and hosting works',
-  'dfm': 'Created a mosaic visualization of Reddit user flairs from the Dota 2 community',
   'de': 'Made animated flairs next to the username possible through CSS magic',
   'rlr': 'Similar to Reply-Dota-2-Reddit but adapted for League of Legends subreddit',
   'cr': 'After almost 4 months my Reddit bot gained 100k comment karma through shitposting cubed words',
@@ -102,7 +98,6 @@ const projectDescriptions = {
   'pr3': 'PR: Contribution by srmcgann: re-added background animation, broke in 2020 due to browser breaking changes',
   'dtr': 'Reddit bot: comments by certain individuals are highlighted, e.g. game developer',
   'trd': 'Discord+Reddit bot: Reddit comments by certain individuals are posted to Discord',
-  'tb': 'Quick one-click Heroku deployment of Twitter backend, mocks the authentication process away',
   'dwb': 'Communication bridge between discord bot <-> crossbar <-> custom webclient, started this project in my free time while I was a research assistent',
   'ck': 'Crossbar one-click deployment on Heroku',
   'rk': 'Part of a much bigger project: github.com/Cog-Creators/Red-DiscordBot. Red-DiscordBot is a modular Discord Bot which allows you to install custom cogs during runtime. I\'ve installed 3rd party cogs and developed my own to manage Discord communities',
@@ -254,13 +249,13 @@ function updateTooltipPosition(e, tooltip) {
 
 This website is a place to document my programming journey. Most of the projects here are older hobby projects I built before becoming a professional software engineer. They were driven by curiosity, passion, and late-night inspiration — and helped shape my path into tech.
 
-It doesn’t cover my professional work or other tech hobbies like 3D printing, home networking, or building a media server. Nor does it include my time in RuneScape 2 or Old School RuneScape.
+It doesn't cover my professional work or other tech hobbies like 3D printing, home networking, or building a media server. Nor does it include my time in RuneScape 2 or Old School RuneScape.
 
 Since going pro, side projects have been rare — but with this site, I hope to change that and explore AI a bit more.
 
-Fittingly, this site (and even this text) was created with the help of AI. With a deeper understanding of software now, I can focus more on project ideas and architecture. I’ve gone from just coding to shaping and building complete ideas.
+Fittingly, this site (and even this text) was created with the help of AI. With a deeper understanding of software now, I can focus more on project ideas and architecture. I've gone from just coding to shaping and building complete ideas.
 
-{% assign exclude_repos = "dota-2-reddit-flair-mosaic,dota-2-emoticons,cubify-reddit,pasteview,pasteindex,dev-tracker-reddit,tracker-reddit-discord,twitter-backend,crosku,shell-kun,nntin.github.io,nntin,me,red-kun,reply-lol-reddit" | split: "," %}
+{% assign exclude_repos = "dota-2-emoticons,cubify-reddit,pasteview,pasteindex,dev-tracker-reddit,tracker-reddit-discord,twitter-backend,crosku,shell-kun,nntin.github.io,nntin,me,red-kun,reply-lol-reddit" | split: "," %}
 
 {% assign filtered_repos = "" | split: "" %}
 

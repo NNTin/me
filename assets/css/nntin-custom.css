@@ -1,0 +1,139 @@
+---
+---
+
+/* -- Custom Mermaid Gantt Chart Styling -- */
+
+/* Target the milestone rectangle by its ID (ps) */
+.mermaid svg rect#ps {
+  fill: #ff6b35 !important;
+  stroke: #e55a2e !important;
+  stroke-width: 3px !important;
+}
+
+/* Style the milestone text */
+.mermaid svg text#ps-text {
+  fill: #ffffff !important;
+  font-weight: bold !important;
+  font-size: 12px !important;
+}
+
+/* discord-logo PR contributions - style both rectangles and text */
+.mermaid svg rect#pr1,
+.mermaid svg rect#pr2,
+.mermaid svg rect#pr3 {
+  fill: #3cff35 !important;
+  stroke: #2eb82e !important;
+  stroke-width: 2px !important;
+}
+
+.mermaid svg text#pr1-text,
+.mermaid svg text#pr2-text,
+.mermaid svg text#pr3-text {
+  fill: #2eb82e !important;
+  font-weight: bold !important;
+  font-size: 10px !important;
+}
+
+/* Hover effect cursor to pointer and filling element */
+.mermaid svg rect#ps:hover {
+  fill: #e55a2e !important;
+  cursor: pointer;
+}
+
+.mermaid svg rect#pr1:hover,
+.mermaid svg rect#pr2:hover,
+.mermaid svg rect#pr3:hover {
+  fill: #2eb82e !important;
+  cursor: pointer;
+}
+
+/* Hover effect for all other mermaid rectangles */
+.mermaid svg rect#rdr:hover,
+.mermaid svg rect#dfm:hover,
+.mermaid svg rect#de:hover,
+.mermaid svg rect#rlr:hover,
+.mermaid svg rect#cr:hover,
+.mermaid svg rect#dtb:hover,
+.mermaid svg rect#pv:hover,
+.mermaid svg rect#pi:hover,
+.mermaid svg rect#dl:hover,
+.mermaid svg rect#dtr:hover,
+.mermaid svg rect#trd:hover,
+.mermaid svg rect#tb:hover,
+.mermaid svg rect#dwb:hover,
+.mermaid svg rect#ck:hover,
+.mermaid svg rect#rk:hover,
+.mermaid svg rect#sk:hover,
+.mermaid svg rect#me:hover,
+.mermaid svg rect#dz1:hover,
+.mermaid svg rect#dz2:hover,
+.mermaid svg rect#dz3:hover,
+.mermaid svg rect#dz:hover,
+.mermaid svg rect#db:hover,
+.mermaid svg rect#dc:hover {
+  fill: #534fbc !important;
+  cursor: pointer;
+}
+
+/* -- End of Custom Mermaid Gantt Chart Styling -- */
+
+/* -- Wide layout - expand into the right TOC space only -- */
+.page--wide {
+  /* On large screens, remove the right padding that was reserved for TOC */
+  @media (min-width: 1024px) {
+    padding-inline-end: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  @media (min-width: 1280px) {
+    padding-inline-end: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* The content should expand to use the TOC space on the right */
+.page--wide .page__content {
+  /* Allow content to use the full width available (including former TOC space) */
+  margin-right: 0 !important;
+}
+
+/* Specific styling for tables in wide layout to use the extra right space */
+.page--wide .page__content table {
+  width: 100%;
+  table-layout: auto;
+}
+
+/* Mermaid charts in wide layout should use the extra right space */
+.page--wide .mermaid {
+  width: 100%;
+  max-width: none;
+}
+
+/* -- Navigation Year Alignment -- */
+
+/* Style navigation links that contain year spans */
+.nav__list .nav__items li a {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+/* Style the year spans to be right-aligned */
+.nav__list .nav__items li a .nav-year {
+  margin-left: auto !important;
+  font-size: 0.85em !important;
+  opacity: 0.7 !important;
+  font-weight: normal !important;
+  color: var(--muted-text-color, #6b6b6b) !important;
+}
+
+/* Ensure the main text stays left-aligned */
+.nav__list .nav__items li a {
+  text-align: left !important;
+}
+
+/* Add some spacing and improve hover effects */
+.nav__list .nav__items li a:hover .nav-year {
+  opacity: 1 !important;
+}

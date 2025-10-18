@@ -6,41 +6,53 @@ main:
     url: /projects/
 
 projects:
-  - title: "personal (public) git repos"
+  - title: "Featured Projects"
     children:
-    - title: "discord-web-bridge.git"
-      url: /projects/discord-web-bridge/
-    - title: "discord-twitter-bot.git"
-      url: /projects/discord-twitter-bot/
-    - title: "discord-logo.git"
-      url: /projects/discord-logo/
-    - title: "Reply-[Moba]-Reddit.git"
+    - title: "reply-*-reddit.git <span class='nav-year'>2016-'18</span>"
       url: /projects/reply-moba-reddit/
+    - title: "dota-2-emoticons.git <span class='nav-year'>2016</span>"
+      url: /projects/dota-2-emoticons/
+    - title: "discord-twitter-bot.git <span class='nav-year'>2017-'21</span>"
+      url: /projects/discord-twitter-bot/
+    - title: "paste*.git <span class='nav-year'>2017</span>"
+      url: /projects/paste/
+    - title: "discord-logo.git <span class='nav-year'>2018-'21</span>"
+      url: /projects/discord-logo/
+    - title: "discord-web-bridge.git <span class='nav-year'>2018</span>"
+      url: /projects/discord-web-bridge/
+    - title: "red-kun.git <span class='nav-year'>2018-'19</span>"
+      url: /projects/red-kun/
+    - title: "d-zone.git <span class='nav-year'>2025</span>"
+      url: /projects/d-zone/
+    - title: "d-back.git <span class='nav-year'>2025</span>"
+      url: /projects/d-back/
+    - title: "d-cogs.git <span class='nav-year'>2025</span>"
+      url: /projects/d-cogs/
     - title: "*.git"
       url: /collection-archive/
   - title: "GitHub Pages"
     children:
-    - title: "discord twitter bot"
+    - title: "discord twitter bot <span class='nav-year'>2017-'21</span>"
       url: /../../discord-twitter-bot
-    - title: "discord logo"
+    - title: "discord logo <span class='nav-year'>2018-'21</span>"
       url: /../../discord-logo
-    - title: "discord web bridge"
-      url: /../../discord-web-bridge
-    - title: "pasteview"
+    - title: "pasteview <span class='nav-year'>2018</span>"
       url: /../../pasteview/?paste=32z9wKpi
-    - title: "pasteindex"
+    - title: "pasteindex <span class='nav-year'>2018</span>"
       url: /../../pasteindex
-    # - title: "Discord-Webhook"
-    #   url: /../../Discord-Webhook
-  - title: "Contribution / Honory mentions"
+    - title: "discord web bridge <span class='nav-year'>2018</span>"
+      url: /../../discord-web-bridge
+    - title: "d-zone <span class='nav-year'>2025</span>"
+      url: /../../d-zone
+  - title: "Honory Mentions"
     children:
-    - title: "Red-DiscordBot"
+    - title: "Red-DiscordBot <span class='nav-year'>2016-now</span>"
       url: https://github.com/Cog-Creators/Red-DiscordBot
-    - title: "Lightnovel Crawler"
+    - title: "Lightnovel Crawler <span class='nav-year'>2018-now</span>"
       url: https://github.com/dipu-bd/lightnovel-crawler
-    - title: "MonitoRSS"
+    - title: "MonitoRSS <span class='nav-year'>2017-now</span>"
       url: https://github.com/synzen/MonitoRSS
-    - title: "D-Zone"
+    - title: "D-Zone <span class='nav-year'>2015-2020</span>"
       url: https://github.com/d-zone-org/d-zone
 
 #
