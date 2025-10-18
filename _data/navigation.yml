@@ -6,24 +6,24 @@ main:
     url: /projects/
 
 projects:
-  - title: "personal (public) git repos"
+  - title: "Featured Projects"
     children:
-    - title: "reply-[moba]-reddit.git"
+    - title: "reply-[moba]-reddit.git <span class='nav-year'>2016-'18</span>"
       url: /projects/reply-moba-reddit/
-    - title: "dota-2-emoticons.git"
+    - title: "dota-2-emoticons.git <span class='nav-year'>2016</span>"
       url: /projects/dota-2-emoticons/
-    - title: "discord-twitter-bot.git"
+    - title: "discord-twitter-bot.git <span class='nav-year'>2017-'21</span>"
       url: /projects/discord-twitter-bot/
-    - title: "discord-web-bridge.git"
+    - title: "discord-web-bridge.git <span class='nav-year'>2018</span>"
       url: /projects/discord-web-bridge/
-    - title: "discord-logo.git"
+    - title: "discord-logo.git <span class='nav-year'>2018-'21</span>"
       url: /projects/discord-logo/
-    - title: "d-zone.git"
-      url: /projects/d-zone/
-    - title: "d-back.git"
-      url: /projects/d-back/
-    - title: "d-cogs.git"
-      url: /projects/d-cogs/
+    - title: "d-zone.git <span class='nav-year'>2025</span>"
+      url: https://github.com/nntin/d-zone
+    - title: "d-back.git <span class='nav-year'>2025</span>"
+      url: https://github.com/nntin/d-back
+    - title: "d-cogs.git <span class='nav-year'>2025</span>"
+      url: https://github.com/nntin/d-cogs
     - title: "*.git"
       url: /collection-archive/
   - title: "GitHub Pages"
@@ -40,15 +40,15 @@ projects:
       url: /../../discord-web-bridge
     - title: "d-zone <span class='nav-year'>2025</span>"
       url: /../../d-zone
-  - title: "Contribution / Honory mentions"
+  - title: "Honory Mentions"
     children:
-    - title: "Red-DiscordBot"
+    - title: "Red-DiscordBot <span class='nav-year'>2016-now</span>"
       url: https://github.com/Cog-Creators/Red-DiscordBot
-    - title: "Lightnovel Crawler"
+    - title: "Lightnovel Crawler <span class='nav-year'>2018-now</span>"
       url: https://github.com/dipu-bd/lightnovel-crawler
-    - title: "MonitoRSS"
+    - title: "MonitoRSS <span class='nav-year'>2017-now</span>"
       url: https://github.com/synzen/MonitoRSS
-    - title: "D-Zone"
+    - title: "D-Zone <span class='nav-year'>2015-2020</span>"
       url: https://github.com/d-zone-org/d-zone
 
 #
