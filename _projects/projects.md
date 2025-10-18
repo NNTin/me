@@ -24,7 +24,6 @@ gantt
     discord-logo PR         :milestone, pr3, 2021-06-20, 0d
     dev-tracker-reddit      :dtr, 2018-07-25, 2018-07-26
     tracker-reddit-discord  :trd, 2018-07-31, 2018-08-17
-    twitter-backend         :tb, 2018-08-18, 2018-09-16
     discord-web-bridge      :dwb, 2018-09-20, 2019-01-11
     crosku                  :ck, 2018-11-11, 2019-01-12
     Red-kun                 :rk, 2018-11-27, 2019-10-13
@@ -99,7 +98,6 @@ const projectDescriptions = {
   'pr3': 'PR: Contribution by srmcgann: re-added background animation, broke in 2020 due to browser breaking changes',
   'dtr': 'Reddit bot: comments by certain individuals are highlighted, e.g. game developer',
   'trd': 'Discord+Reddit bot: Reddit comments by certain individuals are posted to Discord',
-  'tb': 'Quick one-click Heroku deployment of Twitter backend, mocks the authentication process away',
   'dwb': 'Communication bridge between discord bot <-> crossbar <-> custom webclient, started this project in my free time while I was a research assistent',
   'ck': 'Crossbar one-click deployment on Heroku',
   'rk': 'Part of a much bigger project: github.com/Cog-Creators/Red-DiscordBot. Red-DiscordBot is a modular Discord Bot which allows you to install custom cogs during runtime. I\'ve installed 3rd party cogs and developed my own to manage Discord communities',
