@@ -8,16 +8,20 @@ main:
 projects:
   - title: "Featured Projects"
     children:
-    - title: "reply-[moba]-reddit.git <span class='nav-year'>2016-'18</span>"
+    - title: "reply-*-reddit.git <span class='nav-year'>2016-'18</span>"
       url: /projects/reply-moba-reddit/
     - title: "dota-2-emoticons.git <span class='nav-year'>2016</span>"
       url: /projects/dota-2-emoticons/
     - title: "discord-twitter-bot.git <span class='nav-year'>2017-'21</span>"
       url: /projects/discord-twitter-bot/
-    - title: "discord-web-bridge.git <span class='nav-year'>2018</span>"
-      url: /projects/discord-web-bridge/
+    - title: "paste*.git <span class='nav-year'>2017</span>"
+      url: /projects/paste/
     - title: "discord-logo.git <span class='nav-year'>2018-'21</span>"
       url: /projects/discord-logo/
+    - title: "discord-web-bridge.git <span class='nav-year'>2018</span>"
+      url: /projects/discord-web-bridge/
+    - title: "red-kun.git <span class='nav-year'>2018-'19</span>"
+      url: /projects/red-kun/
     - title: "d-zone.git <span class='nav-year'>2025</span>"
       url: https://github.com/nntin/d-zone
     - title: "d-back.git <span class='nav-year'>2025</span>"
