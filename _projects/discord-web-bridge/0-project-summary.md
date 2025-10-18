@@ -1,9 +1,7 @@
 ---
-layout: single
 title: 'discord-web-bridge'
 permalink: /projects/discord-web-bridge/
 excerpt: 'discord-web-bridge'
-toc: false
 categories:
   - projects
 tags:

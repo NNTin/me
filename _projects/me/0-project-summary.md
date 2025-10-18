@@ -1,9 +1,7 @@
 ---
-layout: single
 title: 'me'
 permalink: /projects/me/
 excerpt: 'me'
-toc: false
 categories:
   - projects
 tags:

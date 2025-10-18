@@ -1,9 +1,7 @@
 ---
-layout: single
 title: 'paste'
 permalink: /projects/paste/
 excerpt: 'paste'
-toc: false
 categories:
   - projects
 tags:

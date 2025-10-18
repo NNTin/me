@@ -1,9 +1,7 @@
 ---
-layout: single
 title: 'dota-2-emoticons'
 permalink: /projects/dota-2-emoticons/
 excerpt: 'dota-2-emoticons'
-toc: false
 categories:
   - projects
 tags:

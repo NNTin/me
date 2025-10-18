@@ -1,9 +1,7 @@
 ---
-layout: single
 title: 'twitter-backend'
 permalink: /projects/twitter-backend/
 excerpt: 'twitter-backend'
-toc: false
 categories:
   - projects
 tags:

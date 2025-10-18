@@ -1,9 +1,7 @@
 ---
-layout: single
 title: 'nntin.github.io'
 permalink: /projects/nntin.github.io/
 excerpt: 'nntin.github.io'
-toc: false
 categories:
   - projects
 tags:

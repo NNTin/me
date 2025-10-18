@@ -1,9 +1,7 @@
 ---
-layout: single
 title: 'cubify-reddit'
 permalink: /projects/cubify-reddit/
 excerpt: 'cubify-reddit'
-toc: false
 categories:
   - projects
 tags:

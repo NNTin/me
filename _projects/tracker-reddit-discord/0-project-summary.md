@@ -1,9 +1,7 @@
 ---
-layout: single
 title: 'tracker-reddit-discord'
 permalink: /projects/tracker-reddit-discord/
 excerpt: 'tracker-reddit-discord'
-toc: false
 categories:
   - projects
 tags:

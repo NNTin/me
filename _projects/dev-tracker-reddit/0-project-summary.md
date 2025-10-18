@@ -1,9 +1,7 @@
 ---
-layout: single
 title: 'dev-tracker-reddit'
 permalink: /projects/dev-tracker-reddit/
 excerpt: 'dev-tracker-reddit'
-toc: false
 categories:
   - projects
 tags:

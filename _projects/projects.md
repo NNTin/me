@@ -2,7 +2,6 @@
 title: 'Projects'
 permalink: /projects/
 excerpt: 'Contains some of my (public) git projects'
-layout: wide
 ---
 
 <div class="mermaid" id="project-gantt">

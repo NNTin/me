@@ -1,9 +1,7 @@
 ---
-layout: single
 title: 'reply-moba-reddit'
 permalink: /projects/reply-moba-reddit/
 excerpt: 'reply-moba-reddit'
-toc: false
 categories:
   - projects
 tags:

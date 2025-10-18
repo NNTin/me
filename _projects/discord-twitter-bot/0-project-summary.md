@@ -1,9 +1,7 @@
 ---
-layout: single
 title: 'discord-twitter-bot'
 permalink: /projects/discord-twitter-bot/
 excerpt: 'discord-twitter-bot'
-toc: false
 categories:
   - projects
 tags:

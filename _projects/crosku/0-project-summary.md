@@ -1,9 +1,7 @@
 ---
-layout: single
 title: 'crosku'
 permalink: /projects/crosku/
 excerpt: 'crosku'
-toc: false
 categories:
   - projects
 tags:

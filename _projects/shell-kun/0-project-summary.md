@@ -1,9 +1,7 @@
 ---
-layout: single
 title: 'shell-kun'
 permalink: /projects/shell-kun/
 excerpt: 'shell-kun'
-toc: false
 categories:
   - projects
 tags:
