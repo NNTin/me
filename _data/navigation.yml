@@ -28,17 +28,17 @@ projects:
       url: /collection-archive/
   - title: "GitHub Pages"
     children:
-    - title: "discord twitter bot 2017-'21"
+    - title: "discord twitter bot <span class='nav-year'>2017-'21</span>"
       url: /../../discord-twitter-bot
-    - title: "discord logo 2018-'21"
+    - title: "discord logo <span class='nav-year'>2018-'21</span>"
       url: /../../discord-logo
-    - title: "pasteview 2018"
+    - title: "pasteview <span class='nav-year'>2018</span>"
       url: /../../pasteview/?paste=32z9wKpi
-    - title: "pasteindex 2018"
+    - title: "pasteindex <span class='nav-year'>2018</span>"
       url: /../../pasteindex
-    - title: "discord web bridge 2018"
+    - title: "discord web bridge <span class='nav-year'>2018</span>"
       url: /../../discord-web-bridge
-    - title: "d-zone 2025"
+    - title: "d-zone <span class='nav-year'>2025</span>"
       url: /../../d-zone
   - title: "Contribution / Honory mentions"
     children:

@@ -108,3 +108,32 @@
   width: 100%;
   max-width: none;
 }
+
+/* -- Navigation Year Alignment -- */
+
+/* Style navigation links that contain year spans */
+.nav__list .nav__items li a {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+/* Style the year spans to be right-aligned */
+.nav__list .nav__items li a .nav-year {
+  margin-left: auto !important;
+  font-size: 0.85em !important;
+  opacity: 0.7 !important;
+  font-weight: normal !important;
+  color: var(--muted-text-color, #6b6b6b) !important;
+}
+
+/* Ensure the main text stays left-aligned */
+.nav__list .nav__items li a {
+  text-align: left !important;
+}
+
+/* Add some spacing and improve hover effects */
+.nav__list .nav__items li a:hover .nav-year {
+  opacity: 1 !important;
+}
