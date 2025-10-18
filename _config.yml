@@ -216,15 +216,18 @@ defaults:
       author_profile: true
   # _projects
   - scope:
-      path: ""
+      path: "_projects"
       type: projects
     values:
-      layout: single
+      layout: wide
       read_time: false
       author_profile: false
       share: false
       comments: false
-      toc_sticky: true
+      toc_sticky: false
+      toc: false
+      hide_update_time: true
+      nav_exclude: true
       sidebar:
         nav: "projects"
 
