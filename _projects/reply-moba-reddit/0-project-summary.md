@@ -12,25 +12,25 @@ tags:
 
 ## 📊 Project Summary (Reply-Dota-2-Reddit)
 
-[![GitHub Stars](https://img.shields.io/github/stars/nntin/Reply-Dota-2-Reddit?style=flat-square)](https://github.com/nntin/Reply-Dota-2-Reddit/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/nntin/Reply-Dota-2-Reddit?style=flat-square)](https://github.com/nntin/Reply-Dota-2-Reddit/network)
-[![GitHub Issues](https://img.shields.io/github/issues/nntin/Reply-Dota-2-Reddit?style=flat-square)](https://github.com/nntin/Reply-Dota-2-Reddit/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/nntin/Reply-Dota-2-Reddit?style=flat-square)](https://github.com/nntin/Reply-Dota-2-Reddit/pulls)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/nntin/Reply-Dota-2-Reddit?style=flat-square)](https://github.com/nntin/Reply-Dota-2-Reddit/commits)
-[![GitHub Language Count](https://img.shields.io/github/languages/count/nntin/Reply-Dota-2-Reddit?style=flat-square)](https://github.com/nntin/Reply-Dota-2-Reddit)
-[![Top Language](https://img.shields.io/github/languages/top/nntin/Reply-Dota-2-Reddit?style=flat-square)](https://github.com/nntin/Reply-Dota-2-Reddit)
+[![GitHub Stars](https://img.shields.io/github/stars/nntin/Reply-Dota-2-Reddit)](https://github.com/nntin/Reply-Dota-2-Reddit/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/nntin/Reply-Dota-2-Reddit)](https://github.com/nntin/Reply-Dota-2-Reddit/network)
+[![GitHub Issues](https://img.shields.io/github/issues/nntin/Reply-Dota-2-Reddit)](https://github.com/nntin/Reply-Dota-2-Reddit/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/nntin/Reply-Dota-2-Reddit)](https://github.com/nntin/Reply-Dota-2-Reddit/pulls)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/nntin/Reply-Dota-2-Reddit)](https://github.com/nntin/Reply-Dota-2-Reddit/commits)
+[![GitHub Language Count](https://img.shields.io/github/languages/count/nntin/Reply-Dota-2-Reddit)](https://github.com/nntin/Reply-Dota-2-Reddit)
+[![Top Language](https://img.shields.io/github/languages/top/nntin/Reply-Dota-2-Reddit)](https://github.com/nntin/Reply-Dota-2-Reddit)
 
 <img src="https://i.imgur.com/85COXYH.png" alt="Example Image" />
 
 ## 📊 Project Summary (Reply-LoL-Reddit)
 
-[![GitHub Stars](https://img.shields.io/github/stars/nntin/Reply-LoL-Reddit?style=flat-square)](https://github.com/nntin/Reply-LoL-Reddit/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/nntin/Reply-LoL-Reddit?style=flat-square)](https://github.com/nntin/Reply-LoL-Reddit/network)
-[![GitHub Issues](https://img.shields.io/github/issues/nntin/Reply-LoL-Reddit?style=flat-square)](https://github.com/nntin/Reply-LoL-Reddit/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/nntin/Reply-LoL-Reddit?style=flat-square)](https://github.com/nntin/Reply-LoL-Reddit/pulls)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/nntin/Reply-LoL-Reddit?style=flat-square)](https://github.com/nntin/Reply-LoL-Reddit/commits)
-[![GitHub Language Count](https://img.shields.io/github/languages/count/nntin/Reply-LoL-Reddit?style=flat-square)](https://github.com/nntin/Reply-LoL-Reddit)
-[![Top Language](https://img.shields.io/github/languages/top/nntin/Reply-LoL-Reddit?style=flat-square)](https://github.com/nntin/Reply-LoL-Reddit)
+[![GitHub Stars](https://img.shields.io/github/stars/nntin/Reply-LoL-Reddit)](https://github.com/nntin/Reply-LoL-Reddit/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/nntin/Reply-LoL-Reddit)](https://github.com/nntin/Reply-LoL-Reddit/network)
+[![GitHub Issues](https://img.shields.io/github/issues/nntin/Reply-LoL-Reddit)](https://github.com/nntin/Reply-LoL-Reddit/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/nntin/Reply-LoL-Reddit)](https://github.com/nntin/Reply-LoL-Reddit/pulls)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/nntin/Reply-LoL-Reddit)](https://github.com/nntin/Reply-LoL-Reddit/commits)
+[![GitHub Language Count](https://img.shields.io/github/languages/count/nntin/Reply-LoL-Reddit)](https://github.com/nntin/Reply-LoL-Reddit)
+[![Top Language](https://img.shields.io/github/languages/top/nntin/Reply-LoL-Reddit)](https://github.com/nntin/Reply-LoL-Reddit)
 
 <img src="https://i.imgur.com/ZJZkjc0.png" alt="Example Image" />
 ### 🧠 Project Summary: Reply-Dota-2-Reddit

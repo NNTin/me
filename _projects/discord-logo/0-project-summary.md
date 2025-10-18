@@ -30,13 +30,13 @@ tags:
 
 ## 📊 Project Summary
 
-[![GitHub Stars](https://img.shields.io/github/stars/nntin/discord-logo?style=flat-square)](https://github.com/nntin/discord-logo/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/nntin/discord-logo?style=flat-square)](https://github.com/nntin/discord-logo/network)
-[![GitHub Issues](https://img.shields.io/github/issues/nntin/discord-logo?style=flat-square)](https://github.com/nntin/discord-logo/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/nntin/discord-logo?style=flat-square)](https://github.com/nntin/discord-logo/pulls)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/nntin/discord-logo?style=flat-square)](https://github.com/nntin/discord-logo/commits)
-[![GitHub Language Count](https://img.shields.io/github/languages/count/nntin/discord-logo?style=flat-square)](https://github.com/nntin/discord-logo)
-[![Top Language](https://img.shields.io/github/languages/top/nntin/discord-logo?style=flat-square)](https://github.com/nntin/discord-logo)
+[![GitHub Stars](https://img.shields.io/github/stars/nntin/discord-logo)](https://github.com/nntin/discord-logo/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/nntin/discord-logo)](https://github.com/nntin/discord-logo/network)
+[![GitHub Issues](https://img.shields.io/github/issues/nntin/discord-logo)](https://github.com/nntin/discord-logo/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/nntin/discord-logo)](https://github.com/nntin/discord-logo/pulls)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/nntin/discord-logo)](https://github.com/nntin/discord-logo/commits)
+[![GitHub Language Count](https://img.shields.io/github/languages/count/nntin/discord-logo)](https://github.com/nntin/discord-logo)
+[![Top Language](https://img.shields.io/github/languages/top/nntin/discord-logo)](https://github.com/nntin/discord-logo)
 
 **discord-logo** is a customizable, embeddable widget inspired by GitHub corners and themed around the Discord brand. Built using the **Vue.js** framework, the project allowed for deep exploration into **SVG manipulation**, **component-based web development**, and modern **frontend practices**.
 

@@ -14,13 +14,13 @@ tags:
 
 ## 📊 Project Summary
 
-[![GitHub Stars](https://img.shields.io/github/stars/nntin/discord-twitter-bot?style=flat-square)](https://github.com/nntin/discord-twitter-bot/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/nntin/discord-twitter-bot?style=flat-square)](https://github.com/nntin/discord-twitter-bot/network)
-[![GitHub Issues](https://img.shields.io/github/issues/nntin/discord-twitter-bot?style=flat-square)](https://github.com/nntin/discord-twitter-bot/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/nntin/discord-twitter-bot?style=flat-square)](https://github.com/nntin/discord-twitter-bot/pulls)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/nntin/discord-twitter-bot?style=flat-square)](https://github.com/nntin/discord-twitter-bot/commits)
-[![GitHub Language Count](https://img.shields.io/github/languages/count/nntin/discord-twitter-bot?style=flat-square)](https://github.com/nntin/discord-twitter-bot)
-[![Top Language](https://img.shields.io/github/languages/top/nntin/discord-twitter-bot?style=flat-square)](https://github.com/nntin/discord-twitter-bot)
+[![GitHub Stars](https://img.shields.io/github/stars/nntin/discord-twitter-bot)](https://github.com/nntin/discord-twitter-bot/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/nntin/discord-twitter-bot)](https://github.com/nntin/discord-twitter-bot/network)
+[![GitHub Issues](https://img.shields.io/github/issues/nntin/discord-twitter-bot)](https://github.com/nntin/discord-twitter-bot/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/nntin/discord-twitter-bot)](https://github.com/nntin/discord-twitter-bot/pulls)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/nntin/discord-twitter-bot)](https://github.com/nntin/discord-twitter-bot/commits)
+[![GitHub Language Count](https://img.shields.io/github/languages/count/nntin/discord-twitter-bot)](https://github.com/nntin/discord-twitter-bot)
+[![Top Language](https://img.shields.io/github/languages/top/nntin/discord-twitter-bot)](https://github.com/nntin/discord-twitter-bot)
 
 **discord-twitter-bot** was a scalable automation tool that forwarded tweets to Discord channels in real-time using the Twitter v1.1 and Discord APIs. It supported tracking up to **5,000 users**, **400 keywords**, and **25 location boxes**, with advanced filtering options for full customization.
 
