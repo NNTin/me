@@ -23,11 +23,11 @@ projects:
     - title: "red-kun.git <span class='nav-year'>2018-'19</span>"
       url: /projects/red-kun/
     - title: "d-zone.git <span class='nav-year'>2025</span>"
-      url: https://github.com/nntin/d-zone
+      url: /projects/d-zone/
     - title: "d-back.git <span class='nav-year'>2025</span>"
-      url: https://github.com/nntin/d-back
+      url: /projects/d-back/
     - title: "d-cogs.git <span class='nav-year'>2025</span>"
-      url: https://github.com/nntin/d-cogs
+      url: /projects/d-cogs/
     - title: "*.git"
       url: /collection-archive/
   - title: "GitHub Pages"
