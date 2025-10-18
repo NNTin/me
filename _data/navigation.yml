@@ -8,30 +8,38 @@ main:
 projects:
   - title: "personal (public) git repos"
     children:
-    - title: "discord-web-bridge.git"
-      url: /projects/discord-web-bridge/
+    - title: "reply-[moba]-reddit.git"
+      url: /projects/reply-moba-reddit/
+    - title: "dota-2-emoticons.git"
+      url: /projects/dota-2-emoticons/
     - title: "discord-twitter-bot.git"
       url: /projects/discord-twitter-bot/
+    - title: "discord-web-bridge.git"
+      url: /projects/discord-web-bridge/
     - title: "discord-logo.git"
       url: /projects/discord-logo/
-    - title: "Reply-[Moba]-Reddit.git"
-      url: /projects/reply-moba-reddit/
+    - title: "d-zone.git"
+      url: /projects/d-zone/
+    - title: "d-back.git"
+      url: /projects/d-back/
+    - title: "d-cogs.git"
+      url: /projects/d-cogs/
     - title: "*.git"
       url: /collection-archive/
   - title: "GitHub Pages"
     children:
-    - title: "discord twitter bot"
+    - title: "discord twitter bot 2017-'21"
       url: /../../discord-twitter-bot
-    - title: "discord logo"
+    - title: "discord logo 2018-'21"
       url: /../../discord-logo
-    - title: "discord web bridge"
-      url: /../../discord-web-bridge
-    - title: "pasteview"
+    - title: "pasteview 2018"
       url: /../../pasteview/?paste=32z9wKpi
-    - title: "pasteindex"
+    - title: "pasteindex 2018"
       url: /../../pasteindex
-    # - title: "Discord-Webhook"
-    #   url: /../../Discord-Webhook
+    - title: "discord web bridge 2018"
+      url: /../../discord-web-bridge
+    - title: "d-zone 2025"
+      url: /../../d-zone
   - title: "Contribution / Honory mentions"
     children:
     - title: "Red-DiscordBot"

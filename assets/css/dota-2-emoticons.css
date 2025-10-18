@@ -1,0 +1,9 @@
+* {
+  cursor: url(%%cursor-default%%), default !important;
+}
+
+* body a,
+.arrow,
+a.progress {
+  cursor: url(%%cursor-move%%), default !important;
+}

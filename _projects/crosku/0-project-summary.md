@@ -24,4 +24,4 @@ tags:
 
 This deployment makes it easier to spin up a Crossbar server quickly, which is a key component in my larger project, [discord-web-bridge](../discord-web-bridge). Crossbar handles real-time communication between the Discord bot/server and the browser-based chat client in that system.
 
-While crosku itself is a lightweight utility, it served as an important stepping stone by simplifying infrastructure setup and enabling faster iterations on the broader real-time communication architecture I’m building.
+While crosku itself is a lightweight utility, it served as an important stepping stone by simplifying infrastructure setup and enabling faster iterations on the broader real-time communication architecture I'm building.

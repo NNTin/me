@@ -42,7 +42,7 @@ In your terminal:
 cookiecutter path/to/cookiecutter-simple
 ```
 
-You’ll be asked:
+You'll be asked:
 
 ```bash
 project_name [My Project]:
