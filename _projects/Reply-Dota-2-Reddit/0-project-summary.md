@@ -1,8 +1,8 @@
 ---
 layout: single
-title: 'Reply-(Dota-2\|LoL)-Reddit'
-permalink: /projects/Reply-Moba-Reddit/
-excerpt: 'Reply-Dota-2-Reddit'
+title: 'reply-dota-2-reddit'
+permalink: /projects/reply-dota-2-reddit/
+excerpt: 'reply-dota-2-reddit'
 toc: false
 categories:
   - projects

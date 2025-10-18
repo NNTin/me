@@ -1,8 +1,8 @@
 ---
 layout: single
-title: 'Dota-2-Emoticons'
-permalink: /projects/Dota-2-Emoticons/
-excerpt: 'Dota-2-Emoticons'
+title: 'dota-2-emoticons'
+permalink: /projects/dota-2-emoticons/
+excerpt: 'dota-2-emoticons'
 toc: false
 categories:
   - projects

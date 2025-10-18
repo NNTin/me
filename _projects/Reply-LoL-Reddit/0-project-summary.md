@@ -1,8 +1,8 @@
 ---
 layout: single
-title: 'Reply-LoL-Reddit'
-permalink: /projects/Reply-LoL-Reddit/
-excerpt: 'Reply-LoL-Reddit'
+title: 'reply-lol-reddit'
+permalink: /projects/reply-lol-reddit/
+excerpt: 'reply-lol-reddit'
 toc: false
 categories:
   - projects

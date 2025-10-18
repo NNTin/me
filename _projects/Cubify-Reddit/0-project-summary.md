@@ -1,8 +1,8 @@
 ---
 layout: single
-title: 'Cubify-Reddit'
-permalink: /projects/Cubify-Reddit/
-excerpt: 'Cubify-Reddit'
+title: 'cubify-reddit'
+permalink: /projects/cubify-reddit/
+excerpt: 'cubify-reddit'
 toc: false
 categories:
   - projects

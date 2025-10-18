@@ -1,8 +1,8 @@
 ---
 layout: single
-title: 'Dota-2-Reddit-Flair-Mosaic'
-permalink: /projects/Dota-2-Reddit-Flair-Mosaic/
-excerpt: 'Dota-2-Reddit-Flair-Mosaic'
+title: 'dota-2-reddit-flair-mosaic'
+permalink: /projects/dota-2-reddit-flair-mosaic/
+excerpt: 'dota-2-reddit-flair-mosaic'
 toc: false
 categories:
   - projects

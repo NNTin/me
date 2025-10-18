@@ -1,8 +1,8 @@
 ---
 layout: single
-title: 'Red-kun'
-permalink: /projects/Red-kun/
-excerpt: 'Red-kun'
+title: 'red-kun'
+permalink: /projects/red-kun/
+excerpt: 'red-kun'
 toc: false
 categories:
   - projects

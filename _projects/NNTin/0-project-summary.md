@@ -1,8 +1,8 @@
 ---
 layout: single
-title: 'NNTin'
-permalink: /projects/NNTin/
-excerpt: 'NNTin'
+title: 'nntin'
+permalink: /projects/nntin/
+excerpt: 'nntin'
 toc: false
 categories:
   - projects
