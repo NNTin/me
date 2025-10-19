@@ -194,7 +194,10 @@ collections:
     permalink: /:collection/:path/
   redirects:
     output: true
-    permalink: /projects/:name/
+    permalink: /:collection/:path/
+  pandoc:
+    output: true
+    permalink: /:collection/:path/
 
 
 # Defaults
@@ -233,11 +236,26 @@ defaults:
       nav_exclude: true
       sidebar:
         nav: "projects"
+  # _redirects
   - scope:
       path: "_redirects"
       type: redirects
     values:
       layout: redirect
+  # _pandoc
+  - scope:
+      path: "_pandoc"
+      type: pandoc
+    values:
+      layout: wide
+      read_time: false
+      author_profile: true
+      share: false
+      comments: false
+      toc_sticky: false
+      toc: false
+      hide_update_time: true
+      nav_exclude: true
 
 
 # Sass/SCSS
