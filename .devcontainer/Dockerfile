@@ -1,4 +1,4 @@
-# Start with the existing Dockerfile you already had
+# Use Ubuntu 22.04 base image
 FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -30,7 +30,17 @@ RUN apt-get update && apt-get install -y \
     nodejs \
     npm \
     coreutils \
+    apt-transport-https \
+    gnupg2 \
     && rm -rf /var/lib/apt/lists/*
+
+# Install PowerShell
+RUN wget -q "https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb" -O packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
+    apt-get update && \
+    apt-get install -y powershell && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Python 3.13
 RUN curl -O https://www.python.org/ftp/python/3.13.0/Python-3.13.0.tgz && \

@@ -4,6 +4,14 @@
     "dockerfile": "Dockerfile"
   },
   "settings": {
+    "terminal.integrated.profiles.linux": {
+      "bash": {
+        "path": "/bin/bash"
+      },
+      "pwsh": {
+        "path": "/usr/bin/pwsh"
+      }
+    },
     "terminal.integrated.defaultProfile.linux": "bash"
   },
   "extensions": [
@@ -12,10 +20,10 @@
   ],
   "containerEnv": {
     "GEM_HOME": "/home/devuser/.gems",
-    "PATH": "/home/devuser/.gems/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    "PATH": "/home/devuser/.gems/bin:/home/devuser/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
   },
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind,consistency=cached",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-  "postCreateCommand": "bundle install && pip install weasyprint",
+  "postCreateCommand": "bundle install && pip install -r tools/requirements.txt",
   "remoteUser": "devuser"
 }
