@@ -247,7 +247,7 @@ defaults:
       path: "_pandoc"
       type: pandoc
     values:
-      layout: wide
+      layout: weasyprint
       read_time: false
       author_profile: true
       share: false
