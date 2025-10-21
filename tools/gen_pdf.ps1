@@ -22,10 +22,10 @@ Write-Host "TMP_DIR = $TMP_DIR"
 
 # source directory is ROOT_DIR/_site/pandoc
 # destination directory is OUTPUT_DIR/pdf
-$sourceDir = Join-Path $ROOT_DIR "_site\pandoc"
+$sourceDir = Join-Path $ROOT_DIR "_site/pandoc"
 $destDir = Join-Path $OUTPUT_DIR "pdf"
-$cssDir = Join-Path $ROOT_DIR "assets\css"
-$imagesDir = Join-Path $ROOT_DIR "assets\images"
+$cssDir = Join-Path $ROOT_DIR "assets/css"
+$imagesDir = Join-Path $ROOT_DIR "assets/images"
 
 #------------------------------------------------------ Functions -------------------------------------------------#
 
@@ -139,14 +139,14 @@ function Convert-DirectoryToPdf {
       # Run the Python module
       $pythonArgs = @(
         $pythonModule,
-        "`"$($file.FullName)`"",
-        "`"$destinationFile`"",
-        "`"$CssDirectory`""
+        $file.FullName,
+        $destinationFile,
+        $CssDirectory
       )
       
       # Add images directory if provided
       if ($ImagesDirectory) {
-        $pythonArgs += "`"$ImagesDirectory`""
+        $pythonArgs += $ImagesDirectory
       }
             
       $result = & python @pythonArgs
