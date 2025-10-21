@@ -2,6 +2,7 @@
 title: "Tin Nguyen"
 excerpt: ""
 sitemap: false
+custom-css: cv-columns.css
 ---
 
 <div class="cv-container">

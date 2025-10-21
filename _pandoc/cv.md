@@ -2,6 +2,7 @@
 title: "Tin Nguyen"
 excerpt: ""
 sitemap: false
+custom-css: cv.css
 ---
 
 <div class="title">

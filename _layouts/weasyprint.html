@@ -4,10 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ page.title | default: "CV - Tin Nguyen" }}</title>
+    {% if page.custom-css %}
     <link
       rel="stylesheet"
-      href="{{ '/assets/css/weasyprint.css' | relative_url }}"
+      href="{{ site.baseurl }}/assets/css/{{ page.custom-css }}"
     />
+    {% endif %}
   </head>
   <body>
     <main>{{ content }}</main>
