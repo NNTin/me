@@ -17,6 +17,22 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+
+      - name: Build site with Jekyll
+        run: |
+          bundle exec jekyll build
+          # Add .nojekyll to prevent GitHub Pages from rebuilding the site
+          touch _site/.nojekyll
       
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -26,7 +42,11 @@ jobs:
       - name: Generate badges
         run: |
           pwsh ./tools/gen_badges.ps1
-          
+      
+      - name: Generate pdf
+        run: |
+          pwsh ./tools/gen_pdf.ps1
+
       # push the content of /output to origin/output branch, so the content will be available at
       # https://raw.githubusercontent.com/<github_user>/<repository>/<target_branch>/<path>/<to>/<file>
       - name: push output dir to the output branch
