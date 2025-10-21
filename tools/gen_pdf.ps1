@@ -182,22 +182,79 @@ function Convert-DirectoryToPdf {
   }
 }
 
+<#
+.SYNOPSIS
+    Builds the Jekyll site by running bundle install and bundle exec jekyll build
+.DESCRIPTION
+    This function navigates to the root directory, runs bundle install to ensure dependencies
+    are up to date, then runs bundle exec jekyll build to generate the site, and finally
+    returns to the original directory.
+.EXAMPLE
+    Build-JekyllSite
+#>
+function Build-JekyllSite {
+  # Store the current directory
+  $originalLocation = Get-Location
+  
+  try {
+    Write-Host "Building Jekyll site..." -ForegroundColor Yellow
+    
+    # Navigate to the root directory
+    Set-Location $ROOT_DIR
+    Write-Host "  Changed to directory: $ROOT_DIR" -ForegroundColor Cyan
+    
+    # Run bundle install
+    Write-Host "  Running bundle install..." -ForegroundColor Cyan
+    $bundleInstallResult = & bundle install
+    
+    if ($LASTEXITCODE -ne 0) {
+      Write-Error "Bundle install failed with exit code $LASTEXITCODE"
+      Write-Host "  Error output: $bundleInstallResult" -ForegroundColor Red
+      return $false
+    }
+    
+    Write-Host "  ✓ Bundle install completed successfully" -ForegroundColor Green
+    
+    # Run jekyll build
+    Write-Host "  Running bundle exec jekyll build..." -ForegroundColor Cyan
+    $jekyllBuildResult = & bundle exec jekyll build
+    
+    if ($LASTEXITCODE -ne 0) {
+      Write-Error "Jekyll build failed with exit code $LASTEXITCODE"
+      Write-Host "  Error output: $jekyllBuildResult" -ForegroundColor Red
+      return $false
+    }
+    
+    Write-Host "  ✓ Jekyll build completed successfully" -ForegroundColor Green
+    Write-Host "Jekyll site built successfully!" -ForegroundColor Green
+    
+    return $true
+  }
+  catch {
+    Write-Error "Error building Jekyll site: $($_.Exception.Message)"
+    return $false
+  }
+  finally {
+    # Always return to the original directory
+    Set-Location $originalLocation
+    Write-Host "  Returned to directory: $originalLocation" -ForegroundColor Cyan
+  }
+}
+
 #------------------------------------------------------ Script ----------------------------------------------------#
 
 # Initialize the virtual environment
 Initialize-VirtualEnvironment
 
-# Example usage of the Convert-DirectoryToPdf function
-# Uncomment and modify the paths below to use the function
+# Build the Jekyll site first
+Write-Host "Step 1: Building Jekyll site..." -ForegroundColor Yellow
+$buildSuccess = Build-JekyllSite
 
-<#
-# Example: Convert HTML files to PDF
-$sourceDir = Join-Path $ROOT_DIR "_site"           # Jekyll generated HTML files
-$destDir = Join-Path $OUTPUT_DIR "pdf"             # Output directory for PDFs  
-$cssDir = Join-Path $ROOT_DIR "assets\css"         # CSS directory for styling
-$imagesDir = Join-Path $ROOT_DIR "assets\images"   # Images directory
+if (-not $buildSuccess) {
+  Write-Error "Jekyll build failed. Cannot proceed with PDF conversion."
+  exit 1
+}
 
-Convert-DirectoryToPdf -SourceDirectory $sourceDir -DestinationDirectory $destDir -CssDirectory $cssDir -ImagesDirectory $imagesDir
-#>
-
+# Convert HTML files to PDF
+Write-Host "Converting HTML files to PDF..." -ForegroundColor Yellow
 Convert-DirectoryToPdf -SourceDirectory $sourceDir -DestinationDirectory $destDir -CssDirectory $cssDir -ImagesDirectory $imagesDir
