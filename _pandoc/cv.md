@@ -9,12 +9,17 @@ sitemap: false
 </div>
 
 <div class="contact">
-📍 Based in Germany | Open to Remote & Hybrid  
-🌐 [nntin.xyz](https://nntin.xyz) | 📧 nguyen.ngoctindaniel@gmail.com  
-🔗 GitHub: [@NNTin](https://github.com/NNTin)
-
-<img src="{{ site.baseurl }}/assets/images/gravatar.png" alt="me">
+  <p>📍 Based in Germany | Open to Remote & Hybrid</p>
+  <p>
+    🌐 <a href="https://nntin.xyz" target="_blank">nntin.xyz</a> | 
+    📧 <a href="mailto:nguyen.ngoctindaniel@gmail.com">nguyen.ngoctindaniel@gmail.com</a>
+  </p>
+  <p>
+    🔗 GitHub: <a href="https://github.com/NNTin" target="_blank">@NNTin</a>
+  </p>
+  <img src="{{ site.baseurl }}/assets/images/gravatar.png" alt="me">
 </div>
+
 
 ## Professional Summary
 {: .section .summary }
