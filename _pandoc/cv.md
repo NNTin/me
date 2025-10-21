@@ -2,7 +2,6 @@
 title: "Tin Nguyen"
 excerpt: ""
 sitemap: false
-permalink: /cv/
 ---
 
 <div class="title">

@@ -160,6 +160,8 @@ exclude:
   - Rakefile
   - README
   - tmp
+  - tools
+  - output
 keep_files:
   - .git
   - .svn

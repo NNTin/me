@@ -20,6 +20,13 @@ Write-Host "TMP_DIR = $TMP_DIR"
 
 # Initialize-VirtualEnvironment from common module is imported
 
+# source directory is ROOT_DIR/_site/pandoc
+# destination directory is OUTPUT_DIR/pdf
+$sourceDir = Join-Path $ROOT_DIR "_site\pandoc"
+$destDir = Join-Path $OUTPUT_DIR "pdf"
+$cssDir = Join-Path $ROOT_DIR "assets\css"
+$imagesDir = Join-Path $ROOT_DIR "assets\images"
+
 #------------------------------------------------------ Functions -------------------------------------------------#
 
 <#
@@ -89,8 +96,8 @@ function Convert-DirectoryToPdf {
     return
   }
     
-  # Get all files in source directory (you can filter by extension if needed)
-  $sourceFiles = Get-ChildItem -Path $SourceDirectory -File
+  # Get all files in source directory recursively (including subdirectories)
+  $sourceFiles = Get-ChildItem -Path $SourceDirectory -File -Recurse
     
   if ($sourceFiles.Count -eq 0) {
     Write-Warning "No files found in source directory: $SourceDirectory"
@@ -103,11 +110,30 @@ function Convert-DirectoryToPdf {
   $failureCount = 0
     
   foreach ($file in $sourceFiles) {
-    # Generate destination PDF filename
-    $pdfFileName = [System.IO.Path]::GetFileNameWithoutExtension($file.Name) + ".pdf"
+    # Calculate relative path from source directory
+    $relativePath = $file.FullName.Substring($SourceDirectory.Length).TrimStart('\', '/')
+    
+    # Generate destination PDF filename based on the structure
+    if ($file.Name -eq "index.html") {
+      # For index.html files, use the parent directory name as the PDF filename
+      # e.g., cv/index.html -> cv.pdf
+      $parentDirName = Split-Path $relativePath -Parent
+      if ([string]::IsNullOrEmpty($parentDirName)) {
+        # If index.html is in root, use "index" as filename
+        $pdfFileName = "index.pdf"
+      } else {
+        # Use the directory name as the PDF filename
+        $pdfFileName = $parentDirName.Replace('\', '_').Replace('/', '_') + ".pdf"
+      }
+    } else {
+      # For regular files, use the filename without extension
+      # e.g., helloworld.html -> helloworld.pdf
+      $pdfFileName = [System.IO.Path]::GetFileNameWithoutExtension($file.Name) + ".pdf"
+    }
+    
     $destinationFile = Join-Path $DestinationDirectory $pdfFileName
         
-    Write-Host "Converting: $($file.Name) -> $pdfFileName" -ForegroundColor Cyan
+    Write-Host "Converting: $relativePath -> $pdfFileName" -ForegroundColor Cyan
         
     try {
       # Run the Python module
@@ -130,13 +156,13 @@ function Convert-DirectoryToPdf {
         $successCount++
       }
       else {
-        Write-Host "  ✗ Failed: $($file.Name)" -ForegroundColor Red
+        Write-Host "  ✗ Failed: $relativePath" -ForegroundColor Red
         Write-Host "    Error output: $result" -ForegroundColor Red
         $failureCount++
       }
     }
     catch {
-      Write-Host "  ✗ Exception: $($file.Name)" -ForegroundColor Red
+      Write-Host "  ✗ Exception: $relativePath" -ForegroundColor Red
       Write-Host "    Error: $($_.Exception.Message)" -ForegroundColor Red
       $failureCount++
     }
@@ -174,7 +200,4 @@ $imagesDir = Join-Path $ROOT_DIR "assets\images"   # Images directory
 Convert-DirectoryToPdf -SourceDirectory $sourceDir -DestinationDirectory $destDir -CssDirectory $cssDir -ImagesDirectory $imagesDir
 #>
 
-Write-Host "PDF generation script loaded. Use Convert-DirectoryToPdf function to convert files." -ForegroundColor Green
-Write-Host "Example usage:" -ForegroundColor Yellow
-Write-Host "  Convert-DirectoryToPdf -SourceDirectory 'C:\source' -DestinationDirectory 'C:\output' -CssDirectory 'C:\css'" -ForegroundColor Gray
-Write-Host "  Convert-DirectoryToPdf -SourceDirectory 'C:\source' -DestinationDirectory 'C:\output' -CssDirectory 'C:\css' -ImagesDirectory 'C:\images'" -ForegroundColor Gray
+Convert-DirectoryToPdf -SourceDirectory $sourceDir -DestinationDirectory $destDir -CssDirectory $cssDir -ImagesDirectory $imagesDir
