@@ -39,3 +39,9 @@ _site
 
 # output directory for generated badges
 /output/
+
+/tools/.venv.win/
+/tools/.venv.linux/
+
+/.python-version
+/tools/.python-version

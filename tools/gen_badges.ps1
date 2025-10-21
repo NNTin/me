@@ -33,15 +33,22 @@ param(
 )
 #------------------------------------------------------ Preparation -----------------------------------------------#
 
-# Absolute paths
-$toolsDir = $PSScriptRoot
-$rootDir = Split-Path -Path $toolsDir -Parent
-$outputDir = Join-Path -Path $rootDir -ChildPath "output"
-$tmpDir = Join-Path -Path $toolsDir -ChildPath "tmp"
+# ----- Import common module ----- 
+Import-Module "$PSScriptRoot/common.psm1" -Force
+
+# Absolute paths (from common module)
+Write-Host "ToolsDir = $TOOLS_DIR"
+Write-Host "RootDir = $ROOT_DIR"
+Write-Host "OUTPUT_DIR = $OUTPUT_DIR"
+Write-Host "TMP_DIR = $TMP_DIR"
+
+# Initialize-VirtualEnvironment from common module is imported
+
+# ----- Import common module end -----
 
 # Repository configuration paths
-$reposJsonPath = Join-Path -Path $rootDir -ChildPath "_data/repos.json"
-$reposTestJsonPath = Join-Path -Path $toolsDir -ChildPath "data/repos_test.json"
+$reposJsonPath = Join-Path -Path $ROOT_DIR -ChildPath "_data/repos.json"
+$reposTestJsonPath = Join-Path -Path $TOOLS_DIR -ChildPath "data/repos_test.json"
 
 # Determine which config to use (CI uses repos.json, local development uses repos_test.json)
 $configPath = $reposJsonPath
@@ -54,78 +61,10 @@ else {
 }
 
 # Our working directory is the tools directory (it contains the cookiecutter template)
-Push-Location -Path $toolsDir
+Push-Location -Path $TOOLS_DIR
 $cookiecutterTemplate = "cookiecutter/cookiecutter-badges"
 
 #------------------------------------------------------ Functions -------------------------------------------------#
-
-function Initialize-VirtualEnvironment {
-    <#
-    .DESCRIPTION
-        Handles virtual environment setup and requirements installation.
-        CI: Only installs requirements
-        Local: Activates existing venv OR creates new venv + activates, then installs requirements if needed
-    #>
-    
-    $venvPath = Join-Path -Path $toolsDir -ChildPath ".venv"
-    $activateScript = Join-Path -Path $venvPath -ChildPath "Scripts\Activate.ps1"
-    $requirementsPath = Join-Path -Path $toolsDir -ChildPath "requirements.txt"
-    
-    $needsRequirements = $false
-    
-    if ($env:CI) {
-        Write-Host "Running in CI - skipping virtual environment setup" -ForegroundColor Yellow
-        $needsRequirements = $true
-    }
-    else {
-        # Try to activate existing virtual environment
-        if (Test-Path $venvPath) {
-            Write-Host "Activating existing virtual environment..." -ForegroundColor Green
-            & $activateScript
-            
-            if ($env:VIRTUAL_ENV) {
-                Write-Host "Virtual environment activated successfully" -ForegroundColor Green
-            }
-            else {
-                throw "Failed to activate existing virtual environment"
-            }
-        }
-        else {
-            # Create and activate new virtual environment
-            Write-Host "Virtual environment not found. Creating new virtual environment..." -ForegroundColor Yellow
-            python -m venv $venvPath
-            if ($LASTEXITCODE -ne 0) {
-                throw "Failed to create virtual environment"
-            }
-            
-            Write-Host "Activating new virtual environment..." -ForegroundColor Green
-            & $activateScript
-            if (-not $env:VIRTUAL_ENV) {
-                throw "Failed to activate new virtual environment"
-            }
-            
-            Write-Host "New virtual environment created and activated" -ForegroundColor Green
-            $needsRequirements = $true
-        }
-    }
-    
-    # Install requirements if needed
-    if ($needsRequirements) {
-        if (Test-Path $requirementsPath) {
-            Write-Host "Installing requirements from requirements.txt..." -ForegroundColor Yellow
-            pip install -r $requirementsPath
-            if ($LASTEXITCODE -ne 0) {
-                throw "Failed to install requirements"
-            }
-            Write-Host "Requirements installed successfully" -ForegroundColor Green
-        }
-        else {
-            Write-Warning "requirements.txt not found at $requirementsPath"
-        }
-    }
-    
-    Write-Host "Environment is ready" -ForegroundColor Green
-}
 
 function New-Badge {
     <#
@@ -165,10 +104,10 @@ function New-Badge {
     # Execute cookiecutter with parameters
     # There is a caveat here: cookiecutter always creates the output in a template subdirectory
     # Therefore we will move the generated file to the desired output directory afterwards
-    # The generated file is located at $tmpDir/output/output.svg
+    # The generated file is located at $TMP_DIR/output/output.svg
     $cookiecutterArgs = @(
         "./cookiecutter/cookiecutter-badges"
-        "--output-dir", $tmpDir
+        "--output-dir", $TMP_DIR
         "--overwrite-if-exists"
         "--no-input"
         "filename=output"
@@ -188,8 +127,8 @@ function New-Badge {
     Write-Host "Badge generated successfully: output.svg" -ForegroundColor Green
     
     # Move and rename the generated file to the output directory
-    $sourceFile = Join-Path -Path $tmpDir -ChildPath "output/output.svg"
-    $badgesDir = Join-Path -Path $outputDir -ChildPath "badges"
+    $sourceFile = Join-Path -Path $TMP_DIR -ChildPath "output/output.svg"
+    $badgesDir = Join-Path -Path $OUTPUT_DIR -ChildPath "badges"
     $destinationFile = Join-Path -Path $badgesDir -ChildPath "$FileName.svg"
 
     # Ensure output directory exists
@@ -211,7 +150,7 @@ function Clone-Repositories {
     #>
     
     # Ensure the git directory exists
-    $gitDir = Join-Path -Path $tmpDir -ChildPath "git"
+    $gitDir = Join-Path -Path $TMP_DIR -ChildPath "git"
     if (-not (Test-Path $gitDir)) {
         New-Item -ItemType Directory -Path $gitDir -Force | Out-Null
         Write-Host "Created git directory: $gitDir" -ForegroundColor Yellow
@@ -275,7 +214,7 @@ function Get-RepositoryCommitHistory {
         Array of objects containing GitHub URL, first commit date, and last commit date for each repository.
     #>
     
-    $gitDir = Join-Path -Path $tmpDir -ChildPath "git"
+    $gitDir = Join-Path -Path $TMP_DIR -ChildPath "git"
     
     if (-not (Test-Path $gitDir)) {
         throw "Git directory not found: $gitDir. Please run Clone-Repositories first."
@@ -497,13 +436,13 @@ function Export-RepoInfosToJson {
     Write-Host "Exporting repository information to JSON..." -ForegroundColor Cyan
     
     # Ensure output directory exists
-    if (-not (Test-Path $outputDir)) {
-        New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
-        Write-Host "Created output directory: $outputDir" -ForegroundColor Yellow
+    if (-not (Test-Path $OUTPUT_DIR)) {
+        New-Item -ItemType Directory -Path $OUTPUT_DIR -Force | Out-Null
+        Write-Host "Created output directory: $OUTPUT_DIR" -ForegroundColor Yellow
     }
     
     # Define the JSON file path
-    $jsonFilePath = Join-Path -Path $outputDir -ChildPath "repoInfos.json"
+    $jsonFilePath = Join-Path -Path $OUTPUT_DIR -ChildPath "repoInfos.json"
     
     try {
         # Sort repositories by FirstCommitDate (oldest first, newest last)

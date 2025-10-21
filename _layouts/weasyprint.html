@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ page.title | default: "CV - Tin Nguyen" }}</title>
+    {% if page.custom-css %}
+    <link
+      rel="stylesheet"
+      href="{{ site.baseurl }}/assets/css/{{ page.custom-css }}"
+    />
+    {% endif %}
+  </head>
+  <body>
+    <main>{{ content }}</main>
+  </body>
+</html>

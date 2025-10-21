@@ -1,0 +1,136 @@
+/* CV - WeasyPrint Optimized Stylesheet */
+
+/* Base Document Style */
+@page {
+  size: A4;
+  margin: 2cm;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  font-size: 11pt;
+  color: #333;
+  background: white;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 1.5em;
+}
+
+h1,
+h2,
+h3 {
+  color: #2c3e50;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+h1 {
+  font-size: 22pt;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 0.3em;
+}
+
+h2 {
+  font-size: 16pt;
+  color: #34495e;
+}
+
+h3 {
+  font-size: 13pt;
+  color: #2c3e50;
+}
+
+/* Title block */
+.title {
+  font-size: 18pt;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+/* Contact info */
+.contact {
+  font-size: 10pt;
+  color: #555;
+  margin-bottom: 1.5em;
+}
+
+.contact img {
+  display: block;
+  margin-top: 0.5em;
+  max-width: 100px;
+  border-radius: 50%;
+}
+
+/* Summary */
+.summary {
+  font-size: 11pt;
+}
+
+/* Work Experience */
+.work .job {
+  margin-bottom: 1.2em;
+}
+
+.job strong {
+  font-size: 11.5pt;
+}
+
+/* Skills */
+.skills-sub {
+  font-weight: bold;
+  margin-top: 1em;
+}
+
+/* Open Source Projects */
+.project {
+  margin-bottom: 1em;
+}
+
+/* Target Role */
+.target {
+  font-style: italic;
+}
+
+/* References */
+.references {
+  margin-top: 2em;
+  font-size: 10pt;
+  color: #666;
+}
+
+/* Lists and Text */
+ul {
+  margin: 0.5em 0 0.5em 1.2em;
+}
+
+li {
+  margin-bottom: 0.3em;
+}
+
+strong {
+  color: #222;
+}
+
+a {
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Page Break Handling (WeasyPrint only supports some properties) */
+.section,
+.project,
+.job {
+  page-break-inside: avoid;
+}
+
+h2,
+h3 {
+  page-break-after: avoid;
+}
