@@ -85,15 +85,41 @@ def convert_to_pdf(source_file, destination_file, css_directory, images_director
         
         # Create HTML object from source file
         if source_path.suffix.lower() in ['.html', '.htm']:
-            # Set base_url to images directory if provided, otherwise use source file directory
-            base_url = str(images_dir) if images_dir else str(source_path.parent)
-            html_doc = HTML(filename=str(source_path), base_url=base_url)
+            # For HTML files, we need to handle Jekyll's baseurl properly
+            # Jekyll might generate URLs like /me/assets/... but on filesystem they're at /workspaces/me/assets/...
+            # We'll read the content and fix the paths before passing to WeasyPrint
+            with open(source_path, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+            
+            # Find the workspace root 
+            workspace_root = source_path
+            while workspace_root.parent != workspace_root and workspace_root.name not in ['workspaces']:
+                workspace_root = workspace_root.parent
+            if workspace_root.name == 'workspaces' and len(workspace_root.parts) > 1:
+                workspace_root = workspace_root / 'me'
+            elif workspace_root.name != 'me':
+                temp_path = source_path
+                while temp_path.parent != temp_path and temp_path.name != 'me':
+                    temp_path = temp_path.parent
+                if temp_path.name == 'me':
+                    workspace_root = temp_path
+                else:
+                    workspace_root = source_path.parent
+            
+            logger.info(f"Using workspace root as base_url: {workspace_root}")
+            
+            # Fix Jekyll paths by replacing /me/ with the actual workspace path
+            # This handles both /me/assets/css/... and /me/assets/images/... patterns
+            html_content = html_content.replace('"/me/', f'"file://{workspace_root}/')
+            html_content = html_content.replace("'/me/", f"'file://{workspace_root}/")
+            
+            # Create HTML object from the modified content
+            html_doc = HTML(string=html_content, base_url=str(workspace_root))
         else:
             # For other file types, try to read as HTML
-            # This could be extended to handle Markdown conversion
             try:
-                base_url = str(images_dir) if images_dir else str(source_path.parent)
-                html_doc = HTML(filename=str(source_path), base_url=base_url)
+                workspace_root = source_path.parent
+                html_doc = HTML(filename=str(source_path), base_url=str(workspace_root))
             except Exception as e:
                 logger.error(f"Could not parse file as HTML: {e}")
                 return False
