@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y \
     coreutils \
     apt-transport-https \
     gnupg2 \
+    fonts-noto-color-emoji \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PowerShell

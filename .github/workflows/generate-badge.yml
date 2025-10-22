@@ -31,7 +31,9 @@ jobs:
       - name: Generate badges
         run: |
           pwsh ./tools/gen_badges.ps1
-      
+          
+      # if emoji are not showing up correctly in the pdf, make sure the required fonts are 
+      # installed in the runner/container: fonts-noto-color-emoji
       - name: Generate pdf
         run: |
           pwsh ./tools/gen_pdf.ps1
