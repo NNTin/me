@@ -38,6 +38,24 @@ html, body {
 </style>
 
 <div class="iframe-container">
-  <iframe src="https://nntin.xyz/d-zone?s=repos&socketURL=wss://hermes.nntin.xyz/dzone" frameborder="0" allowfullscreen></iframe>
+  <iframe id="main-iframe" frameborder="0" allowfullscreen></iframe>
 </div>
+
+<script>
+// Force iframe to reload completely on each page visit
+document.addEventListener('DOMContentLoaded', function() {
+  const iframe = document.getElementById('main-iframe');
+  const timestamp = new Date().getTime();
+  iframe.src = 'https://nntin.xyz/d-zone?s=repos&socketURL=wss://hermes.nntin.xyz/dzone&t=' + timestamp;
+});
+
+// Also reload when the page becomes visible again (tab switching)
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden) {
+    const iframe = document.getElementById('main-iframe');
+    const timestamp = new Date().getTime();
+    iframe.src = 'https://nntin.xyz/d-zone?s=repos&socketURL=wss://hermes.nntin.xyz/dzone&t=' + timestamp;
+  }
+});
+</script>
 
