@@ -1,27 +1,43 @@
 ---
-layout: splash
+layout: default
 permalink: /
-header:
-  overlay_color: "#5e616c"
-  overlay_image: /assets/images/api_giphy_header.gif
-  actions:
-    - label: "<i class='fab fa-fw fa-github'></i> GitHub"
-      url: "https://github.com/NNTin"
 excerpt: >
   my little home on the web
-feature_row:
-  - alt: "Portfolio"
-    title: "Portfolio"
-    excerpt: "some of my projects"
-    url: "#deadlink"
-    btn_class: "btn--primary"
-    btn_label: "Visit portfolio"
-  - alt: "Discord Server"
-    title: "Discord Server"
-    excerpt: "Join the Discord server."
-    url: "#linkisdead_todo"
-    btn_class: "btn--primary"
-    btn_label: "Join server"      
 ---
 
-{% include feature_row %}
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.page__content {
+  height: calc(100vh - 120px);
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.iframe-container {
+  width: 100%;
+  height: 100%;
+  border: none;
+  overflow: hidden;
+}
+
+.iframe-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.page__footer {
+  margin-top: 0 !important;
+}
+</style>
+
+<div class="iframe-container">
+  <iframe src="https://nntin.xyz/d-zone?s=repos&socketURL=wss://hermes.nntin.xyz/dzone" frameborder="0" allowfullscreen></iframe>
+</div>
+
