@@ -121,11 +121,13 @@ function Convert-DirectoryToPdf {
       if ([string]::IsNullOrEmpty($parentDirName)) {
         # If index.html is in root, use "index" as filename
         $pdfFileName = "index.pdf"
-      } else {
+      }
+      else {
         # Use the directory name as the PDF filename
         $pdfFileName = $parentDirName.Replace('\', '_').Replace('/', '_') + ".pdf"
       }
-    } else {
+    }
+    else {
       # For regular files, use the filename without extension
       # e.g., helloworld.html -> helloworld.pdf
       $pdfFileName = [System.IO.Path]::GetFileNameWithoutExtension($file.Name) + ".pdf"
@@ -246,14 +248,14 @@ function Build-JekyllSite {
 # Initialize the virtual environment
 Initialize-VirtualEnvironment
 
+# TODO: differentiate between CI and locally
 # Build the Jekyll site first
-Write-Host "Step 1: Building Jekyll site..." -ForegroundColor Yellow
-$buildSuccess = Build-JekyllSite
-
-if (-not $buildSuccess) {
-  Write-Error "Jekyll build failed. Cannot proceed with PDF conversion."
-  exit 1
-}
+# Write-Host "Step 1: Building Jekyll site..." -ForegroundColor Yellow
+# $buildSuccess = Build-JekyllSite
+# if (-not $buildSuccess) {
+#   Write-Error "Jekyll build failed. Cannot proceed with PDF conversion."
+#   exit 1
+# }
 
 # Convert HTML files to PDF
 Write-Host "Converting HTML files to PDF..." -ForegroundColor Yellow
