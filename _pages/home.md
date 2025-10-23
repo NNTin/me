@@ -13,7 +13,7 @@ feature_row:
   - alt: "Portfolio"
     title: "Portfolio"
     excerpt: "some of my projects"
-    url: "/collection-archive/"
+    url: "#deadlink"
     btn_class: "btn--primary"
     btn_label: "Visit portfolio"
   - alt: "Discord Server"
