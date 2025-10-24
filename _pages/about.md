@@ -1,19 +1,16 @@
 ---
 permalink: /about/
 title: "About"
-excerpt: "Minimal Mistakes is a flexible two-column Jekyll theme."
-layouts_gallery:
-  - url: /assets/images/mm-layout-splash.png
-    image_path: /assets/images/mm-layout-splash.png
-    alt: "splash layout example"
-  - url: /assets/images/mm-layout-single-meta.png
-    image_path: /assets/images/mm-layout-single-meta.png
-    alt: "single layout with comments and related posts"
-  - url: /assets/images/mm-layout-archive.png
-    image_path: /assets/images/mm-layout-archive.png
-    alt: "archive layout example"
-last_modified_at: 2022-05-27T11:59:26-04:00
+excerpt: "my little home on the web"
 toc: false
 ---
 
-TODO
+Welcome to my little home on the web. I'm a ~~software engineer~~ **tin**kerer from Germany who likes to automate things and occasionally break stuff in the process.
+
+The [projects timeline]({{ site.baseurl }}/projects/) shows the full journey from 2016 to today.
+
+## Beyond Code
+
+I’m an adventurous soul who loves exploring new places, tasting great food, and getting lost in nature. When I’m not out and about, you’ll find me practicing parkour, gaming, or unwinding with a good movie.
+
+If you're into similar tech stuff, want to chat about old-school projects, or just feel like grabbing a coffee or beer, hit me up! You can find all my socials in the sidebar.
