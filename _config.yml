@@ -236,6 +236,7 @@ defaults:
       toc: false
       hide_update_time: true
       nav_exclude: true
+      sitemap: true
       sidebar:
         nav: "projects"
   # _redirects

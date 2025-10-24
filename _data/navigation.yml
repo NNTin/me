@@ -29,7 +29,7 @@ projects:
     - title: "d-cogs.git <span class='nav-year'>2025</span>"
       url: /projects/d-cogs/
     - title: "*.git"
-      url: /collection-archive/
+      url: /projects-archive/
   - title: "GitHub Pages"
     children:
     - title: "discord twitter bot <span class='nav-year'>2017-'21</span>"
@@ -50,8 +50,6 @@ projects:
       url: https://github.com/Cog-Creators/Red-DiscordBot
     - title: "Lightnovel Crawler <span class='nav-year'>2018-now</span>"
       url: https://github.com/dipu-bd/lightnovel-crawler
-    - title: "MonitoRSS <span class='nav-year'>2017-now</span>"
-      url: https://github.com/synzen/MonitoRSS
     - title: "D-Zone <span class='nav-year'>2015-2020</span>"
       url: https://github.com/d-zone-org/d-zone
 

@@ -1,0 +1,202 @@
+/* Business Card - 85mm x 54mm */
+
+@page {
+  size: 85mm 54mm;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Android Emoji', 'EmojiSymbols', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: #2c3e50;
+  font-size: 8pt;
+  line-height: 1.2;
+}
+
+.business-card {
+  width: 85mm;
+  height: 54mm;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-front {
+  width: 100%;
+  height: 100%;
+  padding: 4mm;
+  background: transparent;
+  border: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Section */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2mm;
+  flex-shrink: 0;
+}
+
+.name-section {
+  flex: 1;
+  padding-right: 2mm;
+}
+
+.name-section h1 {
+  margin: 0;
+  font-size: 16pt;
+  font-weight: 700;
+  color: #2c3e50;
+  letter-spacing: -0.3px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.title {
+  font-size: 8pt;
+  font-weight: 600;
+  color: #3498db;
+  margin: 1mm 0 0.5mm 0;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-size: 7.5pt;
+  color: #6c757d;
+  font-weight: 500;
+  margin: 0;
+}
+
+.photo-section {
+  flex-shrink: 0;
+}
+
+.profile-image {
+  width: 12mm;
+  height: 12mm;
+  border-radius: 50%;
+  border: 1.5px solid #3498db;
+  object-fit: cover;
+}
+
+/* Contact Information */
+.contact-info {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2mm;
+}
+
+.contact-rows {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 1mm;
+}
+
+.contact-row:last-child {
+  margin-bottom: 0;
+}
+
+.icon {
+  width: 3mm;
+  font-size: 7pt;
+  margin-right: 1.5mm;
+  text-align: center;
+  flex-shrink: 0;
+  font-family: 'Noto Color Emoji', 'DejaVu Sans', 'Liberation Sans', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+}
+
+.info {
+  font-size: 7.5pt;
+  color: #495057;
+  font-weight: 500;
+  line-height: 1.1;
+  word-break: break-all;
+}
+
+/* QR Code Section */
+.qr-section {
+  text-align: center;
+  background: transparent;
+  padding: 1.5mm;
+  border-radius: 2mm;
+  box-shadow: none;
+  flex-shrink: 0;
+}
+
+.qr-code {
+  margin-bottom: 0.5mm;
+}
+
+.qr-code img {
+  width: 20mm;
+  height: 20mm;
+  display: block;
+}
+
+.qr-text {
+  font-size: 5.5pt;
+  color: #6c757d;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+/* Responsive adjustments for very small size */
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .business-card {
+    page-break-inside: avoid;
+  }
+}
+
+/* Ensure no text wrapping issues */
+h1,
+.title,
+.subtitle {
+  word-wrap: break-word;
+  hyphens: none;
+}
+
+/* Hide any default margins that might appear */
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+/* Fine-tune spacing for the small format */
+.contact-info .contact-row {
+  min-height: 2.5mm;
+}
+
+/* Ensure QR code positioning works */
+.card-front {
+  position: relative;
+}

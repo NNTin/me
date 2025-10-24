@@ -22,6 +22,17 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+
+      - name: Build site with Jekyll
+        run: |
+          bundle exec jekyll build
+          # Add .nojekyll to prevent GitHub Pages from rebuilding the site
+          touch _site/.nojekyll
       
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -31,7 +42,9 @@ jobs:
       - name: Generate badges
         run: |
           pwsh ./tools/gen_badges.ps1
-      
+          
+      # if emoji are not showing up correctly in the pdf, make sure the required fonts are 
+      # installed in the runner/container: fonts-noto-color-emoji
       - name: Generate pdf
         run: |
           pwsh ./tools/gen_pdf.ps1

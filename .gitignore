@@ -45,3 +45,6 @@ _site
 
 /.python-version
 /tools/.python-version
+
+/_pandoc/housing-card.md
+/assets/css/housing-card.css
