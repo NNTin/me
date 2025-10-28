@@ -1,0 +1,274 @@
+---
+layout: default
+---
+
+<style>
+  #pdf-container {
+    width: 100%;
+    height: calc(100vh - 120px);
+    border: none;
+    overflow: hidden;
+  }
+
+  #pdf-viewer {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .pdf-controls {
+    background: #f8f9fa;
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+  }
+
+  .pdf-controls button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  .pdf-controls button:hover {
+    background: #0056b3;
+  }
+
+  .pdf-controls button:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+  }
+
+  .pdf-controls input {
+    width: 60px;
+    text-align: center;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 2px 5px;
+  }
+
+  .pdf-controls .download-link {
+    margin-left: auto;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .pdf-controls .download-link:hover {
+    text-decoration: underline;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 50px;
+    color: #6c757d;
+  }
+
+  @media print {
+    .pdf-controls {
+      display: none;
+    }
+
+    #pdf-container {
+      height: auto;
+    }
+  }
+</style>
+
+<div class="pdf-controls">
+  <button id="prev-page" disabled>Previous</button>
+  <span>
+    Page <input type="number" id="page-num" value="1" min="1" /> of
+    <span id="page-count">--</span>
+  </span>
+  <button id="next-page" disabled>Next</button>
+
+  <button id="zoom-out">-</button>
+  <span id="zoom-level">100%</span>
+  <button id="zoom-in">+</button>
+
+  <a href="{{ page.pdf }}" class="download-link" target="_blank" download
+    >📄 Download PDF</a
+  >
+</div>
+
+<div id="pdf-container">
+  <div class="loading" id="loading">Loading PDF...</div>
+  <canvas id="pdf-viewer" style="display: none"></canvas>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  // PDF.js worker
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  let pdfDoc = null;
+  let pageNum = 1;
+  let pageRendering = false;
+  let pageNumPending = null;
+  let scale = 1.0;
+  const canvas = document.getElementById('pdf-viewer');
+  const ctx = canvas.getContext('2d');
+
+  // Controls
+  const prevButton = document.getElementById('prev-page');
+  const nextButton = document.getElementById('next-page');
+  const pageNumInput = document.getElementById('page-num');
+  const pageCountSpan = document.getElementById('page-count');
+  const zoomInButton = document.getElementById('zoom-in');
+  const zoomOutButton = document.getElementById('zoom-out');
+  const zoomLevelSpan = document.getElementById('zoom-level');
+  const loadingDiv = document.getElementById('loading');
+
+  // PDF URL from Jekyll frontmatter
+  const pdfUrl = '{{ page.pdf }}';
+
+  // Load and render PDF
+  pdfjsLib
+    .getDocument(pdfUrl)
+    .promise.then(function (pdfDoc_) {
+      pdfDoc = pdfDoc_;
+      pageCountSpan.textContent = pdfDoc.numPages;
+
+      // Hide loading, show canvas
+      loadingDiv.style.display = 'none';
+      canvas.style.display = 'block';
+
+      // Enable controls
+      updateControls();
+
+      // Render first page
+      renderPage(pageNum);
+    })
+    .catch(function (error) {
+      loadingDiv.innerHTML = '❌ Error loading PDF: ' + error.message;
+      console.error('Error loading PDF:', error);
+    });
+
+  function renderPage(num) {
+    pageRendering = true;
+
+    // Get page
+    pdfDoc.getPage(num).then(function (page) {
+      const viewport = page.getViewport({ scale: scale });
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      // Render PDF page into canvas context
+      const renderContext = {
+        canvasContext: ctx,
+        viewport: viewport,
+      };
+
+      const renderTask = page.render(renderContext);
+
+      // Wait for rendering to finish
+      renderTask.promise.then(function () {
+        pageRendering = false;
+        if (pageNumPending !== null) {
+          // New page rendering is pending
+          renderPage(pageNumPending);
+          pageNumPending = null;
+        }
+      });
+    });
+
+    // Update page counters
+    pageNumInput.value = num;
+  }
+
+  function queueRenderPage(num) {
+    if (pageRendering) {
+      pageNumPending = num;
+    } else {
+      renderPage(num);
+    }
+  }
+
+  function updateControls() {
+    prevButton.disabled = pageNum <= 1;
+    nextButton.disabled = pageNum >= pdfDoc.numPages;
+    zoomLevelSpan.textContent = Math.round(scale * 100) + '%';
+  }
+
+  // Event listeners
+  prevButton.addEventListener('click', function () {
+    if (pageNum <= 1) return;
+    pageNum--;
+    queueRenderPage(pageNum);
+    updateControls();
+  });
+
+  nextButton.addEventListener('click', function () {
+    if (pageNum >= pdfDoc.numPages) return;
+    pageNum++;
+    queueRenderPage(pageNum);
+    updateControls();
+  });
+
+  pageNumInput.addEventListener('change', function () {
+    const num = parseInt(this.value);
+    if (num > 0 && num <= pdfDoc.numPages) {
+      pageNum = num;
+      queueRenderPage(pageNum);
+      updateControls();
+    } else {
+      this.value = pageNum;
+    }
+  });
+
+  zoomInButton.addEventListener('click', function () {
+    scale = Math.min(scale * 1.2, 3.0);
+    queueRenderPage(pageNum);
+    updateControls();
+  });
+
+  zoomOutButton.addEventListener('click', function () {
+    scale = Math.max(scale / 1.2, 0.5);
+    queueRenderPage(pageNum);
+    updateControls();
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', function (e) {
+    if (e.target.tagName === 'INPUT') return; // Don't interfere with input fields
+
+    switch (e.key) {
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        e.preventDefault();
+        prevButton.click();
+        break;
+      case 'ArrowRight':
+      case 'ArrowDown':
+        e.preventDefault();
+        nextButton.click();
+        break;
+      case '+':
+      case '=':
+        e.preventDefault();
+        zoomInButton.click();
+        break;
+      case '-':
+        e.preventDefault();
+        zoomOutButton.click();
+        break;
+    }
+  });
+
+  // Responsive canvas sizing
+  function resizeCanvas() {
+    if (pdfDoc && canvas.style.display !== 'none') {
+      queueRenderPage(pageNum);
+    }
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+</script>
