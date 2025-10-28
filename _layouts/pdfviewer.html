@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: single
 ---
 
 <style>
@@ -113,9 +113,11 @@ layout: default
   let pageNum = 1;
   let pageRendering = false;
   let pageNumPending = null;
-  let scale = 1.0;
+  // userScale is the zoom multiplier controlled by the user (1.0 == fit-to-width)
+  let userScale = 1.0;
   const canvas = document.getElementById('pdf-viewer');
   const ctx = canvas.getContext('2d');
+  const container = document.getElementById('pdf-container');
 
   // Controls
   const prevButton = document.getElementById('prev-page');
@@ -130,7 +132,71 @@ layout: default
   // PDF URL from Jekyll frontmatter
   const pdfUrl = '{{ page.pdf }}';
 
-  // Load and render PDF
+  // Helper: render the page and scale to container width while respecting userScale
+  function renderPage(num) {
+    pageRendering = true;
+
+    pdfDoc.getPage(num).then(function (page) {
+      // Get an unscaled viewport for page dimensions
+      const unscaledViewport = page.getViewport({ scale: 1 });
+
+      // Compute baseScale so the page width fits the container width
+      const containerWidth = Math.max(
+        container.clientWidth,
+        window.innerWidth || 0
+      );
+      const baseScale = containerWidth / unscaledViewport.width;
+
+      // final scale = baseScale * userScale
+      const finalScale = baseScale * userScale;
+
+      const viewport = page.getViewport({ scale: finalScale });
+
+      // Set canvas internal resolution
+      canvas.width = Math.floor(viewport.width);
+      canvas.height = Math.floor(viewport.height);
+
+      // Ensure the canvas visually fits the container without causing horizontal overflow
+      canvas.style.width = '100%';
+      canvas.style.height = 'auto';
+      canvas.style.maxWidth = '100%';
+
+      // Render PDF page into canvas context
+      const renderContext = {
+        canvasContext: ctx,
+        viewport: viewport,
+      };
+
+      const renderTask = page.render(renderContext);
+
+      renderTask.promise.then(function () {
+        pageRendering = false;
+        if (pageNumPending !== null) {
+          renderPage(pageNumPending);
+          pageNumPending = null;
+        }
+      });
+    });
+
+    // Update page counter input (do not overwrite user input during typing)
+    pageNumInput.value = num;
+  }
+
+  function queueRenderPage(num) {
+    if (pageRendering) {
+      pageNumPending = num;
+    } else {
+      renderPage(num);
+    }
+  }
+
+  function updateControls() {
+    prevButton.disabled = pageNum <= 1;
+    nextButton.disabled = pdfDoc ? pageNum >= pdfDoc.numPages : true;
+    zoomLevelSpan.textContent = Math.round(userScale * 100) + '%';
+  }
+
+  // Load PDF and initialize
   pdfjsLib
     .getDocument(pdfUrl)
     .promise.then(function (pdfDoc_) {
@@ -152,52 +218,6 @@ layout: default
       console.error('Error loading PDF:', error);
     });
 
-  function renderPage(num) {
-    pageRendering = true;
-
-    // Get page
-    pdfDoc.getPage(num).then(function (page) {
-      const viewport = page.getViewport({ scale: scale });
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
-
-      // Render PDF page into canvas context
-      const renderContext = {
-        canvasContext: ctx,
-        viewport: viewport,
-      };
-
-      const renderTask = page.render(renderContext);
-
-      // Wait for rendering to finish
-      renderTask.promise.then(function () {
-        pageRendering = false;
-        if (pageNumPending !== null) {
-          // New page rendering is pending
-          renderPage(pageNumPending);
-          pageNumPending = null;
-        }
-      });
-    });
-
-    // Update page counters
-    pageNumInput.value = num;
-  }
-
-  function queueRenderPage(num) {
-    if (pageRendering) {
-      pageNumPending = num;
-    } else {
-      renderPage(num);
-    }
-  }
-
-  function updateControls() {
-    prevButton.disabled = pageNum <= 1;
-    nextButton.disabled = pageNum >= pdfDoc.numPages;
-    zoomLevelSpan.textContent = Math.round(scale * 100) + '%';
-  }
-
   // Event listeners
   prevButton.addEventListener('click', function () {
     if (pageNum <= 1) return;
@@ -207,7 +227,7 @@ layout: default
   });
 
   nextButton.addEventListener('click', function () {
-    if (pageNum >= pdfDoc.numPages) return;
+    if (!pdfDoc || pageNum >= pdfDoc.numPages) return;
     pageNum++;
     queueRenderPage(pageNum);
     updateControls();
@@ -215,7 +235,7 @@ layout: default
 
   pageNumInput.addEventListener('change', function () {
     const num = parseInt(this.value);
-    if (num > 0 && num <= pdfDoc.numPages) {
+    if (pdfDoc && num > 0 && num <= pdfDoc.numPages) {
       pageNum = num;
       queueRenderPage(pageNum);
       updateControls();
@@ -225,13 +245,13 @@ layout: default
   });
 
   zoomInButton.addEventListener('click', function () {
-    scale = Math.min(scale * 1.2, 3.0);
+    userScale = Math.min(userScale * 1.2, 3.0);
     queueRenderPage(pageNum);
     updateControls();
   });
 
   zoomOutButton.addEventListener('click', function () {
-    scale = Math.max(scale / 1.2, 0.5);
+    userScale = Math.max(userScale / 1.2, 0.3);
     queueRenderPage(pageNum);
     updateControls();
   });
@@ -263,7 +283,7 @@ layout: default
     }
   });
 
-  // Responsive canvas sizing
+  // Responsive: re-render current page so it fits new container width
   function resizeCanvas() {
     if (pdfDoc && canvas.style.display !== 'none') {
       queueRenderPage(pageNum);
