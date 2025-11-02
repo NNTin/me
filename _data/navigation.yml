@@ -28,6 +28,8 @@ projects:
       url: /projects/d-back/
     - title: "d-cogs.git <span class='nav-year'>2025</span>"
       url: /projects/d-cogs/
+    - title: "d-flows.git <span class='nav-year'>2025</span>"
+      url: /projects/d-flows/
     - title: "*.git"
       url: /projects-archive/
   - title: "GitHub Pages"
@@ -42,6 +44,8 @@ projects:
       url: /../../pasteindex
     - title: "discord web bridge <span class='nav-year'>2018</span>"
       url: /../../discord-web-bridge
+    - title: "d-back <span class='nav-year'>2025</span>"
+      url: /../../d-back
     - title: "d-zone <span class='nav-year'>2025</span>"
       url: /../../d-zone
   - title: "Honory Mentions"
