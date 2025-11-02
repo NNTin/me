@@ -248,7 +248,10 @@ function Get-WorkflowUsageStatistics {
 
 <#
 .SYNOPSIS
-    Reads previous statistics from the CSV file.
+    Reads previous statistics from the CSV file on the output branch.
+.DESCRIPTION
+    Retrieves the workflow-usage.csv file from the output branch using git show.
+    Handles cases where the file doesn't exist (first run scenario).
 #>
 function Read-PreviousCsvData {
     [CmdletBinding()]
@@ -259,13 +262,50 @@ function Read-PreviousCsvData {
         "DiscordNotifyPreviousTotal" = 0
     }
     
-    if (-not (Test-Path -Path $csvPath)) {
-        Write-Host "No existing CSV file found. This is the first run." -ForegroundColor Yellow
-        return $previousStats
-    }
-    
     try {
-        $csvData = Import-Csv -Path $csvPath
+        Write-Host "Attempting to retrieve CSV from output branch..." -ForegroundColor Cyan
+        
+        # Fetch the output branch to ensure it exists locally
+        Write-Host "Fetching output branch from origin..." -ForegroundColor Gray
+        $fetchOutput = git fetch origin output:output 2>&1
+        $fetchExitCode = $LASTEXITCODE
+        
+        if ($fetchExitCode -ne 0 -and $fetchOutput -notmatch "up to date|Already up.to.date") {
+            # Branch might not exist on remote yet (first run)
+            if ($fetchOutput -match "couldn't find remote ref|does not exist") {
+                Write-Host "Output branch does not exist on remote yet. This is the first run." -ForegroundColor Yellow
+                return $previousStats
+            }
+            Write-Warning "Warning during fetch: $fetchOutput"
+        }
+        
+        # Try to retrieve the file from the output branch
+        $gitOutput = git show output:workflow-usage.csv 2>&1
+        $exitCode = $LASTEXITCODE
+        
+        # Check if the file doesn't exist on the output branch
+        if ($exitCode -ne 0) {
+            # Check if it's a "file not found" error
+            if ($gitOutput -match "does not exist|Path not in|exists on disk, but not in" -or 
+                $gitOutput -match "fatal: path 'workflow-usage.csv' does not exist") {
+                Write-Host "No existing CSV file found on output branch. This is the first run." -ForegroundColor Yellow
+                return $previousStats
+            }
+            else {
+                # Some other git error occurred
+                Write-Warning "Git error while retrieving CSV: $gitOutput"
+                return $previousStats
+            }
+        }
+        
+        # Parse the CSV content
+        if ([string]::IsNullOrWhiteSpace($gitOutput)) {
+            Write-Host "CSV file on output branch is empty. Starting fresh." -ForegroundColor Yellow
+            return $previousStats
+        }
+        
+        # Convert the CSV text to objects
+        $csvData = $gitOutput | ConvertFrom-Csv
         
         if ($csvData.Count -eq 0) {
             Write-Host "CSV file is empty. Starting fresh." -ForegroundColor Yellow
@@ -278,12 +318,12 @@ function Read-PreviousCsvData {
         $previousStats["StepSummaryPreviousTotal"] = [int]$lastEntry.'step-summary-total'
         $previousStats["DiscordNotifyPreviousTotal"] = [int]$lastEntry.'discord-notify-total'
         
-        Write-Host "Previous totals loaded from $($lastEntry.Date):" -ForegroundColor Cyan
+        Write-Host "Previous totals loaded from output branch ($($lastEntry.Date)):" -ForegroundColor Cyan
         Write-Host "  step-summary: $($previousStats['StepSummaryPreviousTotal'])"
         Write-Host "  discord-notify: $($previousStats['DiscordNotifyPreviousTotal'])"
     }
     catch {
-        Write-Warning "Error reading CSV file: $($_.Exception.Message). Starting with zero values."
+        Write-Warning "Error reading CSV file from output branch: $($_.Exception.Message). Starting with zero values."
     }
     
     return $previousStats
