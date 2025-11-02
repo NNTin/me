@@ -31,7 +31,9 @@
 .NOTES
     Requires:
     - GitHub Personal Access Token in environment variable: WORKFLOW_USAGE_TOKEN
-    - Token permissions needed: public_repo (for public repositories)
+    - Token permissions needed:
+      - **`repo`** - Full control of private repositories (needed to access workflow run data)
+      - **`actions:read`** - Read access to Actions workflows and runs
     
     API Rate Limits:
     - REST API: 5,000 requests per hour for authenticated requests

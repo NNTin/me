@@ -39,6 +39,12 @@ jobs:
         with:
           python-version: '3.13'
 
+      - name: Generate workflow usage statistics
+        run: |
+          pwsh ./tools/gen_workflow_usage.ps1
+        env:
+          WORKFLOW_USAGE_TOKEN: ${{ secrets.WORKFLOW_USAGE_TOKEN }}
+
       - name: Generate badges
         run: |
           pwsh ./tools/gen_badges.ps1

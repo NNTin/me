@@ -23,43 +23,30 @@ Set-Variable -Name ROOT_DIR -Value $ROOT_DIR -Option ReadOnly -Scope Script
 Set-Variable -Name OUTPUT_DIR -Value $OUTPUT_DIR -Option ReadOnly -Scope Script
 Set-Variable -Name TMP_DIR -Value $TMP_DIR -Option ReadOnly -Scope Script
 
+# Script-level variable to store the venv Python executable path
+$script:PYTHON_EXE = $null
+
 #------------------------------------------------------ Functions -------------------------------------------------#
 
 function Initialize-VirtualEnvironment {
     <#
     .DESCRIPTION
         Cross-platform virtual environment setup.
-        - On Windows: uses Scripts\Activate.ps1
-        - On Linux/macOS: uses bin/activate (bash)
+        Uses the venv Python executable directly instead of relying on activation scripts.
+        Returns the path to the venv Python executable for use by other functions.
     #>
     # Determine platform
-    $isWindows = $IsWindows -or ($PSVersionTable.PSPlatform -eq 'Win32NT')
+    $IsOnWindows = $IsWindows -or ($PSVersionTable.PSPlatform -eq 'Win32NT')
 
-    $venvName = if ($IsWindows) { ".venv.win" } else { ".venv.linux" }
+    $venvName = if ($IsOnWindows) { ".venv.win" } else { ".venv.linux" }
     $venvPath = Join-Path -Path $TOOLS_DIR -ChildPath $venvName
     $requirementsPath = Join-Path -Path $TOOLS_DIR -ChildPath "requirements.txt"
-    $needsRequirements = $false
-
-
-    if ($isWindows) {
-        $activateScript = Join-Path -Path $venvPath -ChildPath "Scripts\Activate.ps1"
-    }
-    else {
-        $activateScript = Join-Path -Path $venvPath -ChildPath "bin/Activate.ps1"
-    }
+    
+    # Determine Python executable path in venv
+    $pythonExe = Join-Path -Path $venvPath -ChildPath ($IsOnWindows ? "Scripts/python.exe" : "bin/python")
 
     if (Test-Path $venvPath) {
-        Write-Host "Activating existing virtual environment..." -ForegroundColor Green
-
-        # Works for both Windows and Linux
-        & $activateScript
-
-        if ($env:VIRTUAL_ENV) {
-            Write-Host "Virtual environment activated successfully" -ForegroundColor Green
-        }
-        else {
-            throw "Failed to activate existing virtual environment"
-        }
+        Write-Host "Using existing virtual environment at $venvPath" -ForegroundColor Green
     }
     else {
         Write-Host "Virtual environment not found. Creating new virtual environment..." -ForegroundColor Yellow
@@ -68,24 +55,12 @@ function Initialize-VirtualEnvironment {
             throw "Failed to create virtual environment"
         }
 
-        Write-Host "Activating new virtual environment..." -ForegroundColor Green
-
-        # Works for both Windows and Linux
-        & $activateScript
-
-        if (-not $env:VIRTUAL_ENV) {
-            throw "Failed to activate new virtual environment"
-        }
-
-        Write-Host "New virtual environment created and activated" -ForegroundColor Green
-        $needsRequirements = $true
-    }
-
-    # Install requirements if needed
-    if ($needsRequirements) {
+        Write-Host "New virtual environment created at $venvPath" -ForegroundColor Green
+        
+        # Install requirements for new venv
         if (Test-Path $requirementsPath) {
             Write-Host "Installing requirements from requirements.txt..." -ForegroundColor Yellow
-            pip install -r $requirementsPath
+            & $pythonExe -m pip install -r $requirementsPath
             if ($LASTEXITCODE -ne 0) {
                 throw "Failed to install requirements"
             }
@@ -97,6 +72,12 @@ function Initialize-VirtualEnvironment {
     }
 
     Write-Host "Environment is ready" -ForegroundColor Green
+    
+    # Store the Python executable path at script level for use by other functions
+    $script:PYTHON_EXE = $pythonExe
+    
+    # Return the Python executable path for use by other functions
+    return $pythonExe
 }
 
 function New-Badge {
@@ -157,7 +138,12 @@ function New-Badge {
         New-Item -ItemType Directory -Path $TMP_DIR -Force | Out-Null
     }
     
-    cookiecutter @cookiecutterArgs
+    # Call cookiecutter via the venv Python executable to ensure it's found on all platforms
+    if (-not $script:PYTHON_EXE) {
+        throw "Virtual environment not initialized. Call Initialize-VirtualEnvironment first."
+    }
+    
+    & $script:PYTHON_EXE -m cookiecutter @cookiecutterArgs
     
     if ($LASTEXITCODE -ne 0) {
         throw "Failed to generate badge: output.svg"
