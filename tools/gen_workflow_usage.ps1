@@ -332,6 +332,9 @@ function Read-PreviousCsvData {
 <#
 .SYNOPSIS
     Updates the CSV file with new workflow usage statistics.
+.DESCRIPTION
+    If today's date already exists in the CSV, updates that row.
+    Otherwise, appends a new row.
 #>
 function Update-WorkflowUsageCsv {
     [CmdletBinding()]
@@ -353,9 +356,11 @@ function Update-WorkflowUsageCsv {
     $stepSummaryDaily = [Math]::Max(0, $stepSummaryDaily)
     $discordNotifyDaily = [Math]::Max(0, $discordNotifyDaily)
     
+    $todayDate = Get-Date -Format "yyyy-MM-dd"
+    
     # Create new CSV row
     $newRow = [PSCustomObject]@{
-        "Date" = Get-Date -Format "yyyy-MM-dd"
+        "Date" = $todayDate
         "step-summary-total" = $CurrentStats['step-summaryTotal']
         "step-summary-daily" = $stepSummaryDaily
         "discord-notify-total" = $CurrentStats['discord-notifyTotal']
@@ -368,15 +373,49 @@ function Update-WorkflowUsageCsv {
         New-Item -Path $OUTPUT_DIR -ItemType Directory -Force | Out-Null
     }
     
-    # Append to CSV (or create new file if it doesn't exist)
+    # Read existing CSV data or create new
     try {
+        $allRows = @()
+        $dateExists = $false
+        
         if (Test-Path -Path $csvPath) {
-            $newRow | Export-Csv -Path $csvPath -Append -NoTypeInformation -Force
-            Write-Host "CSV file updated successfully" -ForegroundColor Green
+            # Read existing CSV data
+            $existingData = Import-Csv -Path $csvPath
+            
+            # Check if today's date already exists
+            $updatedRows = foreach ($row in $existingData) {
+                if ($row.Date -eq $todayDate) {
+                    Write-Host "Found existing entry for $todayDate - updating row" -ForegroundColor Yellow
+                    $dateExists = $true
+                    $newRow  # Output the new row to replace the old one
+                }
+                else {
+                    $row  # Keep existing row
+                }
+            }
+            
+            $allRows = $updatedRows
+            
+            # If date doesn't exist, append the new row
+            if (-not $dateExists) {
+                Write-Host "Appending new entry for $todayDate" -ForegroundColor Green
+                $allRows += $newRow
+            }
         }
         else {
-            $newRow | Export-Csv -Path $csvPath -NoTypeInformation -Force
-            Write-Host "CSV file created successfully" -ForegroundColor Green
+            # First run - create new CSV with just this row
+            Write-Host "Creating new CSV file with entry for $todayDate" -ForegroundColor Green
+            $allRows = @($newRow)
+        }
+        
+        # Write all rows to CSV
+        $allRows | Export-Csv -Path $csvPath -NoTypeInformation -Force
+        
+        if ($dateExists) {
+            Write-Host "CSV file updated successfully (row overwritten)" -ForegroundColor Green
+        }
+        else {
+            Write-Host "CSV file updated successfully (row appended)" -ForegroundColor Green
         }
         
         Write-Host "`nUpdated statistics for $(Get-Date -Format 'yyyy-MM-dd'):" -ForegroundColor Cyan
