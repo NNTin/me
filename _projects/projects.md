@@ -28,13 +28,14 @@ gantt
     crosku                  :ck, 2018-11-11, 2019-01-12
     Red-kun                 :rk, 2018-11-27, 2019-10-13
     Professional Work Life  :active, ps, 2019-04-01, until today
-    me                      :active, me, 2025-09-14, 2025-10-16
+    me                      :active, me, 2025-09-14, 2025-11-03
     d-zone PR               :milestone, dz1, 2018-11-11, 0d
     d-zone PR               :milestone, dz2, 2019-02-24, 0d
     d-zone forked           :active, milestone, dz3, 2020-09-19, 0d
-    d-zone                  :active, dz, 2025-09-18, 2025-10-10
-    d-back                  :active, db, 2025-09-17, 2025-10-05
-    d-cogs                  :active, dc, 2025-09-20, 2025-10-05
+    d-zone                  :active, dz, 2025-09-18, until today
+    d-back                  :active, db, 2025-09-17, until today
+    d-cogs                  :active, dc, 2025-09-20, until today
+    d-flows                 :active, df, 2025-11-01, until today
 </div>
 
 <!-- Custom Tooltip CSS -->
@@ -108,7 +109,8 @@ const projectDescriptions = {
   'dz3': 'In the further future I forked the webclient part of d-zone. It is based on this version.',
   'dz': 'Major changes: commonjs -> esm, websocket URL fallback strategy, Discord OAuth2 support, CI versioned deployment, e2e testing with Playwright, Allure and Vercel deployment.',
   'db': 'Handles the backend logic of d-zone, meant to be installed as a python module (published as PyPI module), supports a wide variety of versions. Provides mock data when the callbacks are not registered',
-  'dc': 'Implementation of the python module d-back and thus provides real data. d-cogs makes use of Red-DiscordBot modular design and is installed as a plugin.'
+  'dc': 'Implementation of the python module d-back and thus provides real data. d-cogs makes use of Red-DiscordBot modular design and is installed as a plugin.',
+  'df': 'Re-usable workflows, mainly for Discord'
 };
 
 // Wait for Mermaid to render, then add tooltips

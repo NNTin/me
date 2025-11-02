@@ -1,8 +1,8 @@
 name: generate badges
 
 on:
-  schedule: # run automatically every 24 hours
-    - cron: "0 */24 * * *"
+  schedule: # run automatically every 12 hours
+    - cron: "0 */12 * * *"
   workflow_dispatch: # allows to manually run the job at any time
   push:
     branches:
@@ -38,6 +38,12 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.13'
+
+      - name: Generate workflow usage statistics
+        run: |
+          pwsh ./tools/gen_workflow_usage.ps1
+        env:
+          WORKFLOW_USAGE_TOKEN: ${{ secrets.WORKFLOW_USAGE_TOKEN }}
 
       - name: Generate badges
         run: |
