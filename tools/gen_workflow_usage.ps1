@@ -21,6 +21,12 @@
     - step-summary-daily: New runs since last measurement
     - discord-notify-total: Cumulative runs of discord-notify.yml
     - discord-notify-daily: New runs since last measurement
+    
+    SVG badge files in the output/badges directory:
+    - d-flows_step-summary-total_usage.svg - Total usage count for step-summary workflow
+    - d-flows_step-summary-daily_usage.svg - Daily usage count for step-summary workflow
+    - d-flows_discord-notify-total_usage.svg - Total usage count for discord-notify workflow
+    - d-flows_discord-notify-daily_usage.svg - Daily usage count for discord-notify workflow
 
 .NOTES
     Requires:
@@ -54,6 +60,9 @@ Write-Host "ROOT_DIR  : $ROOT_DIR"
 Write-Host "OUTPUT_DIR: $OUTPUT_DIR"
 Write-Host "TMP_DIR   : $TMP_DIR"
 Write-Host ""
+
+# Initialize virtual environment for cookiecutter
+Initialize-VirtualEnvironment
 
 # Define paths and configuration
 $csvPath = Join-Path -Path $OUTPUT_DIR -ChildPath "workflow-usage.csv"
@@ -332,9 +341,92 @@ function Update-WorkflowUsageCsv {
         Write-Host "  step-summary: $($CurrentStats['step-summaryTotal']) total (+$stepSummaryDaily today)"
         Write-Host "  discord-notify: $($CurrentStats['discord-notifyTotal']) total (+$discordNotifyDaily today)"
         Write-Host "`nCSV file location: $csvPath"
+        
+        # Return daily increments for reuse in badge generation
+        return @{
+            StepSummaryDaily = $stepSummaryDaily
+            DiscordNotifyDaily = $discordNotifyDaily
+        }
     }
     catch {
         throw "Failed to update CSV file: $($_.Exception.Message)"
+    }
+}
+
+<#
+.SYNOPSIS
+    Generates SVG badges for workflow usage statistics.
+#>
+function New-WorkflowUsageBadges {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [hashtable]$CurrentStats,
+        
+        [Parameter(Mandatory)]
+        [int]$StepSummaryDaily,
+        
+        [Parameter(Mandatory)]
+        [int]$DiscordNotifyDaily
+    )
+    
+    Write-Host "`nGenerating workflow usage badges..." -ForegroundColor Cyan
+    
+    $badgesGenerated = 0
+    
+    # Badge 1: step-summary total usage
+    try {
+        New-Badge -FileName "d-flows_step-summary-total_usage" `
+                  -LeftText "d-flows/step-summary" `
+                  -RightText "$($CurrentStats['step-summaryTotal'])" `
+                  -RightColor "#007BFF"
+        $badgesGenerated++
+    }
+    catch {
+        Write-Warning "Failed to generate step-summary total badge: $($_.Exception.Message)"
+    }
+    
+    # Badge 2: step-summary daily usage
+    try {
+        New-Badge -FileName "d-flows_step-summary-daily_usage" `
+                  -LeftText "d-flows/step-summary daily" `
+                  -RightText "+$StepSummaryDaily" `
+                  -RightColor "#FF6B35"
+        $badgesGenerated++
+    }
+    catch {
+        Write-Warning "Failed to generate step-summary daily badge: $($_.Exception.Message)"
+    }
+    
+    # Badge 3: discord-notify total usage
+    try {
+        New-Badge -FileName "d-flows_discord-notify-total_usage" `
+                  -LeftText "d-flows/discord-notify" `
+                  -RightText "$($CurrentStats['discord-notifyTotal'])" `
+                  -RightColor "#9C27B0"
+        $badgesGenerated++
+    }
+    catch {
+        Write-Warning "Failed to generate discord-notify total badge: $($_.Exception.Message)"
+    }
+    
+    # Badge 4: discord-notify daily usage
+    try {
+        New-Badge -FileName "d-flows_discord-notify-daily_usage" `
+                  -LeftText "d-flows/discord-notify daily" `
+                  -RightText "+$DiscordNotifyDaily" `
+                  -RightColor "#4CAF50"
+        $badgesGenerated++
+    }
+    catch {
+        Write-Warning "Failed to generate discord-notify daily badge: $($_.Exception.Message)"
+    }
+    
+    if ($badgesGenerated -eq 4) {
+        Write-Host "Successfully generated 4 workflow usage badges" -ForegroundColor Green
+    }
+    else {
+        Write-Warning "Generated $badgesGenerated out of 4 badges"
     }
 }
 
@@ -368,8 +460,11 @@ For persistent setup, add it to your PowerShell profile or system environment va
     # Read previous statistics
     $previousStats = Read-PreviousCsvData
     
-    # Update CSV file
-    Update-WorkflowUsageCsv -CurrentStats $currentStats -PreviousStats $previousStats
+    # Update CSV file and get daily increments
+    $dailyStats = Update-WorkflowUsageCsv -CurrentStats $currentStats -PreviousStats $previousStats
+    
+    # Generate workflow usage badges
+    New-WorkflowUsageBadges -CurrentStats $currentStats -StepSummaryDaily $dailyStats.StepSummaryDaily -DiscordNotifyDaily $dailyStats.DiscordNotifyDaily
     
     # Display execution summary
     $scriptElapsed = (Get-Date) - $scriptStartTime
