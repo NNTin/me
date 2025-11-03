@@ -72,13 +72,13 @@ $csvPath = Join-Path -Path $OUTPUT_DIR -ChildPath "workflow-usage.csv"
 # Target workflows to track from nntin/d-flows repository
 $targetWorkflows = @(
     @{
-        Name = "step-summary"
-        Path = "nntin/d-flows/.github/workflows/step-summary.yml"
+        Name     = "step-summary"
+        Path     = "nntin/d-flows/.github/workflows/step-summary.yml"
         FileName = "step-summary.yml"
     },
     @{
-        Name = "discord-notify"
-        Path = "nntin/d-flows/.github/workflows/discord-notify.yml"
+        Name     = "discord-notify"
+        Path     = "nntin/d-flows/.github/workflows/discord-notify.yml"
         FileName = "discord-notify.yml"
     }
 )
@@ -108,9 +108,9 @@ function Invoke-GitHubApi {
     }
     
     $headers = @{
-        "Authorization" = "Bearer $token"
-        "Accept" = "application/vnd.github+json"
-        "User-Agent" = "PowerShell-WorkflowUsageTracker"
+        "Authorization"        = "Bearer $token"
+        "Accept"               = "application/vnd.github+json"
+        "User-Agent"           = "PowerShell-WorkflowUsageTracker"
         "X-GitHub-Api-Version" = "2022-11-28"
     }
     
@@ -252,18 +252,24 @@ function Get-WorkflowUsageStatistics {
 .DESCRIPTION
     Retrieves the workflow-usage.csv file from the output branch using git show.
     Handles cases where the file doesn't exist (first run scenario).
+    Filters for the most recent entry before today to ensure correct daily increment calculations
+    when the script runs multiple times per day.
 #>
 function Read-PreviousCsvData {
     [CmdletBinding()]
     param()
     
     $previousStats = @{
-        "StepSummaryPreviousTotal" = 0
+        "StepSummaryPreviousTotal"   = 0
         "DiscordNotifyPreviousTotal" = 0
     }
     
     try {
         Write-Host "Attempting to retrieve CSV from output branch..." -ForegroundColor Cyan
+        
+        # Get today's date for comparison
+        $todayDate = Get-Date -Format "yyyy-MM-dd"
+        Write-Verbose "Today's date for filtering: $todayDate"
         
         # Fetch the output branch to ensure it exists locally
         Write-Host "Fetching output branch from origin..." -ForegroundColor Gray
@@ -312,15 +318,35 @@ function Read-PreviousCsvData {
             return $previousStats
         }
         
-        # Get the most recent entry (last row)
-        $lastEntry = $csvData | Select-Object -Last 1
+        # Filter for entries before today's date
+        $previousEntries = $csvData | Where-Object {
+            try {
+                $entryDate = [DateTime]::Parse($_.Date)
+                $today = [DateTime]::Parse($todayDate)
+                $entryDate -lt $today
+            }
+            catch {
+                Write-Warning "Failed to parse date '$($_.Date)': $($_.Exception.Message)"
+                $false  # Skip entries with unparseable dates
+            }
+        } | Sort-Object -Property Date -Descending | Select-Object -First 1
         
-        $previousStats["StepSummaryPreviousTotal"] = [int]$lastEntry.'step-summary-total'
-        $previousStats["DiscordNotifyPreviousTotal"] = [int]$lastEntry.'discord-notify-total'
+        Write-Verbose "Total CSV entries: $($csvData.Count)"
         
-        Write-Host "Previous totals loaded from output branch ($($lastEntry.Date)):" -ForegroundColor Cyan
+        # Check if we found a previous day entry
+        if ($null -eq $previousEntries) {
+            Write-Host "No entries found before today ($todayDate). This is the first day with data." -ForegroundColor Yellow
+            return $previousStats
+        }
+        
+        # Use the most recent previous day entry
+        $previousStats["StepSummaryPreviousTotal"] = [int]$previousEntries.'step-summary-total'
+        $previousStats["DiscordNotifyPreviousTotal"] = [int]$previousEntries.'discord-notify-total'
+        
+        Write-Host "Previous totals loaded from output branch (baseline date: $($previousEntries.Date)):" -ForegroundColor Cyan
         Write-Host "  step-summary: $($previousStats['StepSummaryPreviousTotal'])"
         Write-Host "  discord-notify: $($previousStats['DiscordNotifyPreviousTotal'])"
+        Write-Verbose "Using entry from $($previousEntries.Date) as baseline (before today: $todayDate)"
     }
     catch {
         Write-Warning "Error reading CSV file from output branch: $($_.Exception.Message). Starting with zero values."
@@ -360,9 +386,9 @@ function Update-WorkflowUsageCsv {
     
     # Create new CSV row
     $newRow = [PSCustomObject]@{
-        "Date" = $todayDate
-        "step-summary-total" = $CurrentStats['step-summaryTotal']
-        "step-summary-daily" = $stepSummaryDaily
+        "Date"                 = $todayDate
+        "step-summary-total"   = $CurrentStats['step-summaryTotal']
+        "step-summary-daily"   = $stepSummaryDaily
         "discord-notify-total" = $CurrentStats['discord-notifyTotal']
         "discord-notify-daily" = $discordNotifyDaily
     }
@@ -425,7 +451,7 @@ function Update-WorkflowUsageCsv {
         
         # Return daily increments for reuse in badge generation
         return @{
-            StepSummaryDaily = $stepSummaryDaily
+            StepSummaryDaily   = $stepSummaryDaily
             DiscordNotifyDaily = $discordNotifyDaily
         }
     }
@@ -458,9 +484,9 @@ function New-WorkflowUsageBadges {
     # Badge 1: step-summary total usage
     try {
         New-Badge -FileName "d-flows_step-summary-total_usage" `
-                  -LeftText "d-flows/step-summary" `
-                  -RightText "$($CurrentStats['step-summaryTotal'])" `
-                  -RightColor "#007BFF"
+            -LeftText "d-flows/step-summary" `
+            -RightText "$($CurrentStats['step-summaryTotal'])" `
+            -RightColor "#007BFF"
         $badgesGenerated++
     }
     catch {
@@ -470,9 +496,9 @@ function New-WorkflowUsageBadges {
     # Badge 2: step-summary daily usage
     try {
         New-Badge -FileName "d-flows_step-summary-daily_usage" `
-                  -LeftText "d-flows/step-summary daily" `
-                  -RightText "+$StepSummaryDaily" `
-                  -RightColor "#FF6B35"
+            -LeftText "d-flows/step-summary daily" `
+            -RightText "+$StepSummaryDaily" `
+            -RightColor "#FF6B35"
         $badgesGenerated++
     }
     catch {
@@ -482,9 +508,9 @@ function New-WorkflowUsageBadges {
     # Badge 3: discord-notify total usage
     try {
         New-Badge -FileName "d-flows_discord-notify-total_usage" `
-                  -LeftText "d-flows/discord-notify" `
-                  -RightText "$($CurrentStats['discord-notifyTotal'])" `
-                  -RightColor "#9C27B0"
+            -LeftText "d-flows/discord-notify" `
+            -RightText "$($CurrentStats['discord-notifyTotal'])" `
+            -RightColor "#9C27B0"
         $badgesGenerated++
     }
     catch {
@@ -494,9 +520,9 @@ function New-WorkflowUsageBadges {
     # Badge 4: discord-notify daily usage
     try {
         New-Badge -FileName "d-flows_discord-notify-daily_usage" `
-                  -LeftText "d-flows/discord-notify daily" `
-                  -RightText "+$DiscordNotifyDaily" `
-                  -RightColor "#4CAF50"
+            -LeftText "d-flows/discord-notify daily" `
+            -RightText "+$DiscordNotifyDaily" `
+            -RightColor "#4CAF50"
         $badgesGenerated++
     }
     catch {
