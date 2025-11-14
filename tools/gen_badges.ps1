@@ -391,7 +391,7 @@ function Export-RepoInfosToJson {
 #------------------------------------------------------ Script ----------------------------------------------------#
 
 # Initialize the virtual environment
-Initialize-VirtualEnvironment
+$script:PYTHON_EXE = Initialize-VirtualEnvironment
 
 # Clone repositories from configuration
 Clone-Repositories

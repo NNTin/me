@@ -151,7 +151,7 @@ function Convert-DirectoryToPdf {
         $pythonArgs += $ImagesDirectory
       }
             
-      $result = & python @pythonArgs
+      $result = & $script:PYTHON_EXE @pythonArgs
             
       if ($LASTEXITCODE -eq 0) {
         Write-Host "  ✓ Success: $pdfFileName" -ForegroundColor Green
@@ -246,7 +246,7 @@ function Build-JekyllSite {
 #------------------------------------------------------ Script ----------------------------------------------------#
 
 # Initialize the virtual environment
-Initialize-VirtualEnvironment
+$script:PYTHON_EXE = Initialize-VirtualEnvironment
 
 # TODO: differentiate between CI and locally
 # Build the Jekyll site first
