@@ -17,7 +17,7 @@
 #>
 
 param(
-    [int]$InactivityGapDays = 30,
+    [int]$InactivityGapDays = 3,
     [string]$ReposPath = "",
     [string]$OutputPath = ""
 )
