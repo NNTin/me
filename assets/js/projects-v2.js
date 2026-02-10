@@ -6,7 +6,8 @@
   }
 
   const timelineRoot = document.getElementById("projects-v2-timeline");
-  if (!timelineRoot) {
+  const labelsRoot = document.getElementById("projects-v2-labels");
+  if (!timelineRoot || !labelsRoot) {
     return;
   }
 
@@ -92,7 +93,7 @@
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
+      .replace(/\"/g, "&quot;")
       .replace(/'/g, "&#039;");
   }
 
@@ -120,7 +121,7 @@
     }
   });
 
-  const rows = (reposData || []).map((repoItem) => {
+  const rows = reposData.map((repoItem) => {
     const timelineRow = timelineByRepo.get(repoItem.repo) || {};
     const timelineRangesRaw = toArray(timelineRow.ranges);
     const normalizedRanges = [];
@@ -253,6 +254,7 @@
     domainEnd: domain.end,
     xScale: null,
     yScale: null,
+    layout: null,
     firstRender: true,
   };
 
@@ -330,6 +332,35 @@
       .join("<br>");
   }
 
+  function renderLabels(layout, yScale) {
+    labelsRoot.innerHTML = "";
+    labelsRoot.style.height = layout.svgHeight + "px";
+
+    const header = document.createElement("div");
+    header.className = "projects-v2__labels-header";
+    header.style.height = layout.top + "px";
+    labelsRoot.appendChild(header);
+
+    const layer = document.createElement("div");
+    layer.className = "projects-v2__labels-layer";
+    layer.style.height = layout.svgHeight + "px";
+    labelsRoot.appendChild(layer);
+
+    rows.forEach((row, index) => {
+      const y = yScale(row.repo);
+      if (typeof y !== "number") {
+        return;
+      }
+
+      const rowElement = document.createElement("div");
+      rowElement.className = "projects-v2__label-row" + (index % 2 === 1 ? " is-alt" : "");
+      rowElement.style.top = y + "px";
+      rowElement.style.height = yScale.bandwidth() + "px";
+      rowElement.textContent = row.repo;
+      layer.appendChild(rowElement);
+    });
+  }
+
   function updateMetaText() {
     const meta = document.getElementById("projects-v2-meta");
     if (!meta) {
@@ -363,22 +394,22 @@
   }
 
   function scrollToLastTwelveMonths() {
-    if (!chartState.xScale) {
+    if (!chartState.xScale || !chartState.layout) {
       return;
     }
-    const layout = chartState.layout;
+
     const startDate = getDefaultViewStartDate();
-    const leftTarget = chartState.xScale(startDate) - layout.left - 8;
-    const maxScroll = Math.max(0, (layout.svgWidth || 0) - timelineRoot.clientWidth);
+    const leftTarget = chartState.xScale(startDate) - chartState.layout.chartLeft - 8;
+    const maxScroll = Math.max(0, chartState.layout.svgWidth - timelineRoot.clientWidth);
     timelineRoot.scrollLeft = clampNumber(leftTarget, 0, maxScroll);
   }
 
   function render(options) {
     const renderOptions = options || {};
-    const viewportWidth = Math.max(timelineRoot.clientWidth, 640);
+    const viewportWidth = Math.max(timelineRoot.clientWidth, 320);
 
     const layout = {
-      left: 220,
+      chartLeft: 8,
       right: 32,
       top: 56,
       bottom: 34,
@@ -387,7 +418,7 @@
     };
 
     const chartHeight = rows.length * (layout.rowHeight + layout.rowGap);
-    const visibleChartWidth = Math.max(viewportWidth - layout.left - layout.right, 320);
+    const visibleChartWidth = Math.max(viewportWidth - layout.chartLeft - layout.right, 240);
     const basePixelsPerDay = visibleChartWidth / 365;
     const pixelPerDay = Math.max(0.2, basePixelsPerDay * chartState.zoomLevel);
 
@@ -396,14 +427,14 @@
     const chartWidth = Math.max(visibleChartWidth, Math.ceil(fullDays * pixelPerDay));
 
     layout.chartWidth = chartWidth;
-    layout.svgWidth = layout.left + chartWidth + layout.right;
+    layout.svgWidth = layout.chartLeft + chartWidth + layout.right;
     layout.svgHeight = layout.top + chartHeight + layout.bottom;
     chartState.layout = layout;
 
     const xScale = d3
       .scaleTime()
       .domain([chartState.domainStart, chartState.domainEnd])
-      .range([layout.left, layout.left + chartWidth]);
+      .range([layout.chartLeft, layout.chartLeft + chartWidth]);
 
     const yScale = d3
       .scaleBand()
@@ -418,6 +449,8 @@
     svg.attr("width", layout.svgWidth).attr("height", layout.svgHeight);
     svg.selectAll("*").remove();
 
+    renderLabels(layout, yScale);
+
     const rowBackground = svg.append("g");
     rows.forEach((row, index) => {
       const y = yScale(row.repo);
@@ -428,9 +461,9 @@
         rowBackground
           .append("rect")
           .attr("class", "projects-v2__row-alt")
-          .attr("x", 0)
+          .attr("x", layout.chartLeft)
           .attr("y", y)
-          .attr("width", layout.svgWidth)
+          .attr("width", layout.chartWidth)
           .attr("height", yScale.bandwidth());
       }
     });
@@ -441,21 +474,6 @@
       .attr("class", "projects-v2__axis")
       .attr("transform", "translate(0," + layout.top + ")")
       .call(topAxis);
-
-    const labelLayer = svg.append("g");
-    rows.forEach((row) => {
-      const y = yScale(row.repo);
-      if (typeof y !== "number") {
-        return;
-      }
-      labelLayer
-        .append("text")
-        .attr("class", "projects-v2__repo-label")
-        .attr("x", layout.left - 10)
-        .attr("y", y + yScale.bandwidth() / 2 + 4)
-        .attr("text-anchor", "end")
-        .text(row.repo);
-    });
 
     const chartTop = layout.top;
     const chartBottom = layout.top + chartHeight;
@@ -618,7 +636,7 @@
     if (allRanges.length === 0) {
       svg
         .append("text")
-        .attr("x", layout.left + 12)
+        .attr("x", layout.chartLeft + 12)
         .attr("y", chartTop + 20)
         .attr("fill", "#6b7280")
         .attr("font-size", 12)
@@ -696,6 +714,68 @@
     },
     { passive: false }
   );
+
+  const dragState = {
+    active: false,
+    pointerId: null,
+    lastX: 0,
+  };
+
+  function endDrag(pointerId) {
+    if (!dragState.active) {
+      return;
+    }
+
+    if (pointerId !== undefined && pointerId !== null && pointerId !== dragState.pointerId) {
+      return;
+    }
+
+    dragState.active = false;
+    dragState.pointerId = null;
+    timelineRoot.classList.remove("is-dragging");
+  }
+
+  timelineRoot.addEventListener("pointerdown", function (event) {
+    if (event.pointerType !== "touch" && event.button !== 0) {
+      return;
+    }
+
+    dragState.active = true;
+    dragState.pointerId = event.pointerId;
+    dragState.lastX = event.clientX;
+    timelineRoot.classList.add("is-dragging");
+    hideTooltip();
+
+    if (typeof timelineRoot.setPointerCapture === "function") {
+      try {
+        timelineRoot.setPointerCapture(event.pointerId);
+      } catch (_error) {
+        // Ignore browsers that reject pointer capture for this event.
+      }
+    }
+  });
+
+  timelineRoot.addEventListener("pointermove", function (event) {
+    if (!dragState.active || event.pointerId !== dragState.pointerId) {
+      return;
+    }
+
+    const deltaX = event.clientX - dragState.lastX;
+    timelineRoot.scrollLeft -= deltaX;
+    dragState.lastX = event.clientX;
+  });
+
+  timelineRoot.addEventListener("pointerup", function (event) {
+    endDrag(event.pointerId);
+  });
+
+  timelineRoot.addEventListener("pointercancel", function (event) {
+    endDrag(event.pointerId);
+  });
+
+  timelineRoot.addEventListener("lostpointercapture", function (event) {
+    endDrag(event.pointerId);
+  });
 
   let resizeTimer = null;
   window.addEventListener("resize", function () {
