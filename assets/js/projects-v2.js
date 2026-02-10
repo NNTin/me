@@ -539,6 +539,47 @@
     ].join("<br>");
   }
 
+  function buildRepoLabelTooltipContent(row) {
+    return [
+      "<strong>" + escapeHtml(row.repo) + "</strong>",
+      "total_commit: " + Number(row.totalCommits || 0),
+      "total_active_days: " + Number(row.totalActiveDays || 0),
+    ].join("<br>");
+  }
+
+  function estimateGlobalPointLabelWidth(marker) {
+    const text = marker.label || isoFormat(marker.dateDate);
+    return Math.max(24, text.length * 6.2 + 8);
+  }
+
+  function assignHorizontalLabelLanes(items, getStartX, getWidth) {
+    const laneRightEdges = [];
+
+    items.forEach((item) => {
+      const startX = getStartX(item);
+      const endX = startX + getWidth(item);
+      let lane = -1;
+
+      for (let laneIndex = 0; laneIndex < laneRightEdges.length; laneIndex++) {
+        if (startX > laneRightEdges[laneIndex] + 6) {
+          lane = laneIndex;
+          break;
+        }
+      }
+
+      if (lane === -1) {
+        lane = laneRightEdges.length;
+        laneRightEdges.push(endX);
+      } else {
+        laneRightEdges[lane] = endX;
+      }
+
+      item.labelLane = lane;
+    });
+
+    return laneRightEdges.length;
+  }
+
   function renderLabels(layout) {
     labelsRoot.innerHTML = "";
     labelsRoot.style.height = layout.svgHeight + "px";
@@ -559,11 +600,11 @@
         return;
       }
 
-      const rowElement = document.createElement("div");
+      const rowElement = document.createElement(row.isGroup ? "div" : "a");
       rowElement.className =
         "projects-v2__label-row" +
         (index % 2 === 1 ? " is-alt" : "") +
-        (row.isGroup ? " is-group" : "");
+        (row.isGroup ? " is-group" : " projects-v2__label-link");
       rowElement.style.top = rowLayout.y + "px";
       rowElement.style.height = rowLayout.rowHeight + "px";
       rowElement.textContent = row.label;
@@ -571,6 +612,16 @@
       if (row.isGroup) {
         rowElement.addEventListener("mouseenter", function (event) {
           showTooltip(event, buildGroupLabelTooltipContent(row), true);
+        });
+        rowElement.addEventListener("mousemove", moveTooltip);
+        rowElement.addEventListener("mouseleave", hideTooltip);
+      } else {
+        rowElement.href = "https://github.com/" + encodeURIComponent(row.owner) + "/" + encodeURIComponent(row.repo);
+        rowElement.target = "_blank";
+        rowElement.rel = "noopener noreferrer";
+
+        rowElement.addEventListener("mouseenter", function (event) {
+          showTooltip(event, buildRepoLabelTooltipContent(row), true);
         });
         rowElement.addEventListener("mousemove", moveTooltip);
         rowElement.addEventListener("mouseleave", hideTooltip);
@@ -637,11 +688,6 @@
       laneGap: 4,
       rowGap: 10,
     };
-
-    const rowLayout = createRowLayout(rows, layout);
-    layout.rowMap = rowLayout.rowMap;
-
-    const chartHeight = rowLayout.chartHeight;
     const visibleChartWidth = Math.max(viewportWidth - layout.chartLeft - layout.right, 240);
     const basePixelsPerDay = visibleChartWidth / DEFAULT_VIEW_DAYS;
     const pixelPerDay = Math.max(0.2, basePixelsPerDay * chartState.zoomLevel);
@@ -650,15 +696,32 @@
       Math.max(1, Math.round((chartState.domainEnd.getTime() - chartState.domainStart.getTime()) / MS_PER_DAY)) + 1;
     const chartWidth = Math.max(visibleChartWidth, Math.ceil(fullDays * pixelPerDay));
 
-    layout.chartWidth = chartWidth;
-    layout.svgWidth = layout.chartLeft + chartWidth + layout.right;
-    layout.svgHeight = layout.top + chartHeight + layout.bottom;
-    chartState.layout = layout;
-
     const xScale = d3
       .scaleTime()
       .domain([chartState.domainStart, chartState.domainEnd])
       .range([layout.chartLeft, layout.chartLeft + chartWidth]);
+
+    const globalPointMarkers = markers.filter((marker) => marker.scope === "global" && marker.kind === "point");
+    const sortedGlobalPointMarkers = globalPointMarkers.slice().sort((a, b) => a.dateDate - b.dateDate);
+    const globalPointLabelLaneCount = assignHorizontalLabelLanes(
+      sortedGlobalPointMarkers,
+      function (marker) {
+        const labelWidth = estimateGlobalPointLabelWidth(marker);
+        return xScale(marker.dateDate) - labelWidth / 2;
+      },
+      estimateGlobalPointLabelWidth
+    );
+    const globalLabelLaneHeight = 14;
+    layout.top = 56 + Math.max(0, globalPointLabelLaneCount - 2) * globalLabelLaneHeight;
+
+    const rowLayout = createRowLayout(rows, layout);
+    layout.rowMap = rowLayout.rowMap;
+
+    const chartHeight = rowLayout.chartHeight;
+    layout.chartWidth = chartWidth;
+    layout.svgWidth = layout.chartLeft + chartWidth + layout.right;
+    layout.svgHeight = layout.top + chartHeight + layout.bottom;
+    chartState.layout = layout;
 
     chartState.xScale = xScale;
 
@@ -802,7 +865,6 @@
       .on("mousemove", moveTooltip)
       .on("mouseleave", hideTooltip);
 
-    const globalPointMarkers = markers.filter((marker) => marker.scope === "global" && marker.kind === "point");
     const globalPointLayer = svg.append("g");
     globalPointLayer
       .selectAll("line")
@@ -827,8 +889,9 @@
       .enter()
       .append("text")
       .attr("class", "projects-v2__global-point-label")
-      .attr("x", (marker) => xScale(marker.dateDate) + 4)
-      .attr("y", chartTop - 10)
+      .attr("x", (marker) => xScale(marker.dateDate))
+      .attr("y", (marker) => chartTop - 24 - Number(marker.labelLane || 0) * globalLabelLaneHeight)
+      .attr("text-anchor", "middle")
       .text((marker) => marker.label || isoFormat(marker.dateDate));
 
     const repoPointMarkers = markers.filter((marker) => marker.scope === "repo" && marker.kind === "point");

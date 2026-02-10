@@ -1,6 +1,6 @@
 ---
 title: 'Projects'
-permalink: /projects/
+permalink: /projects_v1/
 excerpt: 'Contains some of my (public) git projects'
 ---
 

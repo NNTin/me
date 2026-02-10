@@ -1,6 +1,6 @@
 ---
-title: "Projects V2"
-permalink: /projectsV2/
+title: "Projects"
+permalink: /projects/
 excerpt: "Interactive repository activity timeline"
 ---
 
@@ -45,3 +45,4 @@ excerpt: "Interactive repository activity timeline"
 <script src="{{ '/assets/js/projects-v2.js' | relative_url }}"></script>
 
 <p id="projects-v2-meta" class="projects-v2__meta"></p>
+[old project page]({{ site.baseurl }}/projects_v1/)
