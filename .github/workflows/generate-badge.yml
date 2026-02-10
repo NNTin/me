@@ -48,6 +48,10 @@ jobs:
       - name: Generate badges
         run: |
           pwsh ./tools/gen_badges.ps1
+        env:
+          BADGE_REPOS_TOKEN: ${{ secrets.BADGE_REPOS_TOKEN }}
+          WORKFLOW_USAGE_TOKEN: ${{ secrets.WORKFLOW_USAGE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       # if emoji are not showing up correctly in the pdf, make sure the required fonts are 
       # installed in the runner/container: fonts-noto-color-emoji

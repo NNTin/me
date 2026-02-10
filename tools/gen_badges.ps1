@@ -66,6 +66,82 @@ $cookiecutterTemplate = "cookiecutter/cookiecutter-badges"
 
 #------------------------------------------------------ Functions -------------------------------------------------#
 
+function Get-GitHubCloneToken {
+    <#
+    .DESCRIPTION
+        Returns the first available GitHub token for clone/fetch operations.
+        Priority:
+        1. BADGE_REPOS_TOKEN (recommended)
+        2. WORKFLOW_USAGE_TOKEN (existing PAT fallback)
+        3. GITHUB_TOKEN (last fallback; may not access other private repos)
+    #>
+
+    $tokenSources = @(
+        @{ Name = "BADGE_REPOS_TOKEN"; Value = $env:BADGE_REPOS_TOKEN },
+        @{ Name = "WORKFLOW_USAGE_TOKEN"; Value = $env:WORKFLOW_USAGE_TOKEN },
+        @{ Name = "GITHUB_TOKEN"; Value = $env:GITHUB_TOKEN }
+    )
+
+    foreach ($source in $tokenSources) {
+        if (-not [string]::IsNullOrWhiteSpace($source.Value)) {
+            return [PSCustomObject]@{
+                Name  = $source.Name
+                Value = $source.Value.Trim()
+            }
+        }
+    }
+
+    return $null
+}
+
+function Invoke-GitCommand {
+    <#
+    .DESCRIPTION
+        Executes a git command.
+        Can retry with token-based URL rewrite auth for private repositories.
+    #>
+
+    param(
+        [Parameter(Mandatory = $true)]
+        [string[]]$Arguments,
+
+        [string]$GitHubToken,
+
+        [switch]$RetryWithTokenOnFailure
+    )
+
+    # Try unauthenticated first so public repositories continue to work
+    # even when a token is missing/invalid for git transport.
+    git @Arguments
+
+    if ($LASTEXITCODE -eq 0) {
+        return $true
+    }
+
+    if (-not $RetryWithTokenOnFailure -or [string]::IsNullOrWhiteSpace($GitHubToken)) {
+        return $false
+    }
+
+    Write-Warning "Git command failed without auth. Retrying with GitHub token..."
+
+    # Clean up partial clone directory before retry.
+    if ($Arguments.Count -ge 3 -and $Arguments[0] -eq "clone") {
+        $cloneTargetPath = $Arguments[$Arguments.Count - 1]
+        if (Test-Path $cloneTargetPath) {
+            Remove-Item -Path $cloneTargetPath -Recurse -Force -ErrorAction SilentlyContinue
+        }
+    }
+
+    $urlRewriteConfig = "url.https://x-access-token:$GitHubToken@github.com/.insteadOf=https://github.com/"
+    git -c $urlRewriteConfig @Arguments
+
+    if ($LASTEXITCODE -eq 0) {
+        return $true
+    }
+
+    return $false
+}
+
 function Clone-Repositories {
     <#
     .DESCRIPTION
@@ -89,6 +165,20 @@ function Clone-Repositories {
     $repos = Get-Content -Path $configPath | ConvertFrom-Json
     
     Write-Host "Found $($repos.Count) repositories to clone" -ForegroundColor Cyan
+
+    # Prevent interactive credential prompts in CI.
+    $env:GIT_TERMINAL_PROMPT = "0"
+
+    # Optional auth retry for private repositories
+    $tokenInfo = Get-GitHubCloneToken
+    $gitHubToken = $null
+    if ($tokenInfo) {
+        $gitHubToken = $tokenInfo.Value
+        Write-Host "Using GitHub token from $($tokenInfo.Name) as retry auth for private repositories." -ForegroundColor Cyan
+    }
+    elseif ($env:CI) {
+        Write-Warning "No GitHub token found (checked BADGE_REPOS_TOKEN, WORKFLOW_USAGE_TOKEN, GITHUB_TOKEN). Private repository clone may fail."
+    }
     
     # Clone each repository sequentially
     foreach ($repo in $repos) {
@@ -103,10 +193,10 @@ function Clone-Repositories {
         if (Test-Path $repoPath) {
             Write-Host "Repository already exists. Fetching latest changes: $repoPath" -ForegroundColor Yellow
             Push-Location -Path $repoPath
-            git fetch --all
+            $fetchSucceeded = Invoke-GitCommand -Arguments @("fetch", "--all") -GitHubToken $gitHubToken -RetryWithTokenOnFailure
             Pop-Location
             
-            if ($LASTEXITCODE -ne 0) {
+            if (-not $fetchSucceeded) {
                 Write-Error "Failed to fetch updates for repository: $owner/$repoName"
                 throw "Git fetch failed for $owner/$repoName"
             }
@@ -115,9 +205,9 @@ function Clone-Repositories {
         }
         else {
             # Perform git clone
-            git clone $cloneUrl $repoPath
+            $cloneSucceeded = Invoke-GitCommand -Arguments @("clone", $cloneUrl, $repoPath) -GitHubToken $gitHubToken -RetryWithTokenOnFailure
             
-            if ($LASTEXITCODE -ne 0) {
+            if (-not $cloneSucceeded) {
                 Write-Error "Failed to clone repository: $owner/$repoName"
                 throw "Git clone failed for $owner/$repoName"
             }
