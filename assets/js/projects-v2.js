@@ -108,29 +108,33 @@
   }
 
   function assignLanes(intervals) {
-    const lanesEndDates = [];
+    const laneNextAvailableDates = [];
 
     intervals.forEach((interval) => {
       let assignedLane = -1;
+      const endExclusive = addDays(interval.endDate, 1);
 
-      for (let lane = 0; lane < lanesEndDates.length; lane++) {
-        if (interval.startDate >= lanesEndDates[lane]) {
+      for (let lane = 0; lane < laneNextAvailableDates.length; lane++) {
+        // Inclusive ranges overlap on the same day, so we allocate lanes
+        // using an exclusive end boundary.
+        if (interval.startDate >= laneNextAvailableDates[lane]) {
           assignedLane = lane;
           break;
         }
       }
 
       if (assignedLane === -1) {
-        assignedLane = lanesEndDates.length;
-        lanesEndDates.push(interval.endDate);
+        assignedLane = laneNextAvailableDates.length;
+        laneNextAvailableDates.push(endExclusive);
       } else {
-        lanesEndDates[assignedLane] = interval.endDate;
+        laneNextAvailableDates[assignedLane] = endExclusive;
       }
 
       interval.lane = assignedLane;
+      interval.rangeEndExclusive = endExclusive;
     });
 
-    return lanesEndDates.length;
+    return laneNextAvailableDates.length;
   }
 
   const isoFormat = d3.timeFormat("%Y-%m-%d");
@@ -715,7 +719,7 @@
           laneHeight: layout.laneHeight,
           color: range.color,
           isGroupedRange: range.isGroupedRange,
-          rangeEndExclusive: addDays(range.endDate, 1),
+          rangeEndExclusive: range.rangeEndExclusive || addDays(range.endDate, 1),
         });
       });
     });
