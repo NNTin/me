@@ -1,0 +1,25 @@
+{
+  "markers": [
+    {
+      "id": "career-start",
+      "scope": "global",
+      "kind": "point",
+      "date": "2019-04-01",
+      "label": "Professional Work Life",
+      "tooltip": "Transitioned from hobby projects to professional software development.",
+      "color": "#ff6b35"
+    },
+    {
+      "id": "d-zone-reboot",
+      "scope": "repo",
+      "repo": "d-zone",
+      "kind": "range",
+      "start": "2025-09-18",
+      "end": "2025-11-03",
+      "label": "d-zone reboot",
+      "tooltip_html": "<strong>Major rewrite:</strong> CJS to ESM, OAuth2 support, CI and e2e improvements.",
+      "url": "https://github.com/nntin/d-zone",
+      "color": "#2e86de"
+    }
+  ]
+}

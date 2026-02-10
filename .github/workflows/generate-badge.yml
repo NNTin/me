@@ -52,6 +52,14 @@ jobs:
           BADGE_REPOS_TOKEN: ${{ secrets.BADGE_REPOS_TOKEN }}
           WORKFLOW_USAGE_TOKEN: ${{ secrets.WORKFLOW_USAGE_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate repo timeline JSON
+        run: |
+          pwsh ./tools/gen_repo_timeline.ps1 -OutputPath ./output/repo_timeline.json
+        env:
+          BADGE_REPOS_TOKEN: ${{ secrets.BADGE_REPOS_TOKEN }}
+          WORKFLOW_USAGE_TOKEN: ${{ secrets.WORKFLOW_USAGE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       # if emoji are not showing up correctly in the pdf, make sure the required fonts are 
       # installed in the runner/container: fonts-noto-color-emoji
