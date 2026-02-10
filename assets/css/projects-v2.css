@@ -1,0 +1,150 @@
+---
+---
+
+.projects-v2 {
+  --p2-border: #d8dee7;
+  --p2-text: #1f2933;
+  --p2-muted: #6b7280;
+  --p2-range: #2d7ff9;
+  --p2-range-hover: #1f5fc0;
+  --p2-row-alt: #f8fafc;
+  --p2-marker-global: #f59e0b;
+  --p2-marker-repo: #0ea5a3;
+  --p2-marker-range: rgba(255, 159, 10, 0.16);
+  --p2-bg: #ffffff;
+  color: var(--p2-text);
+}
+
+.projects-v2__controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0 0 0.75rem 0;
+}
+
+.projects-v2__controls button {
+  border: 1px solid var(--p2-border);
+  background: #f4f7fb;
+  color: var(--p2-text);
+  border-radius: 6px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.projects-v2__controls button:hover {
+  background: #e8eff8;
+}
+
+.projects-v2__meta {
+  color: var(--p2-muted);
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem 0;
+}
+
+.projects-v2__timeline {
+  position: relative;
+  overflow: auto;
+  max-height: 76vh;
+  border: 1px solid var(--p2-border);
+  border-radius: 8px;
+  background: var(--p2-bg);
+}
+
+.projects-v2__svg {
+  display: block;
+}
+
+.projects-v2__row-alt {
+  fill: var(--p2-row-alt);
+}
+
+.projects-v2__repo-label {
+  fill: #111827;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.projects-v2__axis text {
+  fill: #4b5563;
+  font-size: 11px;
+}
+
+.projects-v2__axis path,
+.projects-v2__axis line {
+  stroke: #9ca3af;
+}
+
+.projects-v2__range {
+  fill: var(--p2-range);
+  rx: 4px;
+  ry: 4px;
+  cursor: pointer;
+}
+
+.projects-v2__range:hover {
+  fill: var(--p2-range-hover);
+}
+
+.projects-v2__repo-point-line {
+  stroke: var(--p2-marker-repo);
+  stroke-width: 2;
+  stroke-dasharray: 2 2;
+}
+
+.projects-v2__repo-point-dot {
+  fill: var(--p2-marker-repo);
+}
+
+.projects-v2__repo-range {
+  fill: rgba(14, 165, 163, 0.25);
+  stroke: rgba(12, 132, 131, 0.75);
+  stroke-width: 1;
+  rx: 3px;
+  ry: 3px;
+  cursor: pointer;
+}
+
+.projects-v2__global-point-line {
+  stroke: var(--p2-marker-global);
+  stroke-width: 2;
+}
+
+.projects-v2__global-point-label {
+  fill: #8a5f00;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.projects-v2__global-range {
+  fill: var(--p2-marker-range);
+  cursor: pointer;
+}
+
+.projects-v2__tooltip {
+  position: absolute;
+  z-index: 1100;
+  pointer-events: none;
+  max-width: 320px;
+  background: rgba(17, 24, 39, 0.96);
+  color: #f9fafb;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.projects-v2__tooltip.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.projects-v2__tooltip a {
+  color: #93c5fd;
+  text-decoration: underline;
+}
