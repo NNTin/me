@@ -40,5 +40,8 @@ excerpt: "Interactive repository activity timeline"
 <script id="projects-v2-data-markers" type="application/json">
 {{ site.data.repo_markers | jsonify }}
 </script>
+<script id="projects-v2-data-groups" type="application/json">
+{{ site.data.projects_v2_groups | jsonify }}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
 <script src="{{ '/assets/js/projects-v2.js' | relative_url }}"></script>
