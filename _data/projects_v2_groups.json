@@ -1,0 +1,24 @@
+{
+  "groups": [
+    {
+      "id": "legacy-mixed",
+      "label": "Legacy / Mixed Projects",
+      "position": "first",
+      "repos": [
+        "dota-2-emoticons",
+        "cubify-reddit",
+        "dev-tracker-reddit",
+        "pasteview",
+        "pasteindex",
+        "tracker-reddit-discord",
+        "twitter-backend",
+        "crosku",
+        "red-kun",
+        "shell-kun",
+        "nntin.github.io",
+        "lanyard-mcp-server",
+        "voidpet"
+      ]
+    }
+  ]
+}

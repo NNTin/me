@@ -13,6 +13,8 @@
   --p2-marker-range: rgba(255, 159, 10, 0.16);
   --p2-bg: #ffffff;
   --p2-label-width: 220px;
+  --p2-group-range: #7c5cff;
+  --p2-group-range-hover: #6246ea;
   color: var(--p2-text);
 }
 
@@ -92,6 +94,11 @@
   background: var(--p2-row-alt);
 }
 
+.projects-v2__label-row.is-group {
+  font-weight: 700;
+  color: #31215f;
+}
+
 .projects-v2__timeline {
   position: relative;
   overflow-x: auto;
@@ -132,6 +139,16 @@
 
 .projects-v2__range:hover {
   fill: var(--p2-range-hover);
+}
+
+.projects-v2__range.is-grouped {
+  fill: var(--p2-group-range);
+  stroke: rgba(40, 28, 96, 0.45);
+  stroke-width: 0.8;
+}
+
+.projects-v2__range.is-grouped:hover {
+  fill: var(--p2-group-range-hover);
 }
 
 .projects-v2__repo-point-line {

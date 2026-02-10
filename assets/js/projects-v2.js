@@ -97,6 +97,42 @@
       .replace(/'/g, "&#039;");
   }
 
+  function createStableColor(seed) {
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+      hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    const hue = Math.abs(hash) % 360;
+    return "hsl(" + hue + " 72% 46%)";
+  }
+
+  function assignLanes(intervals) {
+    const lanesEndDates = [];
+
+    intervals.forEach((interval) => {
+      let assignedLane = -1;
+
+      for (let lane = 0; lane < lanesEndDates.length; lane++) {
+        if (interval.startDate >= lanesEndDates[lane]) {
+          assignedLane = lane;
+          break;
+        }
+      }
+
+      if (assignedLane === -1) {
+        assignedLane = lanesEndDates.length;
+        lanesEndDates.push(interval.endDate);
+      } else {
+        lanesEndDates[assignedLane] = interval.endDate;
+      }
+
+      interval.lane = assignedLane;
+    });
+
+    return lanesEndDates.length;
+  }
+
   const isoFormat = d3.timeFormat("%Y-%m-%d");
   const axisFormat = d3.timeFormat("%Y-%m");
 
@@ -107,12 +143,14 @@
     repos: [],
   });
   const markerData = parseJsonScript("projects-v2-data-markers", { markers: [] });
+  const groupsData = parseJsonScript("projects-v2-data-groups", { groups: [] });
   const remoteTimelineUrl = timelineRoot.getAttribute("data-timeline-url") || "";
   const timelineData = await resolveTimelineData(remoteTimelineUrl, localTimelineData);
 
   const reposData = Array.isArray(reposDataRaw) ? reposDataRaw : [];
   const timelineRowsRaw = toArray(timelineData.repos);
   const markersRaw = toArray(markerData.markers);
+  const groupsRaw = toArray(groupsData.groups);
 
   const timelineByRepo = new Map();
   timelineRowsRaw.forEach((row) => {
@@ -121,7 +159,7 @@
     }
   });
 
-  const rows = reposData.map((repoItem) => {
+  const baseRows = reposData.map((repoItem) => {
     const timelineRow = timelineByRepo.get(repoItem.repo) || {};
     const timelineRangesRaw = toArray(timelineRow.ranges);
     const normalizedRanges = [];
@@ -143,6 +181,10 @@
         end: isoFormat(normalizedEnd),
         commitCount: Number(range.commit_count || 0),
         activeDays: Number(range.active_days || 0),
+        sourceRepo: repoItem.repo,
+        color: createStableColor(repoItem.repo),
+        lane: 0,
+        isGroupedRange: false,
       });
     });
 
@@ -151,12 +193,124 @@
     return {
       owner: repoItem.owner,
       repo: repoItem.repo,
+      label: repoItem.repo,
+      isGroup: false,
       firstCommit: timelineRow.first_commit || null,
       lastCommit: timelineRow.last_commit || null,
       totalCommits: Number(timelineRow.total_commits || 0),
       totalActiveDays: Number(timelineRow.total_active_days || 0),
       ranges: normalizedRanges,
+      laneCount: 1,
     };
+  });
+
+  const groupDefinitions = groupsRaw
+    .filter((group) => group && group.id && toArray(group.repos).length > 0)
+    .map((group) => ({
+      id: group.id,
+      label: group.label || group.id,
+      repos: toArray(group.repos),
+      position: group.position === "first" ? "first" : "append",
+    }));
+
+  const groupedRepoSet = new Set();
+  const groupedRowMap = new Map();
+
+  groupDefinitions.forEach((group) => {
+    const row = {
+      owner: null,
+      repo: "group::" + group.id,
+      label: group.label,
+      isGroup: true,
+      groupId: group.id,
+      firstCommit: null,
+      lastCommit: null,
+      totalCommits: 0,
+      totalActiveDays: 0,
+      ranges: [],
+      laneCount: 1,
+      sourceRepos: [],
+    };
+
+    group.repos.forEach((repoName) => {
+      const baseRow = baseRows.find((candidate) => candidate.repo === repoName);
+      if (!baseRow) {
+        return;
+      }
+
+      groupedRepoSet.add(repoName);
+      row.sourceRepos.push(repoName);
+      row.totalCommits += baseRow.totalCommits;
+      row.totalActiveDays += baseRow.totalActiveDays;
+
+      baseRow.ranges.forEach((range) => {
+        row.ranges.push({
+          startDate: range.startDate,
+          endDate: range.endDate,
+          start: range.start,
+          end: range.end,
+          commitCount: range.commitCount,
+          activeDays: range.activeDays,
+          sourceRepo: repoName,
+          color: createStableColor(repoName),
+          lane: 0,
+          isGroupedRange: true,
+        });
+      });
+
+      if (baseRow.firstCommit) {
+        if (!row.firstCommit || baseRow.firstCommit < row.firstCommit) {
+          row.firstCommit = baseRow.firstCommit;
+        }
+      }
+      if (baseRow.lastCommit) {
+        if (!row.lastCommit || baseRow.lastCommit > row.lastCommit) {
+          row.lastCommit = baseRow.lastCommit;
+        }
+      }
+    });
+
+    row.ranges.sort((a, b) => a.startDate - b.startDate || a.endDate - b.endDate);
+    row.laneCount = Math.max(1, assignLanes(row.ranges));
+
+    groupedRowMap.set(group.id, row);
+  });
+
+  const rows = [];
+
+  groupDefinitions
+    .filter((group) => group.position === "first")
+    .forEach((group) => {
+      const row = groupedRowMap.get(group.id);
+      if (row) {
+        rows.push(row);
+      }
+    });
+
+  baseRows.forEach((row) => {
+    if (!groupedRepoSet.has(row.repo)) {
+      rows.push(row);
+    }
+  });
+
+  groupDefinitions
+    .filter((group) => group.position !== "first")
+    .forEach((group) => {
+      const row = groupedRowMap.get(group.id);
+      if (row) {
+        rows.push(row);
+      }
+    });
+
+  const groupedRepoToRowId = new Map();
+  rows.forEach((row) => {
+    if (!row.isGroup || !Array.isArray(row.sourceRepos)) {
+      return;
+    }
+
+    row.sourceRepos.forEach((repoName) => {
+      groupedRepoToRowId.set(repoName, row.repo);
+    });
   });
 
   const rowByRepo = new Map(rows.map((row) => [row.repo, row]));
@@ -179,6 +333,7 @@
       date: marker.date || "",
       start: marker.start || "",
       end: marker.end || "",
+      lane: 0,
     };
 
     if (normalizedKind === "point") {
@@ -196,8 +351,12 @@
       normalizedMarker.endDate = endDate >= startDate ? endDate : startDate;
     }
 
-    if (normalizedScope === "repo" && !rowByRepo.has(normalizedMarker.repo)) {
-      return;
+    if (normalizedScope === "repo") {
+      const mappedRepo = groupedRepoToRowId.get(normalizedMarker.repo) || normalizedMarker.repo;
+      normalizedMarker.repo = mappedRepo;
+      if (!rowByRepo.has(mappedRepo)) {
+        return;
+      }
     }
 
     markers.push(normalizedMarker);
@@ -244,6 +403,29 @@
     return { start: minDate, end: maxDate };
   }
 
+  function createRowLayout(rowsList, layout) {
+    const map = new Map();
+    let cursor = layout.top;
+
+    rowsList.forEach((row) => {
+      const lanes = Math.max(1, row.laneCount || 1);
+      const rowHeight = lanes * layout.laneHeight + Math.max(0, lanes - 1) * layout.laneGap;
+
+      map.set(row.repo, {
+        y: cursor,
+        laneCount: lanes,
+        rowHeight: rowHeight,
+      });
+
+      cursor += rowHeight + layout.rowGap;
+    });
+
+    return {
+      rowMap: map,
+      chartHeight: Math.max(0, cursor - layout.top - layout.rowGap),
+    };
+  }
+
   const domain = calculateDomain();
 
   const chartState = {
@@ -253,7 +435,6 @@
     domainStart: domain.start,
     domainEnd: domain.end,
     xScale: null,
-    yScale: null,
     layout: null,
     firstRender: true,
   };
@@ -302,12 +483,21 @@
   }
 
   function buildRangeTooltipContent(rangeRow) {
+    const title = rangeRow.isGroupedRange
+      ? "<strong>" + escapeHtml(rangeRow.sourceRepo) + "</strong>"
+      : "<strong>" + escapeHtml(rangeRow.repoLabel) + "</strong>";
+
     const lines = [
-      "<strong>" + escapeHtml(rangeRow.repo) + "</strong>",
+      title,
       escapeHtml(rangeRow.start + " to " + rangeRow.end),
       "Commits: " + rangeRow.commitCount,
       "Active days: " + rangeRow.activeDays,
     ];
+
+    if (rangeRow.isGroupedRange) {
+      lines.push("<em>Grouped row: " + escapeHtml(rangeRow.repoLabel) + "</em>");
+    }
+
     return lines.join("<br>");
   }
 
@@ -317,7 +507,7 @@
       marker.kind === "point"
         ? isoFormat(marker.dateDate)
         : isoFormat(marker.startDate) + " to " + isoFormat(marker.endDate);
-    const scopeText = marker.scope === "global" ? "Global marker" : "Repo: " + escapeHtml(marker.repo);
+    const scopeText = marker.scope === "global" ? "Global marker" : "Row: " + escapeHtml(marker.repoLabel || marker.repo);
     const urlText = marker.url ? "<br>" + escapeHtml(marker.url) : "";
 
     if (marker.tooltipHtml) {
@@ -332,7 +522,7 @@
       .join("<br>");
   }
 
-  function renderLabels(layout, yScale) {
+  function renderLabels(layout) {
     labelsRoot.innerHTML = "";
     labelsRoot.style.height = layout.svgHeight + "px";
 
@@ -347,16 +537,19 @@
     labelsRoot.appendChild(layer);
 
     rows.forEach((row, index) => {
-      const y = yScale(row.repo);
-      if (typeof y !== "number") {
+      const rowLayout = layout.rowMap.get(row.repo);
+      if (!rowLayout) {
         return;
       }
 
       const rowElement = document.createElement("div");
-      rowElement.className = "projects-v2__label-row" + (index % 2 === 1 ? " is-alt" : "");
-      rowElement.style.top = y + "px";
-      rowElement.style.height = yScale.bandwidth() + "px";
-      rowElement.textContent = row.repo;
+      rowElement.className =
+        "projects-v2__label-row" +
+        (index % 2 === 1 ? " is-alt" : "") +
+        (row.isGroup ? " is-group" : "");
+      rowElement.style.top = rowLayout.y + "px";
+      rowElement.style.height = rowLayout.rowHeight + "px";
+      rowElement.textContent = row.label;
       layer.appendChild(rowElement);
     });
   }
@@ -370,11 +563,12 @@
     const generatedText = timelineData.generated_at
       ? "Generated: " + timelineData.generated_at
       : "Generated: not available";
+
     const rangeCount = rows.reduce((sum, row) => sum + row.ranges.length, 0);
     const gapDays = Number(timelineData.inactivity_gap_days || 30);
 
     meta.textContent =
-      "Repos: " +
+      "Rows: " +
       rows.length +
       " | Activity ranges: " +
       rangeCount +
@@ -413,11 +607,15 @@
       right: 32,
       top: 56,
       bottom: 34,
-      rowHeight: 24,
+      laneHeight: 18,
+      laneGap: 4,
       rowGap: 10,
     };
 
-    const chartHeight = rows.length * (layout.rowHeight + layout.rowGap);
+    const rowLayout = createRowLayout(rows, layout);
+    layout.rowMap = rowLayout.rowMap;
+
+    const chartHeight = rowLayout.chartHeight;
     const visibleChartWidth = Math.max(viewportWidth - layout.chartLeft - layout.right, 240);
     const basePixelsPerDay = visibleChartWidth / 365;
     const pixelPerDay = Math.max(0.2, basePixelsPerDay * chartState.zoomLevel);
@@ -436,35 +634,28 @@
       .domain([chartState.domainStart, chartState.domainEnd])
       .range([layout.chartLeft, layout.chartLeft + chartWidth]);
 
-    const yScale = d3
-      .scaleBand()
-      .domain(rows.map((row) => row.repo))
-      .range([layout.top, layout.top + chartHeight])
-      .paddingInner(0.24)
-      .paddingOuter(0.12);
-
     chartState.xScale = xScale;
-    chartState.yScale = yScale;
 
     svg.attr("width", layout.svgWidth).attr("height", layout.svgHeight);
     svg.selectAll("*").remove();
 
-    renderLabels(layout, yScale);
+    renderLabels(layout);
 
     const rowBackground = svg.append("g");
     rows.forEach((row, index) => {
-      const y = yScale(row.repo);
-      if (typeof y !== "number") {
+      const rowMeta = layout.rowMap.get(row.repo);
+      if (!rowMeta) {
         return;
       }
+
       if (index % 2 === 1) {
         rowBackground
           .append("rect")
           .attr("class", "projects-v2__row-alt")
           .attr("x", layout.chartLeft)
-          .attr("y", y)
+          .attr("y", rowMeta.y)
           .attr("width", layout.chartWidth)
-          .attr("height", yScale.bandwidth());
+          .attr("height", rowMeta.rowHeight);
       }
     });
 
@@ -502,15 +693,29 @@
 
     const allRanges = [];
     rows.forEach((row) => {
+      const rowMeta = layout.rowMap.get(row.repo);
+      if (!rowMeta) {
+        return;
+      }
+
       row.ranges.forEach((range) => {
+        const laneY = rowMeta.y + range.lane * (layout.laneHeight + layout.laneGap);
         allRanges.push({
-          repo: row.repo,
+          repoId: row.repo,
+          repoLabel: row.label,
+          sourceRepo: range.sourceRepo,
           startDate: range.startDate,
           endDate: range.endDate,
           start: range.start,
           end: range.end,
           commitCount: range.commitCount,
           activeDays: range.activeDays,
+          lane: range.lane,
+          laneY: laneY,
+          laneHeight: layout.laneHeight,
+          color: range.color,
+          isGroupedRange: range.isGroupedRange,
+          rangeEndExclusive: addDays(range.endDate, 1),
         });
       });
     });
@@ -521,14 +726,15 @@
       .data(allRanges)
       .enter()
       .append("rect")
-      .attr("class", "projects-v2__range")
+      .attr("class", (range) => "projects-v2__range" + (range.isGroupedRange ? " is-grouped" : ""))
       .attr("x", (range) => xScale(range.startDate))
-      .attr("y", (range) => yScale(range.repo))
+      .attr("y", (range) => range.laneY)
       .attr("width", (range) => {
-        const endX = xScale(addDays(range.endDate, 1));
+        const endX = xScale(range.rangeEndExclusive);
         return Math.max(2, endX - xScale(range.startDate));
       })
-      .attr("height", yScale.bandwidth())
+      .attr("height", (range) => range.laneHeight)
+      .attr("fill", (range) => (range.isGroupedRange ? range.color : null))
       .on("mouseenter", function (event, range) {
         showTooltip(event, buildRangeTooltipContent(range), true);
       })
@@ -545,16 +751,26 @@
       .attr("class", "projects-v2__repo-range")
       .attr("x", (marker) => xScale(marker.startDate))
       .attr("y", (marker) => {
-        const y = yScale(marker.repo);
-        return typeof y === "number" ? y + 2 : chartTop;
+        const rowMeta = layout.rowMap.get(marker.repo);
+        if (!rowMeta) {
+          return chartTop;
+        }
+        return rowMeta.y + 2;
       })
       .attr("width", (marker) => {
         const endX = xScale(addDays(marker.endDate, 1));
         return Math.max(2, endX - xScale(marker.startDate));
       })
-      .attr("height", yScale.bandwidth() - 4)
+      .attr("height", (marker) => {
+        const rowMeta = layout.rowMap.get(marker.repo);
+        if (!rowMeta) {
+          return layout.laneHeight;
+        }
+        return Math.max(4, rowMeta.rowHeight - 4);
+      })
       .attr("fill", (marker) => marker.color || null)
       .on("mouseenter", function (event, marker) {
+        marker.repoLabel = rowByRepo.get(marker.repo)?.label || marker.repo;
         showTooltip(event, buildMarkerTooltipContent(marker), true);
       })
       .on("mousemove", moveTooltip)
@@ -600,15 +816,16 @@
       .attr("x1", (marker) => xScale(marker.dateDate))
       .attr("x2", (marker) => xScale(marker.dateDate))
       .attr("y1", (marker) => {
-        const y = yScale(marker.repo);
-        return typeof y === "number" ? y : chartTop;
+        const rowMeta = layout.rowMap.get(marker.repo);
+        return rowMeta ? rowMeta.y : chartTop;
       })
       .attr("y2", (marker) => {
-        const y = yScale(marker.repo);
-        return typeof y === "number" ? y + yScale.bandwidth() : chartTop;
+        const rowMeta = layout.rowMap.get(marker.repo);
+        return rowMeta ? rowMeta.y + rowMeta.rowHeight : chartTop;
       })
       .attr("stroke", (marker) => marker.color || null)
       .on("mouseenter", function (event, marker) {
+        marker.repoLabel = rowByRepo.get(marker.repo)?.label || marker.repo;
         showTooltip(event, buildMarkerTooltipContent(marker), true);
       })
       .on("mousemove", moveTooltip)
@@ -622,12 +839,13 @@
       .attr("class", "projects-v2__repo-point-dot")
       .attr("cx", (marker) => xScale(marker.dateDate))
       .attr("cy", (marker) => {
-        const y = yScale(marker.repo);
-        return typeof y === "number" ? y + yScale.bandwidth() / 2 : chartTop;
+        const rowMeta = layout.rowMap.get(marker.repo);
+        return rowMeta ? rowMeta.y + rowMeta.rowHeight / 2 : chartTop;
       })
       .attr("r", 3)
       .attr("fill", (marker) => marker.color || null)
       .on("mouseenter", function (event, marker) {
+        marker.repoLabel = rowByRepo.get(marker.repo)?.label || marker.repo;
         showTooltip(event, buildMarkerTooltipContent(marker), true);
       })
       .on("mousemove", moveTooltip)
