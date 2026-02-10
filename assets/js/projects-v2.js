@@ -143,7 +143,7 @@
   const reposDataRaw = parseJsonScript("projects-v2-data-repos", []);
   const localTimelineData = parseJsonScript("projects-v2-data-timeline", {
     generated_at: null,
-    inactivity_gap_days: 30,
+    inactivity_gap_days: 3,
     repos: [],
   });
   const markerData = parseJsonScript("projects-v2-data-markers", { markers: [] });
@@ -526,6 +526,18 @@
       .join("<br>");
   }
 
+  function buildGroupLabelTooltipContent(row) {
+    const sourceRepos = Array.isArray(row.sourceRepos) ? row.sourceRepos : [];
+    const count = sourceRepos.length;
+    const listItems = sourceRepos.map((repoName) => "<li>" + escapeHtml(repoName) + "</li>").join("");
+
+    return [
+      "<strong>" + escapeHtml(row.label || row.repo) + "</strong>",
+      "Projects: " + count,
+      "<ul style=\"margin:6px 0 0 16px; padding:0;\">" + listItems + "</ul>",
+    ].join("<br>");
+  }
+
   function renderLabels(layout) {
     labelsRoot.innerHTML = "";
     labelsRoot.style.height = layout.svgHeight + "px";
@@ -554,6 +566,15 @@
       rowElement.style.top = rowLayout.y + "px";
       rowElement.style.height = rowLayout.rowHeight + "px";
       rowElement.textContent = row.label;
+
+      if (row.isGroup) {
+        rowElement.addEventListener("mouseenter", function (event) {
+          showTooltip(event, buildGroupLabelTooltipContent(row), true);
+        });
+        rowElement.addEventListener("mousemove", moveTooltip);
+        rowElement.addEventListener("mouseleave", hideTooltip);
+      }
+
       layer.appendChild(rowElement);
     });
   }
@@ -569,7 +590,7 @@
       : "Generated: not available";
 
     const rangeCount = rows.reduce((sum, row) => sum + row.ranges.length, 0);
-    const gapDays = Number(timelineData.inactivity_gap_days || 30);
+    const gapDays = Number(timelineData.inactivity_gap_days || 3);
 
     meta.textContent =
       "Rows: " +
