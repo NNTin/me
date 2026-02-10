@@ -12,6 +12,7 @@
   }
 
   const MS_PER_DAY = 24 * 60 * 60 * 1000;
+  const DEFAULT_VIEW_DAYS = 183;
 
   function parseJsonScript(id, fallbackValue) {
     const element = document.getElementById(id);
@@ -391,7 +392,7 @@
 
     if (!minDate || !maxDate) {
       return {
-        start: addDays(today, -365),
+        start: addDays(today, -DEFAULT_VIEW_DAYS),
         end: today,
       };
     }
@@ -590,7 +591,7 @@
       : "Generated: not available";
 
     const rangeCount = rows.reduce((sum, row) => sum + row.ranges.length, 0);
-    const gapDays = Number(timelineData.inactivity_gap_days || 3);
+    const gapDays = Number(timelineData.inactivity_gap_days || 30);
 
     meta.textContent =
       "Rows: " +
@@ -608,11 +609,11 @@
   function getDefaultViewStartDate() {
     const today = startOfDay(new Date());
     const targetEnd = today < chartState.domainEnd ? today : chartState.domainEnd;
-    const targetStart = addDays(targetEnd, -365);
+    const targetStart = addDays(targetEnd, -DEFAULT_VIEW_DAYS);
     return targetStart > chartState.domainStart ? targetStart : chartState.domainStart;
   }
 
-  function scrollToLastTwelveMonths() {
+  function scrollToLastSixMonths() {
     if (!chartState.xScale || !chartState.layout) {
       return;
     }
@@ -642,7 +643,7 @@
 
     const chartHeight = rowLayout.chartHeight;
     const visibleChartWidth = Math.max(viewportWidth - layout.chartLeft - layout.right, 240);
-    const basePixelsPerDay = visibleChartWidth / 365;
+    const basePixelsPerDay = visibleChartWidth / DEFAULT_VIEW_DAYS;
     const pixelPerDay = Math.max(0.2, basePixelsPerDay * chartState.zoomLevel);
 
     const fullDays =
@@ -888,8 +889,8 @@
 
     updateMetaText();
 
-    if (renderOptions.resetToLast12Months) {
-      scrollToLastTwelveMonths();
+    if (renderOptions.resetToLast6Months) {
+      scrollToLastSixMonths();
       chartState.firstRender = false;
       return;
     }
@@ -899,7 +900,7 @@
       const maxScroll = Math.max(0, layout.svgWidth - timelineRoot.clientWidth);
       timelineRoot.scrollLeft = clampNumber(nextScrollLeft, 0, maxScroll);
     } else if (chartState.firstRender) {
-      scrollToLastTwelveMonths();
+      scrollToLastSixMonths();
       chartState.firstRender = false;
     }
   }
@@ -934,7 +935,7 @@
         zoomBy(1 / 1.2);
       } else if (action === "reset-view") {
         chartState.zoomLevel = 1;
-        render({ resetToLast12Months: true });
+        render({ resetToLast6Months: true });
       }
     });
   }
@@ -1035,5 +1036,5 @@
     }, 150);
   });
 
-  render({ resetToLast12Months: true });
+  render({ resetToLast6Months: true });
 })();

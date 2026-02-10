@@ -1,7 +1,164 @@
 {
   "markers": [
     {
-      "id": "career-start",
+      "id": "rdr",
+      "scope": "repo",
+      "label": "Reply-Dota-2-Reddit",
+      "tooltip": "Reddit bot that replied to Dota 2 game discussions with match statistics and player information. First open-source project which helped me develop a basic understanding how programming and hosting works",
+      "repo": "reply-dota-2-reddit",
+      "kind": "range",
+      "start": "2016-03-27",
+      "end": "2018-05-10"
+    },
+    {
+      "id": "de",
+      "scope": "repo",
+      "label": "Dota-2-Emoticons",
+      "tooltip": "Made animated flairs next to the username possible through CSS magic",
+      "repo": "dota-2-emoticons",
+      "kind": "range",
+      "start": "2016-07-16",
+      "end": "2016-07-21"
+    },
+    {
+      "id": "rlr",
+      "scope": "repo",
+      "label": "Reply-LoL-Reddit",
+      "tooltip": "Similar to Reply-Dota-2-Reddit but adapted for League of Legends subreddit",
+      "repo": "reply-lol-reddit",
+      "kind": "range",
+      "start": "2016-07-24",
+      "end": "2017-04-02"
+    },
+    {
+      "id": "cr",
+      "scope": "repo",
+      "label": "Cubify-Reddit",
+      "tooltip": "After almost 4 months my Reddit bot gained 100k comment karma through shitposting cubed words",
+      "repo": "cubify-reddit",
+      "kind": "range",
+      "start": "2017-03-04",
+      "end": "2017-03-19"
+    },
+    {
+      "id": "dtb",
+      "scope": "repo",
+      "label": "discord-twitter-bot",
+      "tooltip": "Highest starred (350⭐+) project: Tweets were posted to Discord. Enabled Docker support, Heroku one-click deployment, wrote a docs page, added many configuration: filtering, location boxes, ...",
+      "repo": "discord-twitter-bot",
+      "kind": "range",
+      "start": "2017-03-20",
+      "end": "2021-12-12"
+    },
+    {
+      "id": "pv",
+      "scope": "repo",
+      "label": "pasteview",
+      "tooltip": "Web application for reading pastebin snippets, learned web development a bit more",
+      "repo": "pasteview",
+      "kind": "range",
+      "start": "2017-10-24",
+      "end": "2017-11-20"
+    },
+    {
+      "id": "pi",
+      "scope": "repo",
+      "label": "pasteindex",
+      "tooltip": "Created a REST API with documentation, authentication, database, etc. for maintaining pastebin codes",
+      "repo": "pasteindex",
+      "kind": "range",
+      "start": "2017-11-10",
+      "end": "2017-11-15"
+    },
+    {
+      "id": "dl",
+      "scope": "repo",
+      "label": "discord-logo",
+      "tooltip": "Inspired by Github Corners I created my own idea of it: Code generation, customizable colors, customizable template (normal, corner or speech bubble), animation, eyes",
+      "repo": "discord-logo",
+      "kind": "range",
+      "start": "2017-11-24",
+      "end": "2018-01-14"
+    },
+    {
+      "id": "pr1",
+      "scope": "repo",
+      "label": "discord-logo PR",
+      "tooltip": "PR: Contribution by srmcgann: added customizable background animation",
+      "repo": "discord-logo",
+      "kind": "point",
+      "date": "2018-06-26"
+    },
+    {
+      "id": "pr2",
+      "scope": "repo",
+      "label": "discord-logo PR",
+      "tooltip": "PR: (Hacktoberfest) Contribution by xanaDev and zurda: remove background and added linting",
+      "repo": "discord-logo",
+      "kind": "point",
+      "date": "2020-10-07"
+    },
+    {
+      "id": "pr3",
+      "scope": "repo",
+      "label": "discord-logo PR",
+      "tooltip": "PR: Contribution by srmcgann: re-added background animation, broke in 2020 due to browser breaking changes",
+      "repo": "discord-logo",
+      "kind": "point",
+      "date": "2021-06-20"
+    },
+    {
+      "id": "dtr",
+      "scope": "repo",
+      "label": "dev-tracker-reddit",
+      "tooltip": "Reddit bot: comments by certain individuals are highlighted, e.g. game developer",
+      "repo": "dev-tracker-reddit",
+      "kind": "range",
+      "start": "2018-07-25",
+      "end": "2018-07-26"
+    },
+    {
+      "id": "trd",
+      "scope": "repo",
+      "label": "tracker-reddit-discord",
+      "tooltip": "Discord+Reddit bot: Reddit comments by certain individuals are posted to Discord",
+      "repo": "tracker-reddit-discord",
+      "kind": "range",
+      "start": "2018-07-31",
+      "end": "2018-08-17"
+    },
+    {
+      "id": "dwb",
+      "scope": "repo",
+      "label": "discord-web-bridge",
+      "tooltip": "Communication bridge between discord bot <-> crossbar <-> custom webclient, started this project in my free time while I was a research assistent",
+      "repo": "discord-web-bridge",
+      "kind": "range",
+      "start": "2018-09-20",
+      "end": "2019-01-11"
+    },
+    {
+      "id": "ck",
+      "scope": "repo",
+      "label": "crosku",
+      "tooltip": "Crossbar one-click deployment on Heroku",
+      "repo": "crosku",
+      "kind": "range",
+      "start": "2018-11-11",
+      "end": "2019-01-12"
+    },
+    {
+      "id": "rk",
+      "scope": "repo",
+      "label": "Red-kun",
+      "tooltip": "Part of a much bigger project: github.com/Cog-Creators/Red-DiscordBot. Red-DiscordBot is a modular Discord Bot which allows you to install custom cogs during runtime. I've installed 3rd party cogs and developed my own to manage Discord communities",
+      "repo": "red-kun",
+      "kind": "range",
+      "start": "2018-11-27",
+      "end": "2019-10-13"
+    },
+    {
+      "id": "ps",
       "scope": "global",
       "kind": "point",
       "date": "2019-04-01",
@@ -10,16 +167,148 @@
       "color": "#ff6b35"
     },
     {
-      "id": "d-zone-reboot",
+      "id": "ai",
+      "scope": "global",
+      "kind": "point",
+      "date": "2025-09-17",
+      "label": "Artificial Intelligence",
+      "tooltip": "Decided to focus on AI-related projects and learning.",
+      "color": "#ff6b35"
+    },
+    {
+      "id": "dz1",
       "scope": "repo",
+      "label": "d-zone PR",
+      "tooltip": "Added Heroku one-click deployment support to d-zone project",
+      "repo": "d-zone",
+      "kind": "point",
+      "date": "2018-11-11"
+    },
+    {
+      "id": "dz2",
+      "scope": "repo",
+      "label": "d-zone PR",
+      "tooltip": "Implemented Docker containerization for easier deployment",
+      "repo": "d-zone",
+      "kind": "point",
+      "date": "2019-02-24"
+    },
+    {
+      "id": "dz3",
+      "scope": "repo",
+      "label": "d-zone forked",
+      "tooltip": "In the further future I forked the webclient part of d-zone. It is based on this version.",
+      "repo": "d-zone",
+      "kind": "point",
+      "date": "2020-09-19"
+    },
+    {
+      "id": "dz",
+      "scope": "repo",
+      "label": "d-zone",
+      "tooltip": "Major changes: commonjs -> esm, websocket URL fallback strategy, Discord OAuth2 support, CI versioned deployment, e2e testing with Playwright, Allure and Vercel deployment.",
       "repo": "d-zone",
       "kind": "range",
       "start": "2025-09-18",
-      "end": "2025-11-03",
-      "label": "d-zone reboot",
-      "tooltip_html": "<strong>Major rewrite:</strong> CJS to ESM, OAuth2 support, CI and e2e improvements.",
-      "url": "https://github.com/nntin/d-zone",
-      "color": "#2e86de"
+      "end": "2025-11-03"
+    },
+    {
+      "id": "db",
+      "scope": "repo",
+      "label": "d-back",
+      "tooltip": "Handles the backend logic of d-zone, meant to be installed as a python module (published as PyPI module), supports a wide variety of versions. Provides mock data when the callbacks are not registered",
+      "repo": "d-back",
+      "kind": "range",
+      "start": "2025-09-17",
+      "end": "2025-11-04"
+    },
+    {
+      "id": "dcogs-dzone-integration",
+      "scope": "repo",
+      "label": "d-cogs d-zone integration",
+      "tooltip": "Implementation of the python module d-back and thus provides real data. d-cogs makes use of Red-DiscordBot modular design and is installed as a plugin.",
+      "repo": "d-cogs",
+      "kind": "range",
+      "start": "2025-09-20",
+      "end": "2025-11-20"
+    },
+    {
+      "id": "dcogs-llm-integration",
+      "scope": "repo",
+      "label": "d-cogs LLM integration",
+      "tooltip": "Built upon LangChain 🦜🔗 added different agents (conversation, classifier, mermaid, ...). Managed conversation, tool registration and tool usage. Support Ollama and OpenRouter as LLM Providers, qdrant as vector storage.",
+      "repo": "d-cogs",
+      "kind": "range",
+      "start": "2025-12-05",
+      "end": "2025-12-22"
+    },
+    {
+      "id": "df",
+      "scope": "repo",
+      "label": "d-flows",
+      "tooltip": "Re-usable workflows, mainly for Discord",
+      "repo": "d-flows",
+      "kind": "range",
+      "start": "2025-11-01",
+      "end": "2025-11-26"
+    },
+    {
+      "id": "lanyard-mcp-server-note",
+      "scope": "repo",
+      "label": "lanyard-mcp-server",
+      "tooltip": "Learned about Docker MCP Tools Registry: Creation of a MCP Server for integration into Agents.",
+      "repo": "lanyard-mcp-server",
+      "kind": "point",
+      "date": "2025-11-18"
+    },
+    {
+      "id": "voidpet-note",
+      "scope": "repo",
+      "label": "voidpet",
+      "tooltip": "Due to a no-link-sharing rule, this project was short-lived - born and died on the same day, 2025-12-02. It contains only a simple tier list, created as part of my first experiment with Svelte.",
+      "repo": "voidpet",
+      "kind": "point",
+      "date": "2025-12-02"
+    },
+    {
+      "id": "gittinkerer-note",
+      "scope": "repo",
+      "label": "GitTinkerer",
+      "tooltip": "GitTinkerer, Comment-to-Code Automation, implements a non-interactive, comment-triggered automation flow that turns a PR comment (or a comment submitted via a Svelte web UI) into code changes using the Codex CLI, then commits and pushes the result back to the target branch.",
+      "repo": "GitTinkerer",
+      "kind": "range",
+      "start": "2025-12-23",
+      "end": "2026-02-02"
+    },
+    {
+      "id": "tinkero-note",
+      "scope": "repo",
+      "label": "Tinkero",
+      "tooltip": "Self-hosted static site deployment platform with automatic builds, zero-downtime deployments, and full observability.\n\nTinkero is a self-hosted platform that automatically builds and deploys static sites from GitHub repositories. Push your code, and Tinkero handles the rest - building, deploying, and serving your sites behind the central lair.nntin.xyz infrastructure.",
+      "repo": "Tinkero",
+      "kind": "range",
+      "start": "2026-01-07",
+      "end": "2026-02-02"
+    },
+    {
+      "id": "lair-nntin-xyz-note",
+      "scope": "repo",
+      "label": "lair.nntin.xyz",
+      "tooltip": "lair.nntin.xyz is the central domain for my online-facing projects.",
+      "repo": "lair.nntin.xyz",
+      "kind": "range",
+      "start": "2026-01-09",
+      "end": "2026-02-08"
+    },
+    {
+      "id": "nntin-labs-note",
+      "scope": "repo",
+      "label": "nntin-labs",
+      "tooltip": "installation and maintenance of authentik, dozzle, n8n, ollama, open-webui, portainer, etc.",
+      "repo": "nntin-labs",
+      "kind": "range",
+      "start": "2025-12-07",
+      "end": "2026-01-06"
     }
   ]
 }
