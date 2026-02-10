@@ -99,6 +99,17 @@
   color: #31215f;
 }
 
+.projects-v2__label-link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.projects-v2__label-link:hover,
+.projects-v2__label-link:focus-visible {
+  text-decoration: underline;
+}
+
 .projects-v2__timeline {
   position: relative;
   overflow-x: auto;
