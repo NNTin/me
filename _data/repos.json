@@ -20,5 +20,17 @@
   { "owner": "nntin", "repo": "me" },
   { "owner": "nntin", "repo": "d-back" },
   { "owner": "nntin", "repo": "d-cogs" },
-  { "owner": "nntin", "repo": "d-flows" }
+  { "owner": "nntin", "repo": "d-flows" },
+  { "owner": "nntin", "repo": "lanyard-mcp-server" },
+  { "owner": "nntin", "repo": "gittinkerer" },
+  { "owner": "nntin", "repo": "tinkero" },
+  { "owner": "nntin", "repo": "nntin-labs" },
+  { "owner": "nntin", "repo": "lair.nntin.xyz" },
+  { "owner": "nntin", "repo": "gsnake-n8n" },
+  { "owner": "nntin", "repo": "gsnake-specs" },
+  { "owner": "nntin", "repo": "gsnake-web" },
+  { "owner": "nntin", "repo": "gsnake-editor" },
+  { "owner": "nntin", "repo": "gsnake" },
+  { "owner": "nntin", "repo": "gsnake-levels" },
+  { "owner": "nntin", "repo": "voidpet" }
 ]
