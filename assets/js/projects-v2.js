@@ -25,6 +25,16 @@
     }
   }
 
+  function toArray(value) {
+    if (Array.isArray(value)) {
+      return value;
+    }
+    if (value === null || value === undefined) {
+      return [];
+    }
+    return [value];
+  }
+
   async function resolveTimelineData(remoteUrl, fallbackValue) {
     if (!remoteUrl || typeof fetch !== "function") {
       return fallbackValue;
@@ -100,16 +110,8 @@
   const timelineData = await resolveTimelineData(remoteTimelineUrl, localTimelineData);
 
   const reposData = Array.isArray(reposDataRaw) ? reposDataRaw : [];
-  const timelineRowsRaw = Array.isArray(timelineData.repos)
-    ? timelineData.repos
-    : timelineData.repos
-      ? [timelineData.repos]
-      : [];
-  const markersRaw = Array.isArray(markerData.markers)
-    ? markerData.markers
-    : markerData.markers
-      ? [markerData.markers]
-      : [];
+  const timelineRowsRaw = toArray(timelineData.repos);
+  const markersRaw = toArray(markerData.markers);
 
   const timelineByRepo = new Map();
   timelineRowsRaw.forEach((row) => {
@@ -120,9 +122,10 @@
 
   const rows = (reposData || []).map((repoItem) => {
     const timelineRow = timelineByRepo.get(repoItem.repo) || {};
+    const timelineRangesRaw = toArray(timelineRow.ranges);
     const normalizedRanges = [];
 
-    (timelineRow.ranges || []).forEach((range) => {
+    timelineRangesRaw.forEach((range) => {
       const startDate = parseDate(range.start);
       const endDate = parseDate(range.end || range.start);
       if (!startDate || !endDate) {
