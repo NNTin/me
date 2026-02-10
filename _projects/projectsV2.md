@@ -20,12 +20,15 @@ excerpt: "Interactive repository activity timeline"
 
   <p id="projects-v2-meta" class="projects-v2__meta"></p>
 
-  <div
-    id="projects-v2-timeline"
-    class="projects-v2__timeline"
-    aria-label="Interactive repository timeline"
-    data-timeline-url="https://raw.githubusercontent.com/NNTin/me/output/repo_timeline.json"
-  ></div>
+  <div class="projects-v2__frame">
+    <div id="projects-v2-labels" class="projects-v2__labels" aria-hidden="true"></div>
+    <div
+      id="projects-v2-timeline"
+      class="projects-v2__timeline"
+      aria-label="Interactive repository timeline"
+      data-timeline-url="https://raw.githubusercontent.com/NNTin/me/output/repo_timeline.json"
+    ></div>
+  </div>
 </div>
 
 <script id="projects-v2-data-repos" type="application/json">
@@ -39,4 +42,3 @@ excerpt: "Interactive repository activity timeline"
 </script>
 <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
 <script src="{{ '/assets/js/projects-v2.js' | relative_url }}"></script>
-

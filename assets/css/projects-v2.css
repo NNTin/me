@@ -12,6 +12,7 @@
   --p2-marker-repo: #0ea5a3;
   --p2-marker-range: rgba(255, 159, 10, 0.16);
   --p2-bg: #ffffff;
+  --p2-label-width: 220px;
   color: var(--p2-text);
 }
 
@@ -43,13 +44,65 @@
   margin: 0 0 0.75rem 0;
 }
 
-.projects-v2__timeline {
-  position: relative;
-  overflow: auto;
-  max-height: 76vh;
+.projects-v2__frame {
+  display: grid;
+  grid-template-columns: var(--p2-label-width) minmax(0, 1fr);
   border: 1px solid var(--p2-border);
   border-radius: 8px;
+  overflow: hidden;
   background: var(--p2-bg);
+}
+
+.projects-v2__labels {
+  position: relative;
+  border-right: 1px solid var(--p2-border);
+  background: #fbfcfe;
+  z-index: 1;
+}
+
+.projects-v2__labels-header {
+  position: sticky;
+  top: 0;
+  background: #f5f8fc;
+  border-bottom: 1px solid var(--p2-border);
+  z-index: 2;
+}
+
+.projects-v2__labels-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.projects-v2__label-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.projects-v2__label-row.is-alt {
+  background: var(--p2-row-alt);
+}
+
+.projects-v2__timeline {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.projects-v2__timeline.is-dragging {
+  cursor: grabbing;
+  user-select: none;
 }
 
 .projects-v2__svg {
@@ -58,12 +111,6 @@
 
 .projects-v2__row-alt {
   fill: var(--p2-row-alt);
-}
-
-.projects-v2__repo-label {
-  fill: #111827;
-  font-size: 12px;
-  font-weight: 600;
 }
 
 .projects-v2__axis text {
@@ -147,4 +194,10 @@
 .projects-v2__tooltip a {
   color: #93c5fd;
   text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .projects-v2 {
+    --p2-label-width: 160px;
+  }
 }
