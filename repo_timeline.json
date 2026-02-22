@@ -1,0 +1,1403 @@
+{
+  "generated_at": "2026-02-22T12:03:28Z",
+  "inactivity_gap_days": 3,
+  "repo_count": 34,
+  "repos": [
+    {
+      "owner": "NNTin",
+      "repo": "reply-dota-2-reddit",
+      "first_commit": "2016-03-27",
+      "last_commit": "2018-05-10",
+      "total_commits": 83,
+      "total_active_days": 34,
+      "ranges": [
+        {
+          "start": "2016-03-27",
+          "end": "2016-04-09",
+          "commit_count": 41,
+          "active_days": 9
+        },
+        {
+          "start": "2016-04-15",
+          "end": "2016-04-15",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2016-04-29",
+          "end": "2016-05-03",
+          "commit_count": 5,
+          "active_days": 3
+        },
+        {
+          "start": "2016-05-25",
+          "end": "2016-05-25",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2016-06-02",
+          "end": "2016-06-02",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2016-06-11",
+          "end": "2016-06-12",
+          "commit_count": 4,
+          "active_days": 2
+        },
+        {
+          "start": "2016-09-05",
+          "end": "2016-09-05",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2016-10-04",
+          "end": "2016-10-04",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2016-10-24",
+          "end": "2016-10-24",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2016-11-01",
+          "end": "2016-11-04",
+          "commit_count": 5,
+          "active_days": 2
+        },
+        {
+          "start": "2016-11-11",
+          "end": "2016-11-15",
+          "commit_count": 4,
+          "active_days": 3
+        },
+        {
+          "start": "2016-11-21",
+          "end": "2016-11-21",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2017-03-04",
+          "end": "2017-03-06",
+          "commit_count": 7,
+          "active_days": 2
+        },
+        {
+          "start": "2017-03-27",
+          "end": "2017-03-27",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2017-04-23",
+          "end": "2017-04-23",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2017-07-06",
+          "end": "2017-07-06",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2017-07-19",
+          "end": "2017-07-19",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2017-10-17",
+          "end": "2017-10-17",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2018-05-10",
+          "end": "2018-05-10",
+          "commit_count": 1,
+          "active_days": 1
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "dota-2-emoticons",
+      "first_commit": "2016-07-16",
+      "last_commit": "2016-07-16",
+      "total_commits": 3,
+      "total_active_days": 1,
+      "ranges": {
+        "start": "2016-07-16",
+        "end": "2016-07-16",
+        "commit_count": 3,
+        "active_days": 1
+      }
+    },
+    {
+      "owner": "NNTin",
+      "repo": "reply-lol-reddit",
+      "first_commit": "2016-07-24",
+      "last_commit": "2017-04-02",
+      "total_commits": 45,
+      "total_active_days": 20,
+      "ranges": [
+        {
+          "start": "2016-07-24",
+          "end": "2016-08-03",
+          "commit_count": 29,
+          "active_days": 9
+        },
+        {
+          "start": "2016-08-07",
+          "end": "2016-08-09",
+          "commit_count": 4,
+          "active_days": 2
+        },
+        {
+          "start": "2016-08-15",
+          "end": "2016-08-18",
+          "commit_count": 2,
+          "active_days": 2
+        },
+        {
+          "start": "2016-08-22",
+          "end": "2016-08-22",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2016-09-02",
+          "end": "2016-09-02",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2016-10-05",
+          "end": "2016-10-05",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2017-03-04",
+          "end": "2017-03-04",
+          "commit_count": 4,
+          "active_days": 1
+        },
+        {
+          "start": "2017-03-27",
+          "end": "2017-03-27",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2017-04-01",
+          "end": "2017-04-02",
+          "commit_count": 2,
+          "active_days": 2
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "cubify-reddit",
+      "first_commit": "2017-03-04",
+      "last_commit": "2017-03-19",
+      "total_commits": 7,
+      "total_active_days": 4,
+      "ranges": [
+        {
+          "start": "2017-03-04",
+          "end": "2017-03-05",
+          "commit_count": 3,
+          "active_days": 2
+        },
+        {
+          "start": "2017-03-16",
+          "end": "2017-03-19",
+          "commit_count": 4,
+          "active_days": 2
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "discord-twitter-bot",
+      "first_commit": "2017-03-20",
+      "last_commit": "2021-12-12",
+      "total_commits": 277,
+      "total_active_days": 114,
+      "ranges": [
+        {
+          "start": "2017-03-20",
+          "end": "2017-03-29",
+          "commit_count": 28,
+          "active_days": 8
+        },
+        {
+          "start": "2017-04-02",
+          "end": "2017-04-02",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2017-07-23",
+          "end": "2017-07-23",
+          "commit_count": 3,
+          "active_days": 1
+        },
+        {
+          "start": "2017-09-24",
+          "end": "2017-09-24",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2017-10-05",
+          "end": "2017-10-11",
+          "commit_count": 18,
+          "active_days": 5
+        },
+        {
+          "start": "2017-10-31",
+          "end": "2017-10-31",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2017-11-12",
+          "end": "2017-11-14",
+          "commit_count": 7,
+          "active_days": 2
+        },
+        {
+          "start": "2017-12-25",
+          "end": "2017-12-31",
+          "commit_count": 10,
+          "active_days": 3
+        },
+        {
+          "start": "2018-01-19",
+          "end": "2018-01-19",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2018-02-13",
+          "end": "2018-02-14",
+          "commit_count": 2,
+          "active_days": 2
+        },
+        {
+          "start": "2018-07-08",
+          "end": "2018-07-12",
+          "commit_count": 9,
+          "active_days": 4
+        },
+        {
+          "start": "2018-08-14",
+          "end": "2018-08-18",
+          "commit_count": 4,
+          "active_days": 3
+        },
+        {
+          "start": "2018-08-25",
+          "end": "2018-08-25",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2018-08-29",
+          "end": "2018-08-30",
+          "commit_count": 4,
+          "active_days": 2
+        },
+        {
+          "start": "2018-09-09",
+          "end": "2018-09-09",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2018-09-14",
+          "end": "2018-09-16",
+          "commit_count": 7,
+          "active_days": 2
+        },
+        {
+          "start": "2018-09-20",
+          "end": "2018-09-20",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2018-09-26",
+          "end": "2018-10-01",
+          "commit_count": 3,
+          "active_days": 3
+        },
+        {
+          "start": "2018-11-12",
+          "end": "2018-11-12",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2018-11-20",
+          "end": "2018-11-20",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2018-11-26",
+          "end": "2018-11-26",
+          "commit_count": 3,
+          "active_days": 1
+        },
+        {
+          "start": "2018-12-07",
+          "end": "2018-12-07",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2019-01-10",
+          "end": "2019-01-10",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2019-01-23",
+          "end": "2019-01-28",
+          "commit_count": 14,
+          "active_days": 5
+        },
+        {
+          "start": "2019-02-21",
+          "end": "2019-03-13",
+          "commit_count": 56,
+          "active_days": 11
+        },
+        {
+          "start": "2019-03-19",
+          "end": "2019-03-19",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2019-04-03",
+          "end": "2019-04-03",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2019-04-18",
+          "end": "2019-04-18",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2019-04-25",
+          "end": "2019-04-25",
+          "commit_count": 4,
+          "active_days": 1
+        },
+        {
+          "start": "2019-05-19",
+          "end": "2019-05-19",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2019-06-02",
+          "end": "2019-06-02",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2019-06-13",
+          "end": "2019-06-13",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2019-06-26",
+          "end": "2019-06-26",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2019-07-22",
+          "end": "2019-07-22",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2019-07-31",
+          "end": "2019-08-02",
+          "commit_count": 2,
+          "active_days": 2
+        },
+        {
+          "start": "2019-08-06",
+          "end": "2019-08-06",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2019-09-03",
+          "end": "2019-09-03",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2019-09-11",
+          "end": "2019-09-12",
+          "commit_count": 2,
+          "active_days": 2
+        },
+        {
+          "start": "2019-09-19",
+          "end": "2019-09-20",
+          "commit_count": 2,
+          "active_days": 2
+        },
+        {
+          "start": "2019-09-24",
+          "end": "2019-09-24",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2019-10-01",
+          "end": "2019-10-01",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2019-10-09",
+          "end": "2019-10-09",
+          "commit_count": 18,
+          "active_days": 1
+        },
+        {
+          "start": "2019-11-13",
+          "end": "2019-11-14",
+          "commit_count": 2,
+          "active_days": 2
+        },
+        {
+          "start": "2019-11-19",
+          "end": "2019-11-19",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2019-11-29",
+          "end": "2019-11-29",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2020-06-01",
+          "end": "2020-06-01",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2020-09-19",
+          "end": "2020-09-19",
+          "commit_count": 3,
+          "active_days": 1
+        },
+        {
+          "start": "2020-09-29",
+          "end": "2020-09-29",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2020-10-04",
+          "end": "2020-10-09",
+          "commit_count": 11,
+          "active_days": 5
+        },
+        {
+          "start": "2020-10-20",
+          "end": "2020-10-31",
+          "commit_count": 12,
+          "active_days": 8
+        },
+        {
+          "start": "2020-11-04",
+          "end": "2020-11-05",
+          "commit_count": 3,
+          "active_days": 2
+        },
+        {
+          "start": "2020-12-28",
+          "end": "2020-12-28",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2021-01-14",
+          "end": "2021-01-19",
+          "commit_count": 4,
+          "active_days": 4
+        },
+        {
+          "start": "2021-05-20",
+          "end": "2021-05-20",
+          "commit_count": 3,
+          "active_days": 1
+        },
+        {
+          "start": "2021-12-10",
+          "end": "2021-12-12",
+          "commit_count": 7,
+          "active_days": 3
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "pasteview",
+      "first_commit": "2017-10-25",
+      "last_commit": "2017-11-20",
+      "total_commits": 52,
+      "total_active_days": 8,
+      "ranges": [
+        {
+          "start": "2017-10-25",
+          "end": "2017-11-01",
+          "commit_count": 45,
+          "active_days": 6
+        },
+        {
+          "start": "2017-11-17",
+          "end": "2017-11-20",
+          "commit_count": 7,
+          "active_days": 2
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "pasteindex",
+      "first_commit": "2017-11-10",
+      "last_commit": "2017-11-10",
+      "total_commits": 5,
+      "total_active_days": 1,
+      "ranges": {
+        "start": "2017-11-10",
+        "end": "2017-11-10",
+        "commit_count": 5,
+        "active_days": 1
+      }
+    },
+    {
+      "owner": "NNTin",
+      "repo": "discord-logo",
+      "first_commit": "2017-11-24",
+      "last_commit": "2022-04-26",
+      "total_commits": 106,
+      "total_active_days": 23,
+      "ranges": [
+        {
+          "start": "2017-11-24",
+          "end": "2017-12-01",
+          "commit_count": 30,
+          "active_days": 7
+        },
+        {
+          "start": "2017-12-05",
+          "end": "2017-12-08",
+          "commit_count": 29,
+          "active_days": 4
+        },
+        {
+          "start": "2017-12-12",
+          "end": "2017-12-12",
+          "commit_count": 6,
+          "active_days": 1
+        },
+        {
+          "start": "2017-12-19",
+          "end": "2017-12-19",
+          "commit_count": 3,
+          "active_days": 1
+        },
+        {
+          "start": "2018-01-13",
+          "end": "2018-01-14",
+          "commit_count": 4,
+          "active_days": 2
+        },
+        {
+          "start": "2018-06-26",
+          "end": "2018-06-28",
+          "commit_count": 8,
+          "active_days": 3
+        },
+        {
+          "start": "2020-10-06",
+          "end": "2020-10-07",
+          "commit_count": 13,
+          "active_days": 2
+        },
+        {
+          "start": "2021-06-20",
+          "end": "2021-06-21",
+          "commit_count": 12,
+          "active_days": 2
+        },
+        {
+          "start": "2022-04-26",
+          "end": "2022-04-26",
+          "commit_count": 1,
+          "active_days": 1
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "dev-tracker-reddit",
+      "first_commit": "2018-07-26",
+      "last_commit": "2018-07-26",
+      "total_commits": 12,
+      "total_active_days": 1,
+      "ranges": {
+        "start": "2018-07-26",
+        "end": "2018-07-26",
+        "commit_count": 12,
+        "active_days": 1
+      }
+    },
+    {
+      "owner": "NNTin",
+      "repo": "tracker-reddit-discord",
+      "first_commit": "2018-07-31",
+      "last_commit": "2018-08-17",
+      "total_commits": 6,
+      "total_active_days": 4,
+      "ranges": [
+        {
+          "start": "2018-07-31",
+          "end": "2018-08-01",
+          "commit_count": 4,
+          "active_days": 2
+        },
+        {
+          "start": "2018-08-16",
+          "end": "2018-08-17",
+          "commit_count": 2,
+          "active_days": 2
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "twitter-backend",
+      "first_commit": "2018-08-18",
+      "last_commit": "2018-09-16",
+      "total_commits": 5,
+      "total_active_days": 3,
+      "ranges": [
+        {
+          "start": "2018-08-18",
+          "end": "2018-08-18",
+          "commit_count": 3,
+          "active_days": 1
+        },
+        {
+          "start": "2018-08-25",
+          "end": "2018-08-25",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2018-09-16",
+          "end": "2018-09-16",
+          "commit_count": 1,
+          "active_days": 1
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "discord-web-bridge",
+      "first_commit": "2018-09-20",
+      "last_commit": "2019-01-12",
+      "total_commits": 31,
+      "total_active_days": 12,
+      "ranges": [
+        {
+          "start": "2018-09-20",
+          "end": "2018-09-25",
+          "commit_count": 15,
+          "active_days": 6
+        },
+        {
+          "start": "2018-09-30",
+          "end": "2018-09-30",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2018-10-09",
+          "end": "2018-10-10",
+          "commit_count": 4,
+          "active_days": 2
+        },
+        {
+          "start": "2019-01-10",
+          "end": "2019-01-12",
+          "commit_count": 11,
+          "active_days": 3
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "nntin.github.io",
+      "first_commit": "2018-10-29",
+      "last_commit": "2025-11-21",
+      "total_commits": 11,
+      "total_active_days": 4,
+      "ranges": [
+        {
+          "start": "2018-10-29",
+          "end": "2018-10-29",
+          "commit_count": 3,
+          "active_days": 1
+        },
+        {
+          "start": "2025-11-18",
+          "end": "2025-11-21",
+          "commit_count": 8,
+          "active_days": 3
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "crosku",
+      "first_commit": "2018-11-11",
+      "last_commit": "2019-01-12",
+      "total_commits": 14,
+      "total_active_days": 5,
+      "ranges": [
+        {
+          "start": "2018-11-11",
+          "end": "2018-11-11",
+          "commit_count": 3,
+          "active_days": 1
+        },
+        {
+          "start": "2018-12-10",
+          "end": "2018-12-11",
+          "commit_count": 6,
+          "active_days": 2
+        },
+        {
+          "start": "2019-01-11",
+          "end": "2019-01-12",
+          "commit_count": 5,
+          "active_days": 2
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "red-kun",
+      "first_commit": "2018-11-27",
+      "last_commit": "2019-10-13",
+      "total_commits": 4,
+      "total_active_days": 3,
+      "ranges": [
+        {
+          "start": "2018-11-27",
+          "end": "2018-11-27",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2018-12-02",
+          "end": "2018-12-02",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2019-10-13",
+          "end": "2019-10-13",
+          "commit_count": 1,
+          "active_days": 1
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "shell-kun",
+      "first_commit": "2019-11-15",
+      "last_commit": "2020-09-23",
+      "total_commits": 4,
+      "total_active_days": 2,
+      "ranges": [
+        {
+          "start": "2019-11-15",
+          "end": "2019-11-15",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2020-09-23",
+          "end": "2020-09-23",
+          "commit_count": 2,
+          "active_days": 1
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "d-zone",
+      "first_commit": "2020-09-19",
+      "last_commit": "2025-11-03",
+      "total_commits": 211,
+      "total_active_days": 25,
+      "ranges": [
+        {
+          "start": "2020-09-19",
+          "end": "2020-09-19",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2025-09-18",
+          "end": "2025-09-23",
+          "commit_count": 51,
+          "active_days": 6
+        },
+        {
+          "start": "2025-09-28",
+          "end": "2025-10-01",
+          "commit_count": 56,
+          "active_days": 3
+        },
+        {
+          "start": "2025-10-06",
+          "end": "2025-10-14",
+          "commit_count": 71,
+          "active_days": 7
+        },
+        {
+          "start": "2025-10-27",
+          "end": "2025-11-03",
+          "commit_count": 32,
+          "active_days": 8
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "nntin",
+      "first_commit": "2025-09-13",
+      "last_commit": "2026-02-10",
+      "total_commits": 5,
+      "total_active_days": 4,
+      "ranges": [
+        {
+          "start": "2025-09-13",
+          "end": "2025-09-13",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2025-10-30",
+          "end": "2025-10-30",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2025-11-26",
+          "end": "2025-11-26",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2026-02-10",
+          "end": "2026-02-10",
+          "commit_count": 1,
+          "active_days": 1
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "me",
+      "first_commit": "2026-02-16",
+      "last_commit": "2026-02-16",
+      "total_commits": 1,
+      "total_active_days": 1,
+      "ranges": {
+        "start": "2026-02-16",
+        "end": "2026-02-16",
+        "commit_count": 1,
+        "active_days": 1
+      }
+    },
+    {
+      "owner": "NNTin",
+      "repo": "d-back",
+      "first_commit": "2025-09-17",
+      "last_commit": "2025-11-04",
+      "total_commits": 133,
+      "total_active_days": 17,
+      "ranges": [
+        {
+          "start": "2025-09-17",
+          "end": "2025-09-28",
+          "commit_count": 84,
+          "active_days": 9
+        },
+        {
+          "start": "2025-10-02",
+          "end": "2025-10-05",
+          "commit_count": 9,
+          "active_days": 2
+        },
+        {
+          "start": "2025-10-29",
+          "end": "2025-11-04",
+          "commit_count": 40,
+          "active_days": 6
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "d-cogs",
+      "first_commit": "2025-09-20",
+      "last_commit": "2025-12-22",
+      "total_commits": 208,
+      "total_active_days": 30,
+      "ranges": [
+        {
+          "start": "2025-09-20",
+          "end": "2025-09-27",
+          "commit_count": 12,
+          "active_days": 6
+        },
+        {
+          "start": "2025-10-02",
+          "end": "2025-10-05",
+          "commit_count": 4,
+          "active_days": 2
+        },
+        {
+          "start": "2025-10-11",
+          "end": "2025-10-12",
+          "commit_count": 10,
+          "active_days": 2
+        },
+        {
+          "start": "2025-10-25",
+          "end": "2025-10-25",
+          "commit_count": 2,
+          "active_days": 1
+        },
+        {
+          "start": "2025-10-29",
+          "end": "2025-11-05",
+          "commit_count": 22,
+          "active_days": 4
+        },
+        {
+          "start": "2025-11-19",
+          "end": "2025-11-20",
+          "commit_count": 13,
+          "active_days": 2
+        },
+        {
+          "start": "2025-12-05",
+          "end": "2025-12-05",
+          "commit_count": 8,
+          "active_days": 1
+        },
+        {
+          "start": "2025-12-09",
+          "end": "2025-12-22",
+          "commit_count": 137,
+          "active_days": 12
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "d-flows",
+      "first_commit": "2025-11-01",
+      "last_commit": "2025-11-26",
+      "total_commits": 59,
+      "total_active_days": 14,
+      "ranges": [
+        {
+          "start": "2025-11-01",
+          "end": "2025-11-03",
+          "commit_count": 16,
+          "active_days": 2
+        },
+        {
+          "start": "2025-11-08",
+          "end": "2025-11-26",
+          "commit_count": 43,
+          "active_days": 12
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "lanyard-mcp-server",
+      "first_commit": "2025-11-18",
+      "last_commit": "2025-11-18",
+      "total_commits": 6,
+      "total_active_days": 1,
+      "ranges": {
+        "start": "2025-11-18",
+        "end": "2025-11-18",
+        "commit_count": 6,
+        "active_days": 1
+      }
+    },
+    {
+      "owner": "NNTin",
+      "repo": "nntin-labs",
+      "first_commit": "2025-12-07",
+      "last_commit": "2026-01-06",
+      "total_commits": 31,
+      "total_active_days": 10,
+      "ranges": [
+        {
+          "start": "2025-12-07",
+          "end": "2025-12-14",
+          "commit_count": 20,
+          "active_days": 7
+        },
+        {
+          "start": "2025-12-18",
+          "end": "2025-12-18",
+          "commit_count": 4,
+          "active_days": 1
+        },
+        {
+          "start": "2026-01-05",
+          "end": "2026-01-06",
+          "commit_count": 7,
+          "active_days": 2
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "GitTinkerer",
+      "first_commit": "2025-12-23",
+      "last_commit": "2026-02-15",
+      "total_commits": 92,
+      "total_active_days": 16,
+      "ranges": [
+        {
+          "start": "2025-12-23",
+          "end": "2025-12-27",
+          "commit_count": 12,
+          "active_days": 3
+        },
+        {
+          "start": "2026-01-03",
+          "end": "2026-01-11",
+          "commit_count": 69,
+          "active_days": 8
+        },
+        {
+          "start": "2026-01-16",
+          "end": "2026-01-18",
+          "commit_count": 4,
+          "active_days": 2
+        },
+        {
+          "start": "2026-01-24",
+          "end": "2026-01-24",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2026-02-02",
+          "end": "2026-02-02",
+          "commit_count": 5,
+          "active_days": 1
+        },
+        {
+          "start": "2026-02-15",
+          "end": "2026-02-15",
+          "commit_count": 1,
+          "active_days": 1
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "Tinkero",
+      "first_commit": "2026-01-07",
+      "last_commit": "2026-02-15",
+      "total_commits": 52,
+      "total_active_days": 14,
+      "ranges": [
+        {
+          "start": "2026-01-07",
+          "end": "2026-01-24",
+          "commit_count": 45,
+          "active_days": 12
+        },
+        {
+          "start": "2026-02-02",
+          "end": "2026-02-02",
+          "commit_count": 6,
+          "active_days": 1
+        },
+        {
+          "start": "2026-02-15",
+          "end": "2026-02-15",
+          "commit_count": 1,
+          "active_days": 1
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "lair.nntin.xyz",
+      "first_commit": "2026-01-09",
+      "last_commit": "2026-02-15",
+      "total_commits": 15,
+      "total_active_days": 10,
+      "ranges": [
+        {
+          "start": "2026-01-09",
+          "end": "2026-01-11",
+          "commit_count": 6,
+          "active_days": 3
+        },
+        {
+          "start": "2026-01-15",
+          "end": "2026-01-18",
+          "commit_count": 2,
+          "active_days": 2
+        },
+        {
+          "start": "2026-01-23",
+          "end": "2026-01-24",
+          "commit_count": 4,
+          "active_days": 2
+        },
+        {
+          "start": "2026-02-08",
+          "end": "2026-02-08",
+          "commit_count": 1,
+          "active_days": 1
+        },
+        {
+          "start": "2026-02-12",
+          "end": "2026-02-15",
+          "commit_count": 2,
+          "active_days": 2
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "gSnake",
+      "first_commit": "2026-01-13",
+      "last_commit": "2026-02-21",
+      "total_commits": 468,
+      "total_active_days": 27,
+      "ranges": [
+        {
+          "start": "2026-01-13",
+          "end": "2026-02-01",
+          "commit_count": 275,
+          "active_days": 15
+        },
+        {
+          "start": "2026-02-07",
+          "end": "2026-02-21",
+          "commit_count": 193,
+          "active_days": 12
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "gsnake-web",
+      "first_commit": "2026-01-17",
+      "last_commit": "2026-02-20",
+      "total_commits": 79,
+      "total_active_days": 18,
+      "ranges": [
+        {
+          "start": "2026-01-17",
+          "end": "2026-02-01",
+          "commit_count": 35,
+          "active_days": 10
+        },
+        {
+          "start": "2026-02-08",
+          "end": "2026-02-12",
+          "commit_count": 21,
+          "active_days": 5
+        },
+        {
+          "start": "2026-02-16",
+          "end": "2026-02-20",
+          "commit_count": 23,
+          "active_days": 3
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "gsnake-specs",
+      "first_commit": "2026-01-22",
+      "last_commit": "2026-02-20",
+      "total_commits": 66,
+      "total_active_days": 17,
+      "ranges": [
+        {
+          "start": "2026-01-22",
+          "end": "2026-02-01",
+          "commit_count": 43,
+          "active_days": 8
+        },
+        {
+          "start": "2026-02-07",
+          "end": "2026-02-20",
+          "commit_count": 23,
+          "active_days": 9
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "gsnake-levels",
+      "first_commit": "2026-01-22",
+      "last_commit": "2026-02-20",
+      "total_commits": 51,
+      "total_active_days": 13,
+      "ranges": [
+        {
+          "start": "2026-01-22",
+          "end": "2026-02-01",
+          "commit_count": 19,
+          "active_days": 7
+        },
+        {
+          "start": "2026-02-07",
+          "end": "2026-02-09",
+          "commit_count": 23,
+          "active_days": 3
+        },
+        {
+          "start": "2026-02-15",
+          "end": "2026-02-16",
+          "commit_count": 8,
+          "active_days": 2
+        },
+        {
+          "start": "2026-02-20",
+          "end": "2026-02-20",
+          "commit_count": 1,
+          "active_days": 1
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "gsnake-editor",
+      "first_commit": "2026-01-26",
+      "last_commit": "2026-02-20",
+      "total_commits": 64,
+      "total_active_days": 14,
+      "ranges": [
+        {
+          "start": "2026-01-26",
+          "end": "2026-02-01",
+          "commit_count": 21,
+          "active_days": 6
+        },
+        {
+          "start": "2026-02-08",
+          "end": "2026-02-12",
+          "commit_count": 12,
+          "active_days": 4
+        },
+        {
+          "start": "2026-02-16",
+          "end": "2026-02-20",
+          "commit_count": 31,
+          "active_days": 4
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "gsnake-n8n",
+      "first_commit": "2026-02-01",
+      "last_commit": "2026-02-20",
+      "total_commits": 27,
+      "total_active_days": 8,
+      "ranges": [
+        {
+          "start": "2026-02-01",
+          "end": "2026-02-02",
+          "commit_count": 3,
+          "active_days": 2
+        },
+        {
+          "start": "2026-02-07",
+          "end": "2026-02-08",
+          "commit_count": 16,
+          "active_days": 2
+        },
+        {
+          "start": "2026-02-12",
+          "end": "2026-02-12",
+          "commit_count": 4,
+          "active_days": 1
+        },
+        {
+          "start": "2026-02-17",
+          "end": "2026-02-20",
+          "commit_count": 4,
+          "active_days": 3
+        }
+      ]
+    },
+    {
+      "owner": "NNTin",
+      "repo": "voidpet",
+      "first_commit": "2025-12-02",
+      "last_commit": "2025-12-02",
+      "total_commits": 33,
+      "total_active_days": 1,
+      "ranges": {
+        "start": "2025-12-02",
+        "end": "2025-12-02",
+        "commit_count": 33,
+        "active_days": 1
+      }
+    }
+  ]
+}
