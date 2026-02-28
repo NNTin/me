@@ -107,6 +107,10 @@
   background: #0ea5a3;
 }
 
+.projects-v2__legend-swatch.release {
+  background: #a21caf;
+}
+
 .projects-v2__meta {
   color: var(--p2-muted);
   font-size: 0.76rem;
@@ -436,6 +440,10 @@
   --marker-accent: #0ea5a3;
 }
 
+.marker-cat-release {
+  --marker-accent: #a21caf;
+}
+
 .marker-cat-milestone {
   --marker-accent: #7c3aed;
 }
@@ -452,6 +460,26 @@
 .projects-v2__repo-range[class*="marker-cat-"] {
   fill: color-mix(in srgb, var(--marker-accent, #64748b) 18%, transparent);
   stroke: color-mix(in srgb, var(--marker-accent, #64748b) 55%, #334155);
+}
+
+.projects-v2__repo-span-point {
+  cursor: pointer;
+}
+
+.projects-v2__repo-span-hit {
+  fill: rgba(162, 28, 175, 0.001);
+}
+
+.projects-v2__repo-span-line {
+  stroke: color-mix(in srgb, var(--marker-accent, #a21caf) 85%, #1f2937);
+  stroke-width: 2.2;
+  stroke-dasharray: 4 2;
+}
+
+.projects-v2__repo-span-dot {
+  fill: color-mix(in srgb, var(--marker-accent, #a21caf) 90%, #ffffff);
+  stroke: #ffffff;
+  stroke-width: 1.1;
 }
 
 .projects-v2__global-point-pill[class*="marker-cat-"] .projects-v2__global-point-pill-bg {

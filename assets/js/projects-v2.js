@@ -67,6 +67,32 @@
     }
   }
 
+  async function resolveReleasesData(remoteUrl, fallbackValue) {
+    if (!remoteUrl || typeof fetch !== "function") {
+      return fallbackValue;
+    }
+
+    try {
+      const response = await fetch(remoteUrl, { cache: "no-store" });
+      if (!response.ok) {
+        return fallbackValue;
+      }
+
+      const remoteData = await response.json();
+      if (!remoteData || typeof remoteData !== "object") {
+        return fallbackValue;
+      }
+
+      if (!Array.isArray(remoteData.releases) && !remoteData.releases) {
+        return fallbackValue;
+      }
+
+      return remoteData;
+    } catch (_error) {
+      return fallbackValue;
+    }
+  }
+
   function startOfDay(date) {
     const result = new Date(date);
     result.setHours(0, 0, 0, 0);
@@ -180,6 +206,9 @@
     if (category === "tech-shift") {
       return "Tech shift";
     }
+    if (category === "release") {
+      return "Release";
+    }
     return String(category || "Milestone")
       .replace(/[-_]/g, " ")
       .replace(/\b\w/g, (char) => char.toUpperCase());
@@ -226,12 +255,49 @@
   });
   const markerData = parseJsonScript("projects-v2-data-markers", { markers: [] });
   const groupsData = parseJsonScript("projects-v2-data-groups", { groups: [] });
+  const localReleasesData = parseJsonScript("projects-v2-data-releases", {
+    owner: "NNTin",
+    repo: "gSnake",
+    releases: [],
+  });
   const remoteTimelineUrl = timelineRoot.getAttribute("data-timeline-url") || "";
+  const remoteReleasesUrl = timelineRoot.getAttribute("data-releases-url") || "";
   const timelineData = await resolveTimelineData(remoteTimelineUrl, localTimelineData);
+  const releasesData = await resolveReleasesData(remoteReleasesUrl, localReleasesData);
 
   const reposData = Array.isArray(reposDataRaw) ? reposDataRaw : [];
   const timelineRowsRaw = toArray(timelineData.repos);
-  const markersRaw = toArray(markerData.markers);
+  const releaseRepo = String(releasesData.repo || "gSnake").trim() || "gSnake";
+  const releaseMarkersRaw = toArray(releasesData.releases)
+    .map((release) => {
+      const version = String(release.version || "").trim();
+      const publishedAt = String(release.published_at || "").trim();
+      const publishedDate = String(release.date || "").trim() || (publishedAt ? publishedAt.slice(0, 10) : "");
+      if (!version || !publishedDate) {
+        return null;
+      }
+
+      const safeVersionId = version.replace(/[^a-z0-9]+/gi, "-").replace(/^-+|-+$/g, "").toLowerCase();
+
+      const releasePageUrl = "https://nntin.xyz/gSnake/" + encodeURIComponent(version) + "/";
+
+      return {
+        id: "gsnake-release-" + safeVersionId + "-" + publishedDate,
+        scope: "repo",
+        kind: "point",
+        repo: releaseRepo,
+        repo_span_start: "gSnake",
+        repo_span_end: "gsnake-n8n",
+        label: "gSnake release " + version,
+        tooltip: "Published at: " + publishedAt,
+        url: releasePageUrl,
+        date: publishedDate,
+        category: "release",
+        published_at: publishedAt,
+      };
+    })
+    .filter(Boolean);
+  const markersRaw = toArray(markerData.markers).concat(releaseMarkersRaw);
   const groupsRaw = toArray(groupsData.groups);
 
   const timelineByRepo = new Map();
@@ -416,6 +482,9 @@
       tooltipHtml: marker.tooltip_html || "",
       color: marker.color || "",
       url: marker.url || "",
+      publishedAt: marker.published_at || "",
+      repoSpanStart: marker.repo_span_start || "",
+      repoSpanEnd: marker.repo_span_end || "",
       date: marker.date || "",
       start: marker.start || "",
       end: marker.end || "",
@@ -443,6 +512,15 @@
       normalizedMarker.repo = mappedRepo;
       if (!rowByRepo.has(mappedRepo)) {
         return;
+      }
+
+      if (normalizedMarker.repoSpanStart && normalizedMarker.repoSpanEnd) {
+        normalizedMarker.repoSpanStart = groupedRepoToRowId.get(normalizedMarker.repoSpanStart) || normalizedMarker.repoSpanStart;
+        normalizedMarker.repoSpanEnd = groupedRepoToRowId.get(normalizedMarker.repoSpanEnd) || normalizedMarker.repoSpanEnd;
+
+        if (!rowByRepo.has(normalizedMarker.repoSpanStart) || !rowByRepo.has(normalizedMarker.repoSpanEnd)) {
+          return;
+        }
       }
     }
 
@@ -645,13 +723,22 @@
       marker.kind === "point"
         ? isoFormat(marker.dateDate)
         : isoFormat(marker.startDate) + " to " + isoFormat(marker.endDate);
-    const scopeText = marker.scope === "global" ? "Global" : "Row: " + escapeHtml(marker.repoLabel || marker.repo);
+    const scopeText = marker.scope === "global"
+      ? "Global"
+      : marker.repoSpanStart && marker.repoSpanEnd
+        ? "Rows: " + escapeHtml(marker.repoSpanStartLabel || marker.repoSpanStart) + " → " +
+        escapeHtml(marker.repoSpanEndLabel || marker.repoSpanEnd)
+        : "Row: " + escapeHtml(marker.repoLabel || marker.repo);
     const categoryText = markerCategoryLabel(marker.category);
     const chips = [
       "<span class=\"projects-v2__tooltip-chip\">" + escapeHtml(dateText) + "</span>",
       "<span class=\"projects-v2__tooltip-chip is-muted\">" + escapeHtml(scopeText) + "</span>",
       "<span class=\"projects-v2__tooltip-chip is-category\">" + escapeHtml(categoryText) + "</span>",
     ];
+
+    if (marker.publishedAt) {
+      chips.push("<span class=\"projects-v2__tooltip-chip is-muted\">" + escapeHtml(marker.publishedAt) + "</span>");
+    }
 
     const description = marker.tooltip ? "<p class=\"projects-v2__tooltip-more\">" + escapeHtml(marker.tooltip) + "</p>" : "";
     const urlText = marker.url
@@ -1667,8 +1754,104 @@
         .attr("y2", chartTop - (chartTop - 30 - Number(marker.labelLane || 0) * globalLabelLaneHeight));
     });
 
+    const repoSpanPointMarkers = chartState.visibility.repoMarkers
+      ? markers.filter(
+        (marker) => marker.scope === "repo" && marker.kind === "point" && marker.repoSpanStart && marker.repoSpanEnd
+      )
+      : [];
+
+    const repoSpanPointLayer = svg.append("g").attr("class", "projects-v2__repo-span-layer");
+    const repoSpanPointGroups = repoSpanPointLayer
+      .selectAll("g")
+      .data(repoSpanPointMarkers)
+      .enter()
+      .append("g")
+      .attr("class", (marker) => "projects-v2__repo-span-point marker-cat-" + marker.category)
+      .attr("data-row", (marker) => marker.repo);
+
+    function openReleaseMarkerUrl(marker) {
+      if (marker.url && typeof window !== "undefined" && typeof window.open === "function") {
+        window.open(marker.url, "_blank", "noopener,noreferrer");
+      }
+    }
+
+    function stopTimelinePointerDrag(event) {
+      if (!event) {
+        return;
+      }
+      event.stopPropagation();
+    }
+
+    function getRepoSpanExtents(marker) {
+      const startRowMeta = layout.rowMap.get(marker.repoSpanStart);
+      const endRowMeta = layout.rowMap.get(marker.repoSpanEnd);
+      if (!startRowMeta || !endRowMeta) {
+        return {
+          top: chartTop,
+          bottom: chartTop + 12,
+          center: chartTop + 6,
+        };
+      }
+
+      const top = Math.min(startRowMeta.y, endRowMeta.y);
+      const bottom = Math.max(startRowMeta.y + startRowMeta.rowHeight, endRowMeta.y + endRowMeta.rowHeight);
+      return {
+        top,
+        bottom,
+        center: top + (bottom - top) / 2,
+      };
+    }
+
+    repoSpanPointGroups
+      .append("rect")
+      .attr("class", "projects-v2__repo-span-hit")
+      .attr("x", (marker) => xScale(marker.dateDate) - 8)
+      .attr("y", (marker) => getRepoSpanExtents(marker).top - 2)
+      .attr("width", 16)
+      .attr("height", (marker) => Math.max(16, getRepoSpanExtents(marker).bottom - getRepoSpanExtents(marker).top + 4))
+      .on("pointerdown", stopTimelinePointerDrag)
+      .on("click", function (_event, marker) {
+        openReleaseMarkerUrl(marker);
+      });
+
+    repoSpanPointGroups
+      .append("line")
+      .attr("class", "projects-v2__repo-span-line")
+      .attr("x1", (marker) => xScale(marker.dateDate))
+      .attr("x2", (marker) => xScale(marker.dateDate))
+      .attr("y1", (marker) => getRepoSpanExtents(marker).top)
+      .attr("y2", (marker) => getRepoSpanExtents(marker).bottom)
+      .on("pointerdown", stopTimelinePointerDrag)
+      .on("click", function (_event, marker) {
+        openReleaseMarkerUrl(marker);
+      });
+
+    repoSpanPointGroups
+      .append("circle")
+      .attr("class", "projects-v2__repo-span-dot")
+      .attr("cx", (marker) => xScale(marker.dateDate))
+      .attr("cy", (marker) => getRepoSpanExtents(marker).center)
+      .attr("r", 4)
+      .on("pointerdown", stopTimelinePointerDrag)
+      .on("click", function (_event, marker) {
+        openReleaseMarkerUrl(marker);
+      });
+
+    repoSpanPointGroups
+      .on("pointerdown", stopTimelinePointerDrag)
+      .on("mouseenter", function (event, marker) {
+        marker.repoSpanStartLabel = rowByRepo.get(marker.repoSpanStart)?.label || marker.repoSpanStart;
+        marker.repoSpanEndLabel = rowByRepo.get(marker.repoSpanEnd)?.label || marker.repoSpanEnd;
+        showTooltip(event, buildMarkerTooltipContent(marker), true);
+      })
+      .on("mousemove", moveTooltip)
+      .on("mouseleave", hideTooltip)
+      .on("click", function (_event, marker) {
+        openReleaseMarkerUrl(marker);
+      });
+
     const repoPointMarkers = chartState.visibility.repoMarkers
-      ? markers.filter((marker) => marker.scope === "repo" && marker.kind === "point")
+      ? markers.filter((marker) => marker.scope === "repo" && marker.kind === "point" && !(marker.repoSpanStart && marker.repoSpanEnd))
       : [];
     const repoPointLayer = svg.append("g");
     repoPointLayer

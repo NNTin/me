@@ -1,0 +1,74 @@
+{
+  "generated_at": "2026-02-28T12:26:45Z",
+  "owner": "NNTin",
+  "repo": "gSnake",
+  "release_count": 11,
+  "releases": [
+    {
+      "version": "v0.1.0",
+      "published_at": "2026-01-13T18:47:10Z",
+      "date": "2026-01-13",
+      "url": "https://nntin.xyz/gSnake/v0.1.0/"
+    },
+    {
+      "version": "v0.1.1",
+      "published_at": "2026-01-13T19:16:51Z",
+      "date": "2026-01-13",
+      "url": "https://nntin.xyz/gSnake/v0.1.1/"
+    },
+    {
+      "version": "v0.1.2",
+      "published_at": "2026-01-14T18:25:11Z",
+      "date": "2026-01-14",
+      "url": "https://nntin.xyz/gSnake/v0.1.2/"
+    },
+    {
+      "version": "v0.1.3",
+      "published_at": "2026-01-14T18:44:19Z",
+      "date": "2026-01-14",
+      "url": "https://nntin.xyz/gSnake/v0.1.3/"
+    },
+    {
+      "version": "v0.2.0",
+      "published_at": "2026-01-16T21:14:05Z",
+      "date": "2026-01-16",
+      "url": "https://nntin.xyz/gSnake/v0.2.0/"
+    },
+    {
+      "version": "v0.2.1",
+      "published_at": "2026-01-17T19:12:58Z",
+      "date": "2026-01-17",
+      "url": "https://nntin.xyz/gSnake/v0.2.1/"
+    },
+    {
+      "version": "v0.2.2",
+      "published_at": "2026-01-20T20:34:56Z",
+      "date": "2026-01-20",
+      "url": "https://nntin.xyz/gSnake/v0.2.2/"
+    },
+    {
+      "version": "v0.2.3",
+      "published_at": "2026-02-01T18:30:47Z",
+      "date": "2026-02-01",
+      "url": "https://nntin.xyz/gSnake/v0.2.3/"
+    },
+    {
+      "version": "v0.2.4",
+      "published_at": "2026-02-08T21:22:45Z",
+      "date": "2026-02-08",
+      "url": "https://nntin.xyz/gSnake/v0.2.4/"
+    },
+    {
+      "version": "v0.2.5",
+      "published_at": "2026-02-20T23:24:22Z",
+      "date": "2026-02-20",
+      "url": "https://nntin.xyz/gSnake/v0.2.5/"
+    },
+    {
+      "version": "v0.2.6",
+      "published_at": "2026-02-24T16:48:17Z",
+      "date": "2026-02-24",
+      "url": "https://nntin.xyz/gSnake/v0.2.6/"
+    }
+  ]
+}

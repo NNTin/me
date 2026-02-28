@@ -73,6 +73,7 @@ excerpt: "Interactive repository activity timeline"
     <span class="projects-v2__legend-item"><span class="projects-v2__legend-swatch career"></span>Career</span>
     <span class="projects-v2__legend-item"><span class="projects-v2__legend-swatch tech-shift"></span>Tech shift</span>
     <span class="projects-v2__legend-item"><span class="projects-v2__legend-swatch launch"></span>Launch</span>
+    <span class="projects-v2__legend-item"><span class="projects-v2__legend-swatch release"></span>Release (gSnake)</span>
     <span class="projects-v2__legend-item">Striped bands = compressed idle gaps (&gt;30d)</span>
   </div>
 
@@ -83,6 +84,7 @@ excerpt: "Interactive repository activity timeline"
       class="projects-v2__timeline"
       aria-label="Interactive repository timeline"
       data-timeline-url="https://raw.githubusercontent.com/NNTin/me/output/repo_timeline.json"
+      data-releases-url="https://raw.githubusercontent.com/NNTin/me/output/gsnake_releases.json"
     ></div>
   </div>
 </div>
@@ -98,6 +100,9 @@ excerpt: "Interactive repository activity timeline"
 </script>
 <script id="projects-v2-data-groups" type="application/json">
 {{ site.data.projects_v2_groups | jsonify }}
+</script>
+<script id="projects-v2-data-releases" type="application/json">
+{{ site.data.gsnake_releases | jsonify }}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
 <script src="{{ '/assets/js/projects-v2.js' | relative_url }}"></script>
