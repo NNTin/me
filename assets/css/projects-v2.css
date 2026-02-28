@@ -544,6 +544,14 @@
   color: #475569;
 }
 
+.projects-v2__tooltip-video {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 8px;
+  border-radius: 8px;
+}
+
 @media (max-width: 900px) {
   .projects-v2 {
     --p2-label-width: 160px;

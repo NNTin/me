@@ -539,6 +539,48 @@
   const tooltip = document.createElement("div");
   tooltip.className = "projects-v2__tooltip";
   document.body.appendChild(tooltip);
+  const tooltipVideoUrlCache = new Map();
+
+  async function hydrateTooltipVideos(rootElement) {
+    const videoNodes = rootElement.querySelectorAll("video.projects-v2__tooltip-video[data-src], video.projects-v2__tooltip-video[src]");
+    if (!videoNodes.length || typeof fetch !== "function") {
+      return;
+    }
+
+    await Promise.all(
+      Array.from(videoNodes).map(async (videoNode) => {
+        const originalSrc = videoNode.getAttribute("data-src") || videoNode.getAttribute("src");
+        if (!originalSrc || videoNode.dataset.hydrated === "1") {
+          return;
+        }
+
+        if (tooltipVideoUrlCache.has(originalSrc)) {
+          videoNode.src = tooltipVideoUrlCache.get(originalSrc);
+          videoNode.dataset.hydrated = "1";
+          return;
+        }
+
+        try {
+          const response = await fetch(originalSrc, {
+            mode: "cors",
+            credentials: "omit",
+            referrerPolicy: "no-referrer",
+          });
+          if (!response.ok) {
+            return;
+          }
+
+          const blob = await response.blob();
+          const blobUrl = URL.createObjectURL(blob);
+          tooltipVideoUrlCache.set(originalSrc, blobUrl);
+          videoNode.src = blobUrl;
+          videoNode.dataset.hydrated = "1";
+        } catch (_error) {
+          // Keep original src fallback
+        }
+      })
+    );
+  }
 
   function positionTooltip(mouseEvent) {
     const pad = 12;
@@ -562,6 +604,7 @@
   function showTooltip(mouseEvent, content, isHtml) {
     if (isHtml) {
       tooltip.innerHTML = content;
+      hydrateTooltipVideos(tooltip);
     } else {
       tooltip.textContent = content;
     }

@@ -309,6 +309,27 @@
       "kind": "range",
       "start": "2025-12-07",
       "end": "2026-01-06"
+    },
+    {
+      "id": "tinarc-token-scaffold",
+      "scope": "repo",
+      "label": "tinarc (scaffold)",
+      "tooltip": "Wasted a few tokens, scaffolding an idea of analyzing a video.",
+      "repo": "tinarc",
+      "kind": "range",
+      "start": "2026-01-26",
+      "end": "2026-01-27"
+    },
+    {
+      "id": "tinarc-mvp",
+      "scope": "repo",
+      "label": "tinarc (MVP)",
+      "tooltip": "Picked up the project again and implemented the MVP.",
+      "tooltip_html": "<video class=\"projects-v2__tooltip-video\" data-src=\"https://i.imgur.com/QMBklY0.mp4\" autoplay loop muted playsinline preload=\"metadata\"></video>",
+      "repo": "tinarc",
+      "kind": "range",
+      "start": "2026-02-26",
+      "end": "2026-02-27"
     }
   ]
 }
