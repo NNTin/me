@@ -216,6 +216,30 @@
   opacity: 0.52;
 }
 
+.projects-v2__label-row[data-status="active"] {
+  background: rgba(22, 163, 74, 0.06);
+  color: #14532d;
+}
+
+.projects-v2__label-row[data-status="active"].is-alt {
+  background: rgba(22, 163, 74, 0.10);
+}
+
+.projects-v2__label-row[data-status="active"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #16a34a;
+  border-radius: 0 2px 2px 0;
+}
+
+.projects-v2__label-row[data-status="active"] .projects-v2__label-text {
+  font-weight: 700;
+}
+
 .projects-v2__label-text {
   min-width: 0;
   white-space: nowrap;

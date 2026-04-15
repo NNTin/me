@@ -330,6 +330,66 @@
       "kind": "range",
       "start": "2026-02-26",
       "end": "2026-02-27"
+    },
+    {
+      "id": "pa",
+      "scope": "repo",
+      "label": "pixel-agents",
+      "tooltip": "Joined an existing project: a VSC Extension App integrating Claude. Added e2e Playwright tests and the carpet system. Regularly contributing reviews and feedback.",
+      "repo": "pixel-agents",
+      "kind": "range",
+      "start": "2026-02-27",
+      "end": "2026-04-15"
+    },
+    {
+      "id": "tc",
+      "scope": "repo",
+      "label": "towncord",
+      "tooltip": "Successor to d-zone: developed a top-down 16×16 pixel game integrating third-party art assets. Dipped my toes into Aseprite, atlas export, and autotiling.",
+      "repo": "towncord",
+      "kind": "range",
+      "start": "2026-03-04",
+      "end": "2026-04-07"
+    },
+    {
+      "id": "pao",
+      "scope": "repo",
+      "label": "pixel-agents-overseer",
+      "tooltip": "Companion app to pixel-agents: the user is rendered as an agent, showing their activity within the simulation. CI agents are planned to be added.",
+      "repo": "pixel-agents-overseer",
+      "kind": "range",
+      "start": "2026-04-05",
+      "end": "2026-04-15"
+    },
+    {
+      "id": "lsp",
+      "scope": "repo",
+      "label": "leafspots",
+      "tooltip": "Draw, mark spots and share via URL. A backend-free SPA where all data is stored in the URL — useful for planning trips or locating each other at a beer festival.",
+      "repo": "leafspots",
+      "kind": "range",
+      "start": "2026-04-06",
+      "end": "2026-04-15"
+    },
+    {
+      "id": "ll",
+      "scope": "repo",
+      "label": "leaflet",
+      "tooltip": "URL shortener app implementing an OAuth2 flow for multiple providers and offering its own OAuth2 provider. Leafspots has an optional opt-in to this URL shortening service.",
+      "repo": "leaflet",
+      "kind": "range",
+      "start": "2026-04-07",
+      "end": "2026-04-15"
+    },
+    {
+      "id": "ig",
+      "scope": "repo",
+      "label": "icon-generator",
+      "tooltip": "Favicon and PWA icon generator from emoji — used in leafspots and leaflet.",
+      "repo": "icon-generator",
+      "kind": "range",
+      "start": "2026-04-12",
+      "end": "2026-04-15"
     }
   ]
 }

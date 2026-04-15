@@ -158,6 +158,10 @@
       return "legacy";
     }
 
+    if (row.statusOverride) {
+      return row.statusOverride;
+    }
+
     const today = startOfDay(new Date());
     let latestEnd = null;
 
@@ -343,6 +347,7 @@
       repo: repoItem.repo,
       label: repoItem.repo,
       isGroup: false,
+      statusOverride: repoItem.status || null,
       firstCommit: timelineRow.first_commit || null,
       lastCommit: timelineRow.last_commit || null,
       totalCommits: Number(timelineRow.total_commits || 0),
